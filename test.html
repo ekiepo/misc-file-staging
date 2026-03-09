@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<!-- saved from url=(0116)file:///Users/dannysanchez/Antigravity%20Experiments/Dauer%20Video%20Edit%20-%20Automation/Morpheus_Promo_Sheet.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morpheus Promo Sheet — Draft 2</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Dauer Brand — per Logo Standards */
+      --orange:      #f7941d;
+      --deep-gray:   #1a1a1a;   /* 90% K */
+      --mid-gray:    #555555;
+      --light-gray:  #999999;   /* 40% K */
+      --rule-gray:   #cccccc;
+      --bg-gray:     #f4f4f4;
+      --white:       #ffffff;
+      --black:       #000000;
+      --text:        #1a1a1a;
+    }
+
+    body {
+      background: #e0e0e0;
+      font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    /* ── Page shell: 8.5×11 at 96dpi ── */
+    .page {
+      width: 816px;
+      min-height: 1056px;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+    }
+
+    /* ══════════════════════════════════
+       HEADER — matches Dauer spec sheet
+    ══════════════════════════════════ */
+    .page-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: stretch;
+      background: var(--white);
+      border-bottom: 3px solid var(--orange);
+    }
+
+    .header-logo {
+      padding: 18px 28px 18px 28px;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid var(--rule-gray);
+      min-width: 220px;
+    }
+
+    /* SVG logo placeholder — swap for real logo img */
+    .logo-placeholder {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .logo-wordmark {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--orange);
+      letter-spacing: -0.01em;
+    }
+
+    .logo-wordmark span {
+      color: var(--deep-gray);
+    }
+
+    .logo-sub {
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--deep-gray);
+      margin-top: 2px;
+    }
+
+    .header-right {
+      background: var(--deep-gray);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 14px 28px;
+      gap: 2px;
+    }
+
+    .sheet-type {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .sheet-product {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--light-gray);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════
+       BODY
+    ══════════════════════════════════ */
+    .body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Section 1: Hero ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      border-bottom: 1px solid var(--rule-gray);
+    }
+
+    .hero-copy {
+      padding: 28px 32px;
+      border-right: 1px solid var(--rule-gray);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-name {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .hero-headline {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      max-width: 360px;
+      margin-bottom: 16px;
+    }
+
+    .hero-body {
+      font-size: 10.5px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--mid-gray);
+      max-width: 360px;
+    }
+
+    .hero-image {
+      background: #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left center;
+      display: block;
+    }
+
+    /* ── Section 2: Problem / Solution ── */
+    .problem-solution {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--rule-gray);
+    }
+
+    .ps-col {
+      padding: 22px 32px;
+    }
+
+    .ps-col:first-child {
+      border-right: 1px solid var(--rule-gray);
+      background: var(--bg-gray);
+    }
+
+    .col-label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      border-bottom: 1px solid var(--rule-gray);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .bullet-list li {
+      font-size: 10.5px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--text);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .ps-col:first-child .bullet-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--light-gray);
+      font-size: 9px;
+      top: 1px;
+    }
+
+    .ps-col:last-child .bullet-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    /* ── Section 3: Beam Visuals ── */
+    .beam-visuals {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid var(--rule-gray);
+      background: var(--bg-gray);
+    }
+
+    .beam-row {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 16px 6px;
+    }
+
+    .beam-row + .beam-row {
+      border-top: 1px solid var(--rule-gray);
+    }
+
+    .beam-row img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .asset-label {
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: 4px;
+    }
+
+    .asset-box {
+      width: 100px;
+      height: 80px;
+      border: 1.5px dashed var(--rule-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+    }
+
+    .asset-box svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--rule-gray);
+      fill: none;
+    }
+
+    /* ── Section 4: Feature Block ── */
+    .feature-block {
+      padding: 22px 32px;
+      border-bottom: 1px solid var(--rule-gray);
+    }
+
+    .section-label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      border-bottom: 1px solid var(--rule-gray);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 48px;
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .feature-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .feature-detail {
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--mid-gray);
+      line-height: 1.55;
+    }
+
+    /* ── Section 5: Proof Panel ── */
+    .proof-panel {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      border-bottom: 1px solid var(--rule-gray);
+    }
+
+    .proof-stat {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 24px 32px;
+      border-right: 1px solid var(--rule-gray);
+      background: var(--bg-gray);
+    }
+
+    .proof-number {
+      font-size: 54px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .proof-number sup {
+      font-size: 28px;
+      color: var(--orange);
+      vertical-align: super;
+      font-weight: 700;
+    }
+
+    .proof-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .proof-caption {
+      font-size: 9.5px;
+      font-weight: 400;
+      color: var(--mid-gray);
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+
+    .proof-images {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      background: #111;
+    }
+
+    .proof-images img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .proof-images img:first-child {
+      border-bottom: 1px solid #333;
+    }
+
+    /* ── Section 6: Why Morpheus ── */
+    .why-block {
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--rule-gray);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px 32px;
+      margin-top: 12px;
+    }
+
+    .why-item {
+      font-size: 9.5px;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.45;
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .why-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 4px;
+      height: 4px;
+      background: var(--orange);
+      border-radius: 50%;
+    }
+
+    /* ── CTA Strip ── */
+    .cta-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 18px 32px;
+      background: var(--deep-gray);
+      gap: 32px;
+    }
+
+    .cta-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cta-headline {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+
+    .cta-body {
+      font-size: 9.5px;
+      font-weight: 400;
+      color: var(--light-gray);
+      line-height: 1.5;
+      max-width: 480px;
+    }
+
+    .cta-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qr-box {
+      width: 68px;
+      height: 68px;
+      background: var(--white);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-box svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--deep-gray);
+      fill: none;
+    }
+
+    .qr-label {
+      font-size: 7.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+    }
+
+    /* ══════════════════════════════════
+       FOOTER — matches Dauer spec sheet
+    ══════════════════════════════════ */
+    .page-footer {
+      background: var(--deep-gray);
+      padding: 8px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px solid var(--orange);
+    }
+
+    .footer-address {
+      font-size: 8px;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    .footer-address .label {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .footer-address .separator {
+      color: var(--light-gray);
+      margin: 0 6px;
+    }
+
+    .footer-web {
+      font-size: 8.5px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Shared asset placeholder ── */
+    .asset-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--light-gray);
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="header-logo">
+      <!-- Replace with: <img src="dauer-logo.svg" alt="Dauer Manufacturing" height="48"> -->
+      <div class="logo-placeholder">
+        <div class="logo-wordmark"><span>±</span>Dauer</div>
+        <div class="logo-sub">Manufacturing ®</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="sheet-type">Promo Sheet</div>
+      <div class="sheet-product">Morpheus Adjustable Accent Fixture</div>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- Section 1: Hero -->
+    <div class="hero">
+      <div class="hero-copy">
+        <div>
+          <div class="product-name">Morpheus Adjustable Accent Fixture</div>
+          <h1 class="hero-headline">Precision Lighting Control Without Changing the Fixture</h1>
+          <p class="hero-body">Electronically adjust beam shape, brightness, grouping, and scheduling from a single outdoor fixture. Dual-axis X/Y beam control, app-based dimming, Wi-Fi and Bluetooth connectivity, and scene automation — combined in one platform.</p>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="./Morpheus Promo Sheet — Draft 2_files/hero-image.png" alt="Morpheus by Dauer Manufacturing">
+      </div>
+    </div>
+
+    <!-- Section 2: Problem / Solution -->
+    <div class="problem-solution">
+      <div class="ps-col">
+        <div class="col-label">The Challenge</div>
+        <ul class="bullet-list">
+          <li>Beam changes often require manual repositioning</li>
+          <li>Coverage changes may require lens swaps</li>
+          <li>Dimming, grouping, and scheduling are often separate steps</li>
+        </ul>
+      </div>
+      <div class="ps-col">
+        <div class="col-label">Morpheus Response</div>
+        <ul class="bullet-list">
+          <li>Adjust beam geometry electronically — no tools, no repositioning</li>
+          <li>Modify intensity directly in the app</li>
+          <li>Group fixtures across installations from one interface</li>
+          <li>Save scenes with schedules and automate with an astronomical timer</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 3: Beam Visuals -->
+    <div class="beam-visuals">
+      <div class="beam-row">
+        <div class="asset-label">Beam Projection Angles</div>
+        <img src="./Morpheus Promo Sheet — Draft 2_files/dauer_row1_beam_cones_template.svg" alt="Beam cone diagrams showing 16°, 25°, 35°, 45°, and 70° beam angles">
+      </div>
+      <div class="beam-row">
+        <div class="asset-label">Direct Wall Projection of Beam Presets</div>
+        <img src="./Morpheus Promo Sheet — Draft 2_files/dauer_row2_wall_projection_template.svg" alt="Wall projection diagrams showing light spread at 16°, 25°, 35°, 45°, and 70°">
+      </div>
+    </div>
+
+    <!-- Section 4: Feature Block -->
+    <div class="feature-block">
+      <div class="section-label">Features</div>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-title">App-Controlled Output</div>
+          <div class="feature-detail">0–100% dimming, 1W to 26W, over 2,100 lumens</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Scenes and Scheduling</div>
+          <div class="feature-detail">Grouping regardless of transformer, saved scenes, astronomical timer, offsets, manual overrides</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Connected Control</div>
+          <div class="feature-detail">Wi-Fi, Bluetooth BLE, local control up to 30 meters, IP addressable</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Kinetic Lighting Effect</div>
+          <div class="feature-detail">Transitions between two programmed states, loop timing from 1 to 60 seconds</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Proof Panel -->
+    <div class="proof-panel">
+      <div class="proof-stat">
+        <div class="proof-number">10,000<sup>+</sup></div>
+        <div class="proof-label">Beam Configurations</div>
+        <div class="proof-caption">Configure narrow, wide, vertical, and horizontal light distribution from one fixture using app-controlled X/Y adjustment.</div>
+      </div>
+      <div class="proof-images">
+        <img src="./Morpheus Promo Sheet — Draft 2_files/proof_panel_1.png" alt="Morpheus horizontal beam — plant and shadow with app UI">
+        <img src="./Morpheus Promo Sheet — Draft 2_files/proof_panel_2.png" alt="Morpheus vertical beam — plant and shadow with app UI">
+      </div>
+    </div>
+
+    <!-- Section 6: Why Morpheus -->
+    <div class="why-block">
+      <div class="section-label">Why Morpheus</div>
+      <div class="why-grid">
+        <div class="why-item">App-controlled beam adjustment instead of manual repositioning</div>
+        <div class="why-item">Group scheduling and astronomical timer</div>
+        <div class="why-item">OTA firmware updates</div>
+        <div class="why-item">Independent X/Y beam control from one fixture</div>
+        <div class="why-item">Scene creation and saved presets</div>
+        <div class="why-item">Wi-Fi and Bluetooth connectivity</div>
+        <div class="why-item">IP addressable fixture control</div>
+        <div class="why-item">Kinetic Lighting Effect</div>
+      </div>
+    </div>
+
+    <!-- CTA Strip -->
+    <div class="cta-strip">
+      <div class="cta-left">
+        <div class="cta-headline">See Morpheus in Motion</div>
+        <div class="cta-body">Scan to watch the demo and view beam control, grouping, and dynamic lighting behavior in operation.</div>
+      </div>
+      <div class="cta-right">
+        <div class="qr-box">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="3" height="3"></rect><rect x="18" y="18" width="3" height="3"></rect><rect x="14" y="18" width="3" height="3"></rect><rect x="18" y="14" width="3" height="3"></rect></svg>
+        </div>
+        <div class="qr-label">Scan to Watch</div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    <div class="footer-address">
+      <span class="label">HQ:</span> 10505 NW 112 Ave, Suite 18 | Miami, FL 33178
+      <span class="separator">|</span>
+      <span class="label">Plant:</span> 1430 Gould Blvd., Suite 3, La Vergne, TN 37086
+      <span class="separator">|</span>
+      <span class="label">888.DAUER.LED</span>
+    </div>
+    <div class="footer-web">DauerManufacturing.com</div>
+  </footer>
+
+</div>
+
+
+
+</body></html>
