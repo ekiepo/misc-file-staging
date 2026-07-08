@@ -867,3 +867,42 @@
     padding: 1.5px 0 !important;
   }
 }
+
+/* Floating TOC button for mobile viewport */
+.floating-toc-btn {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 46px;
+  height: 46px;
+  background: #2b2b2b;
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  transition: opacity 0.25s ease, transform 0.2s ease;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.floating-toc-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.floating-toc-btn:hover,
+.floating-toc-btn:focus {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* Only display on narrow screen / mobile breakpoint */
+@media (max-width: 759px) {
+  .floating-toc-btn {
+    display: flex;
+  }
+}
