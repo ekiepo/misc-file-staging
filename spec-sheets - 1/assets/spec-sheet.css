@@ -259,7 +259,14 @@ a {
   border-radius: var(--radius-lg);
   box-shadow: var(--page-sheet-shadow);
   overflow: hidden;
-  scroll-margin-top: 76px;
+}
+
+.sheet-section,
+.chapter-lead-card,
+.topic-row,
+#beam-angle,
+#ordering-info {
+  scroll-margin-top: 86px;
   /* keeps the section clear of the sticky nav when jumped to */
 }
 

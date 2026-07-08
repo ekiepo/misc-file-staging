@@ -23,12 +23,22 @@
   function applyDefaultOpenState() {
     if (isPrinting) return;
     const isMobile = window.matchMedia(MOBILE_QUERY).matches;
+    const hash = window.location.hash.slice(1);
+    const hashTarget = hash ? document.getElementById(hash) : null;
+    const activeSection = hashTarget ? (hashTarget.classList.contains('sheet-section') ? hashTarget : hashTarget.closest('.sheet-section')) : null;
+
     sections.forEach((section, i) => {
-      section.open = isMobile ? i === 0 : true;
+      if (isMobile) {
+        section.open = (activeSection && section === activeSection) || (!activeSection && i === 0);
+      } else {
+        section.open = true;
+      }
     });
   }
   applyDefaultOpenState();
   window.matchMedia(MOBILE_QUERY).addEventListener('change', applyDefaultOpenState);
+
+  const allHashLinks = Array.from(document.querySelectorAll('a[href^="#"]'));
 
   if (navToggle && navLinksEl) {
     navToggle.addEventListener('click', () => {
@@ -37,13 +47,17 @@
     });
   }
 
-  navLinks.forEach((link) => {
+  allHashLinks.forEach((link) => {
     link.addEventListener('click', (event) => {
-      const id = link.getAttribute('href').slice(1);
+      const href = link.getAttribute('href');
+      if (!href || href === '#') return;
+      const id = href.slice(1);
       const target = document.getElementById(id);
       if (!target) return;
+      const section = target.classList.contains('sheet-section') ? target : target.closest('.sheet-section');
+      if (!section) return;
       event.preventDefault();
-      target.open = true;
+      section.open = true;
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       history.replaceState(null, '', `#${id}`);
       if (navLinksEl) {
@@ -144,5 +158,22 @@
     video.play().catch((err) => {
       console.warn('Playback prevented or failed:', err);
     });
+  });
+
+  // Align scroll to targeted hash after load
+  window.addEventListener('load', () => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        const section = target.classList.contains('sheet-section') ? target : target.closest('.sheet-section');
+        if (section) {
+          section.open = true;
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'auto', block: 'start' });
+          }, 50);
+        }
+      }
+    }
   });
 })();

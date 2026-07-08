@@ -67,23 +67,23 @@ const pageConfigs = [
 
 const tocMapping = [
   { text: 'Specifications & Ordering', target: '#specs-ordering', num: '1' },
-  { text: 'Beam Angle & Lumen Output', target: '#specs-ordering', num: '3' },
+  { text: 'Beam Angle & Lumen Output', target: '#beam-angle', num: '3' },
   { text: 'Safety Information', target: '#safety', num: '4' },
-  { text: 'Chapter 1: Programming the Smart Fixture', target: '#page-5', num: '5' },
-  { text: 'Chapter 2: Add an Administrator', target: '#page-6', num: '6' },
-  { text: 'Chapter 3: Share a fixture', target: '#page-6', num: '6' },
-  { text: 'Chapter 4: Astronomical Timer', target: '#page-7', num: '7' },
-  { text: 'Chapter 5: Managing Groups', target: '#page-7', num: '7' },
-  { text: 'Chapter 6: Scheduling', target: '#page-8', num: '8' },
-  { text: 'Chapter 7: Control Panel Overview', target: '#page-8', num: '8' },
-  { text: 'Chapter 8: Create a Static Preset', target: '#page-8', num: '8' },
-  { text: 'Chapter 9: Kinetic Lighting Effect (KLE) Loops', target: '#page-9', num: '9' },
-  { text: 'Chapter 10: Advanced - Tap-and-Run Presets', target: '#page-10', num: '10' },
-  { text: '15: Wi-Fi + Bluetooth Pairing', target: '#additional-topics', num: '11' },
-  { text: '16: Voice Control Setup', target: '#additional-topics', num: '11' },
-  { text: '17: OTA Firmware Updates', target: '#additional-topics', num: '11' },
-  { text: '18: Download Dauer Mobile App', target: '#additional-topics', num: '11' },
-  { text: '19: Placeholder', target: '#additional-topics', num: '11' }
+  { text: 'Chapter 1: Programming the Smart Fixture', target: '#chapter-1', num: '5' },
+  { text: 'Chapter 2: Add an Administrator', target: '#chapter-2', num: '6' },
+  { text: 'Chapter 3: Share a fixture', target: '#chapter-3', num: '6' },
+  { text: 'Chapter 4: Astronomical Timer', target: '#chapter-4', num: '7' },
+  { text: 'Chapter 5: Managing Groups', target: '#chapter-5', num: '7' },
+  { text: 'Chapter 6: Scheduling', target: '#chapter-6', num: '8' },
+  { text: 'Chapter 7: Control Panel Overview', target: '#chapter-7', num: '8' },
+  { text: 'Chapter 8: Create a Static Preset', target: '#chapter-8', num: '8' },
+  { text: 'Chapter 9: Kinetic Lighting Effect (KLE) Loops', target: '#chapter-9', num: '9' },
+  { text: 'Chapter 10: Advanced - Tap-and-Run Presets', target: '#chapter-10', num: '10' },
+  { text: '15: Wi-Fi + Bluetooth Pairing', target: '#topic-16', num: '11' },
+  { text: '16: Voice Control Setup', target: '#topic-13', num: '11' },
+  { text: '17: OTA Firmware Updates', target: '#topic-14', num: '11' },
+  { text: '18: Download Dauer Mobile App', target: '#topic-15', num: '11' },
+  { text: '19: Placeholder', target: '#topic-19', num: '11' }
 ];
 
 let bodyHtml = '';
@@ -147,7 +147,7 @@ for (let i = 1; i <= 11; i++) {
       classes = 'cover-hero-img';
     } else if (idMatch && idMatch[1].startsWith('slot-mount-')) {
       classes = 'mount-photo-img';
-    } else if (idMatch && idMatch[1].startsWith('slot-additional-img')) {
+    } else if (idMatch && (idMatch[1].startsWith('slot-additional-img') || idMatch[1].startsWith('slot-add-'))) {
       classes = 'topic-row-img';
     }
     
@@ -245,6 +245,16 @@ for (let i = 1; i <= 11; i++) {
     pageBody = pageBody.replace(/<table style="width:100%;border-collapse:collapse;border:1px solid #e2dfd8;border-radius:6px;overflow:hidden;">/g, '<div class="table-scroll"><table class="data-table">');
     pageBody = pageBody.replace(/<\/table>/, '</table></div>');
     
+    // Add IDs to spec sheet content titles
+    pageBody = pageBody.replace(
+      /<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;">Beam Angle &amp; Lumen Output<\/div>/g,
+      '<div id="beam-angle" style="font-family:\'Archivo Expanded\',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:.02em;">Beam Angle &amp; Lumen Output</div>'
+    );
+    pageBody = pageBody.replace(
+      /<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;">Ordering Information<\/div>/g,
+      '<div id="ordering-info" style="font-family:\'Archivo Expanded\',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:.02em;">Ordering Information</div>'
+    );
+    
     // Ordering Info Titles
     pageBody = pageBody.replace(/<div style="font-family:'Archivo',\s*Helvetica,\s*Arial,\s*sans-serif;\s*font-size:\s*8pt;\s*font-weight:\s*700;\s*letter-spacing:\s*\.16em;\s*color:\s*#f7941d;\s*text-transform:\s*uppercase;\s*margin-bottom:\s*7px;\s*margin-top:\s*5px">Fixture Ordering\s*—\s*Uplight Mounting[^<]*<\/div>/g, 
       '<div class="specs-section-title">Fixture Ordering — Uplight Mounting (ordered separately)</div>');
@@ -284,7 +294,12 @@ for (let i = 1; i <= 11; i++) {
     pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:6pt;font-weight:700;letter-spacing:\.12em;color:#f7941d;text-transform:uppercase;margin-bottom:2px;">/g, '<div class="figure-cell__fig">');
     pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:var\(--text-fs,6\.5pt\);line-height:1\.28;color:#3a3a3a;text-wrap:pretty;overflow:hidden;">/g, '<div class="figure-cell__caption">');
     
-    // Chapter Title Cards inside grid
+    // Chapter Title Cards inside grid (injecting their ID programmatically)
+    pageBody = pageBody.replace(/<div style="display:\s*(?:flex|none);[^>]*?(?:background:#f1efea|#f1efea)[^>]*?">([\s\S]*?<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:6pt;font-weight:700;letter-spacing:\.22em;color:#f7941d;text-transform:uppercase;">CHAPTER\s*(\d+)(?:\s*[a-zA-Z]+)?<\/div>)/gi, (match, inner, num) => {
+      return `<div class="chapter-lead-card" id="chapter-${num}">${inner}`;
+    });
+    
+    // Fallback replace for any lead cards that do not match the above regex
     pageBody = pageBody.replace(/<div style="display:\s*none;\s*flex-direction:\s*column;\s*align-items:\s*center;\s*justify-content:\s*center;\s*gap:\s*5px;\s*border-radius:\s*5px;\s*background:\s*#f1efea;\s*padding:\s*9px\s*7px;\s*break-inside:\s*avoid;\s*text-align:\s*center;\s*min-height:\s*0;\s*overflow:\s*hidden">/g, 
       '<div class="chapter-lead-card">');
     pageBody = pageBody.replace(/<div style="display:\s*flex;\s*flex-direction:\s*column;\s*align-items:\s*center;\s*justify-content:\s*center;\s*gap:\s*5px;\s*border-radius:\s*5px;\s*background:\s*#f1efea;\s*padding:\s*9px\s*7px;\s*break-inside:\s*avoid;\s*text-align:\s*center;\s*min-height:\s*0;\s*overflow:\s*hidden">/g, 
@@ -296,14 +311,21 @@ for (let i = 1; i <= 11; i++) {
 
   // Page 11: Additional Topics
   if (i === 11) {
-    pageBody = pageBody.replace(/<div style="display:flex;gap:0\.22in;align-items:flex-start;padding:10px 0;border-top:1px solid #e2dfd8;break-inside:avoid;">/g, '<div class="topic-row">');
-    pageBody = pageBody.replace(/<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#f7941d;line-height:1;width:0\.36in;flex:none;">/g, '<div class="topic-row__num">');
-    pageBody = pageBody.replace(/<div style="flex:1;min-height:0;">/g, '<div class="topic-row__body">');
-    pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:6.5pt;font-weight:700;letter-spacing:\.22em;color:#8a8a8a;text-transform:uppercase;margin-bottom:3px;">/g, '<div class="topic-row__eyebrow">');
-    pageBody = pageBody.replace(/<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:11pt;font-weight:800;color:#2b2b2b;line-height:1\.2;letter-spacing:\.01em;">/g, '<div class="topic-row__title">');
-    pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:9pt;line-height:1\.45;color:#3a3a3a;margin-top:6px;text-wrap:pretty;">/g, '<div class="topic-row__text">');
-    pageBody = pageBody.replace(/<img id="slot-additional-img(\d+)" src="([^"]+)" style="width:1\.8in;height:1\.35in;display:block;flex:none;" alt="">/g, 
-      '<div class="topic-row__shot"><img src="$2" class="topic-row-img" alt=""></div>');
+    // Replaces topic row containers and injects IDs based on the topic number
+    pageBody = pageBody.replace(/<div style="display:flex;gap:14px;align-items:flex-start;padding:11px 0;border-top:1px solid #ece9e1;">([\s\S]*?<div style="flex:none;width:0\.36in;font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:14pt;font-weight:800;color:#f7941d;line-height:1;padding-top:1px;">(\d+)<\/div>)/gi, (match, inner, num) => {
+      return `<div class="topic-row" id="topic-${num}">${inner}`;
+    });
+    // Replaces topic number wrapper class
+    pageBody = pageBody.replace(/<div style="flex:none;width:0\.36in;font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:14pt;font-weight:800;color:#f7941d;line-height:1;padding-top:1px;">/g, '<div class="topic-row__num">');
+    pageBody = pageBody.replace(/<div style="flex:1;min-width:0;">/g, '<div class="topic-row__body">');
+    pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:6\.5pt;font-weight:700;letter-spacing:\.12em;color:#9a9a9a;text-transform:uppercase;margin-top:3px;">/g, '<div class="topic-row__eyebrow">');
+    pageBody = pageBody.replace(/<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:11pt;font-weight:700;color:#2b2b2b;line-height:1\.18;">/g, '<div class="topic-row__title">');
+    pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:9pt;line-height:1\.4;color:#3a3a3a;margin-top:5px;">/g, '<div class="topic-row__text">');
+    
+    // Wraps topic images
+    pageBody = pageBody.replace(/<img id="slot-add-(\d+)" class="topic-row-img"([^>]*)>/g, (match, num, rest) => {
+      return `<div class="topic-row__shot"><img id="slot-add-${num}" class="topic-row-img"${rest}></div>`;
+    });
   }
 
   // Replace heavy inline QR code SVGs with clean external SVG files
