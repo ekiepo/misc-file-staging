@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morpheus Smart Accent Fixture — Documentation Portal</title>
+<meta name="description" content="Access specification sheets, ordering guidelines, mounting diagrams, and user manuals for the Dauer Manufacturing Morpheus Smart Accent Fixture.">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg-primary: #f8f7f4;
+    --color-bg-card: #ffffff;
+    --color-text-main: #2b2b2b;
+    --color-text-muted: #6f6f6f;
+    --color-brand-orange: #f7941d;
+    --color-brand-orange-hover: #df8010;
+    --color-border: #e2dfd8;
+    --font-sans: 'Archivo', Helvetica, Arial, sans-serif;
+    --transition-premium: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-main);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Header Branding */
+  .portal-header {
+    background-color: var(--color-text-main);
+    color: #ffffff;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--color-brand-orange);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .portal-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .portal-header__logo-mark {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .portal-header__title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+  }
+
+  .portal-header__title span {
+    color: var(--color-brand-orange);
+  }
+
+  .portal-header__brand-logo {
+    height: 35px;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: var(--transition-premium);
+  }
+
+  .portal-header__brand-logo:hover {
+    opacity: 1;
+  }
+
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 4rem 2rem 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero__eyebrow {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--color-brand-orange);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero__title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .hero__subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  /* Document Grid */
+  .grid-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.25rem;
+  }
+
+  /* Premium Cards */
+  .doc-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: var(--transition-premium);
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .doc-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-brand-orange);
+  }
+
+  .doc-card__media-wrapper {
+    width: 100%;
+    height: 200px;
+    background-color: #f1efea;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .doc-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-premium);
+  }
+
+  .doc-card:hover .doc-card__image {
+    transform: scale(1.05);
+  }
+
+  .doc-card__content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .doc-card__eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand-orange);
+    margin-bottom: 0.5rem;
+  }
+
+  .doc-card__title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-main);
+  }
+
+  .doc-card__description {
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 1.75rem;
+    flex-grow: 1;
+  }
+
+  .doc-card__button {
+    background-color: var(--color-brand-orange);
+    color: #ffffff;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 6px;
+    transition: var(--transition-premium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .doc-card__button svg {
+    width: 16px;
+    height: 16px;
+    transition: var(--transition-premium);
+  }
+
+  .doc-card:hover .doc-card__button {
+    background-color: var(--color-brand-orange-hover);
+  }
+
+  .doc-card:hover .doc-card__button svg {
+    transform: translateX(4px);
+  }
+
+  /* Portal Footer */
+  .portal-footer {
+    margin-top: auto;
+    background-color: var(--color-text-main);
+    color: #9a9a9a;
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  .portal-footer__links {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .portal-footer__links a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: var(--transition-premium);
+  }
+
+  .portal-footer__links a:hover {
+    color: var(--color-brand-orange);
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 3rem 1.5rem 1.5rem;
+    }
+    .hero__title {
+      font-size: 2rem;
+    }
+    .grid-container {
+      padding: 1rem 1.5rem 3rem;
+      gap: 1.5rem;
+    }
+    .portal-header {
+      padding: 1rem 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="portal-header">
+  <div class="portal-header__brand">
+    <img class="portal-header__logo-mark" src="spec-sheets - 1/assets/img/logo-mark.png" alt="Dauer Logo Mark">
+    <h1 class="portal-header__title">MORPHEUS <span>PORTAL</span></h1>
+  </div>
+  <a href="https://www.dauermanufacturing.com" target="_blank" rel="noopener">
+    <img class="portal-header__brand-logo" src="spec-sheets - 1/assets/img/logo-dauer.png" alt="Dauer Manufacturing">
+  </a>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero__eyebrow">Smart Landscape Lighting</div>
+    <h2 class="hero__title">Morpheus Accent Fixture</h2>
+    <p class="hero__subtitle">Technical specifications, ordering configurations, and installation resources for the Morpheus smart lighting ecosystem.</p>
+  </section>
+
+  <div class="grid-container">
+    <!-- Uplight Spec Sheet -->
+    <a class="doc-card" href="spec-sheets - 1/uplight.html">
+      <div class="doc-card__media-wrapper">
+        <img class="doc-card__image" src="spec-sheets - 1/assets/img/uplight-fixture-hero.webp" alt="Morpheus Uplight Fixture">
+      </div>
+      <div class="doc-card__content">
+        <div class="doc-card__eyebrow">Specification Sheet</div>
+        <h3 class="doc-card__title">Morpheus Uplight</h3>
+        <p class="doc-card__description">Detailed performance specifications, ordering matrices, riser configurations, accessory diagrams, and uplight mounting dimensions.</p>
+        <div class="doc-card__button">
+          <span>View Specification Sheet</span>
+          <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- Downlight Spec Sheet -->
+    <a class="doc-card" href="spec-sheets - 1/downlight.html">
+      <div class="doc-card__media-wrapper">
+        <img class="doc-card__image" src="spec-sheets - 1/assets/img/downlight-fixture-hero.webp" alt="Morpheus Downlight Fixture">
+      </div>
+      <div class="doc-card__content">
+        <div class="doc-card__eyebrow">Specification Sheet</div>
+        <h3 class="doc-card__title">Morpheus Downlight</h3>
+        <p class="doc-card__description">Tree-hugger kit layouts, shroud configurations, wiring data, ordering parameters, and surface mounting guides for downlight positions.</p>
+        <div class="doc-card__button">
+          <span>View Specification Sheet</span>
+          <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- User Manual -->
+    <a class="doc-card" href="spec-sheets - 1/manual.html">
+      <div class="doc-card__media-wrapper">
+        <img class="doc-card__image" src="spec-sheets - 1/assets/img/manual/cover-hero.webp" alt="Morpheus User Manual Application screen">
+      </div>
+      <div class="doc-card__content">
+        <div class="doc-card__eyebrow">Product Manual</div>
+        <h3 class="doc-card__title">User Manual</h3>
+        <p class="doc-card__description">Pairing guides, programming tutorials, admin/sharing setups, timer configurations, scheduling rules, presets, and kinetic loop effects.</p>
+        <div class="doc-card__button">
+          <span>Open User Manual</span>
+          <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
+</main>
+
+<footer class="portal-footer">
+  <div>Dauer Manufacturing &copy; 2026 &middot; All Rights Reserved</div>
+  <div class="portal-footer__links">
+    <a href="spec-sheets - 1/uplight.html">Uplight Specs</a>
+    <a href="spec-sheets - 1/downlight.html">Downlight Specs</a>
+    <a href="spec-sheets - 1/manual.html">User Manual</a>
+  </div>
+</footer>
+
+</body>
+</html>
