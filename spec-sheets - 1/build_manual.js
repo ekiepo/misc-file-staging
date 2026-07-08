@@ -14,8 +14,8 @@ const head = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Morpheus — User Manual</title>
 <meta name="description" content="Dauer Manufacturing Morpheus Smart Accent Fixture — user manual: setup, safety, and step-by-step how-to guides for the Dauer Smart App.">
-<link rel="stylesheet" href="assets/spec-sheet.css">
-<link rel="stylesheet" href="assets/manual.css">
+<link rel="stylesheet" href="assets/spec-sheet.css?v=2">
+<link rel="stylesheet" href="assets/manual.css?v=2">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>

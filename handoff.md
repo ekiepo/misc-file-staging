@@ -9,17 +9,17 @@ Welcome! This workspace contains the high-end, responsive, and print-ready produ
 The workspace consists of three main pages and two stylesheets:
 
 ### Core Files
-* **[uplight.html](file:///Users/dannysanchez/Projects/Morpheus/spec-sheets%20-%201/uplight.html)**: The specification and ordering sheet for the Morpheus Smart Uplight fixture.
-* **[downlight.html](file:///Users/dannysanchez/Projects/Morpheus/spec-sheets%20-%201/downlight.html)**: The specification and ordering sheet for the Morpheus Smart Downlight fixture.
-* **[manual.html](file:///Users/dannysanchez/Projects/Morpheus/spec-sheets%20-%201/manual.html)**: The compiled, 11-page responsive and print-ready Morpheus User Manual.
+* **[uplight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/uplight.html)**: The specification and ordering sheet for the Morpheus Smart Uplight fixture.
+* **[downlight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/downlight.html)**: The specification and ordering sheet for the Morpheus Smart Downlight fixture.
+* **[manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual.html)**: The compiled, 11-page responsive and print-ready Morpheus User Manual.
 
 ### Stylesheets
-* **[assets/spec-sheet.css](file:///Users/dannysanchez/Projects/Morpheus/spec-sheets%20-%201/assets/spec-sheet.css)**: Holds the reset, navigation header, grid systems, and print media parameters shared by the Uplight and Downlight spec sheets.
-* **[assets/manual.css](file:///Users/dannysanchez/Projects/Morpheus/spec-sheets%20-%201/assets/manual.css)**: Contains custom overrides specifically tailored for the User Manual layout, pagination, print grids, and spacings.
+* **[assets/spec-sheet.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/assets/spec-sheet.css)**: Holds the reset, navigation header, grid systems, and print media parameters shared by the Uplight and Downlight spec sheets.
+* **[assets/manual.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/assets/manual.css)**: Contains custom overrides specifically tailored for the User Manual layout, pagination, print grids, and spacings.
 
 ### Compilation / Build Pipeline
-* **[manual-clean.html](file:///Users/dannysanchez/Projects/Morpheus/spec-sheets%20-%201/manual-clean.html)**: The source HTML document for the User Manual. Do not edit `manual.html` directly for content changes; make changes here instead.
-* **[scratch/build_manual.js](file:///Users/dannysanchez/.gemini/antigravity-ide/brain/ef0ab7f6-56ae-4403-9247-24d1461b0bf2/scratch/build_manual.js)**: Node.js compiler script. Run `node build_manual.js` to split, label, clean, format, and generate the final `manual.html`.
+* **[manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual-clean.html)**: The source HTML document for the User Manual. Do not edit `manual.html` directly for content changes; make changes here instead.
+* **[build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/build_manual.js)**: Node.js compiler script. Run `node build_manual.js` to compile and generate the final `manual.html`.
 
 ---
 
@@ -37,9 +37,21 @@ The workspace consists of three main pages and two stylesheets:
    * **Problem**: When clicking print, the bottom of Page 1 (dimensions drawing) and Page 3 (riser grid and accessory pictures) overflowed and collided with footer lines.
    * **Solution**: Set a max-height limit of `1.05in` on the dimension drawing. Shrunk Page 3 accessory pictures to `70px` x `50px`, tightened table cell paddings to `3.5px`, and reduced section headings.
 
-4. **Page 2 QR Code Size Reduction**:
-   * **Problem**: The large store app download badges and QR codes pushed the download text title down into the bottom margin.
-   * **Solution**: Shrunk the QR codes from `1.35in` to `1.05in` and badges from `1.2in` to `1.0in` wide, lifting the entire block by `60px` to clear the footer margins.
+4. **Mobile Layout Viewport Overflow Fixes**:
+   * **Problem**: Large padding sizes, cover hero image properties (`width: 340px` inline override), info header elements, and QR footer wrappers caused horizontal scrolls on mobile breakpoints.
+   * **Solution**: Stripped inline image widths, hid the print action button under `< 480px`, wrapped info layouts vertically, and reduced viewport margins to match narrow screens down to `320px` width cleanly.
+
+5. **Precise Scroll Offset Clearance**:
+   * **Problem**: Jumping to chapter or topic anchors scrolled content directly under the sticky header navigation bar, clipping title slots.
+   * **Solution**: Configured all targeted container classes and IDs (`.sheet-section`, `.chapter-lead-card`, `.topic-row`, `#beam-angle`, `#ordering-info`) with `scroll-margin-top: 86px` to maintain a clean clearance gap below the header.
+
+6. **Expanded Mobile Pages & Return Button (Manual Only)**:
+   * **Problem**: Having collapsible accordions on mobile forced users to open tabs one by one, reducing readability of the user manual.
+   * **Solution**: Modified `build_manual.js` to compile the user manual sheets inside simple `div` wrapper containers rather than `<details>` accordions. Pages stack open by default on mobile. Added a fixed floating back-to-TOC button (`.floating-toc-btn`) with `opacity: 0.4` at the bottom-right corner for quick navigation.
+
+7. **Centered Widescreen Desktop Viewport (90% Width / 1150px Max Width)**:
+   * **Problem**: Desktop pages were limited to a narrow `8.5in` width on wide screens, creating excessive empty side margins.
+   * **Solution**: Changed sheet widths to `90%` of the viewport with a max-width limit of `1150px` on desktop viewports. Flex centered the parent wrappers to prevent shrink-wrap layout collapsing. Set page heights to `auto` on screen view to allow the wider columns to align naturally.
 
 ---
 
@@ -47,10 +59,9 @@ The workspace consists of three main pages and two stylesheets:
 
 > [!IMPORTANT]
 > **Content Modifications**: 
-> Always make manual layout/content updates inside [manual-clean.html](file:///Users/dannysanchez/Projects/Morpheus/spec-sheets%20-%201/manual-clean.html). Once completed, execute the compiler script using:
+> Always make manual layout/content updates inside [manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual-clean.html). Once completed, execute the compiler script inside the spec-sheets directory:
 > ```bash
 > node build_manual.js
-> # Note: Run from inside the scratch/ directory
 > ```
 
 > [!TIP]

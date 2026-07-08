@@ -223,8 +223,8 @@
 }
 
 .toc-appblock {
-  margin-top: auto;
-  padding-top: 10px;
+  margin-top: 21px;
+  padding-top: 17px;
   border-top: var(--border-hairline);
   text-align: center;
 }
@@ -232,7 +232,7 @@
 .toc-appblock__codes {
   display: flex;
   justify-content: center;
-  gap: 22px;
+  gap: 28px;
   flex-wrap: wrap;
 }
 
@@ -240,12 +240,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .toc-appblock__col img.qr {
-  width: 1.05in;
-  height: 1.05in;
+  width: 1.01in;
+  height: 1.01in;
   background: #fff;
   border: 1px solid #e2dfd8;
   border-radius: 6px;
@@ -253,8 +253,8 @@
 }
 
 .toc-appblock__col img.badge {
-  width: 1.0in;
-  height: 0.3in;
+  width: 0.9in;
+  height: 0.27in;
   display: block;
   object-fit: contain;
 }
@@ -262,10 +262,10 @@
 .toc-appblock__title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 15pt;
+  font-size: 12.75pt;
   color: #2b2b2b;
   letter-spacing: .01em;
-  margin-top: 10px;
+  margin-top: 16px;
 }
 
 /* ---------- Specifications & Ordering (Page 3) ---------- */
@@ -653,7 +653,7 @@
     border-radius: 0 !important;
     box-shadow: none !important;
     overflow: visible !important;
-    width: auto !important;
+    width: 100% !important;
   }
 
   .sheet-section__summary {
@@ -662,11 +662,15 @@
 
   .sheet-section__body {
     padding: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
   }
 
   .sheet {
-    width: 8.5in !important;
-    height: 11in !important;
+    width: 90% !important;
+    max-width: 1150px !important;
+    height: auto !important;
     padding: 0.5in !important;
     background: #fff !important;
     box-shadow: 0 2px 14px rgba(0, 0, 0, .13) !important;
@@ -717,6 +721,9 @@
    ============================================================ */
 
 @media print {
+  .floating-toc-btn {
+    display: none !important;
+  }
 
   /* No auto-growing sheets for print! Keep the fixed geometry. */
   .sheet {
@@ -821,8 +828,20 @@
   }
 
   /* Page 1 (Cover) tight print overrides */
+  .cover-grid {
+    margin-top: 0.15in !important;
+  }
+
+  .cover-info__card {
+    padding: 8px 12px !important;
+  }
+
+  .cover-info__title {
+    margin: 8px 0 4px !important;
+  }
+
   .cover-info__row {
-    padding-bottom: 2px !important;
+    padding-bottom: 1px !important;
   }
 
   .cover-info__value {
@@ -830,8 +849,13 @@
   }
 
   .cover-info__drawing {
-    max-height: 1.05in !important;
-    margin-top: 10px !important;
+    height: 2.5in !important;
+    max-height: 2.5in !important;
+    margin-top: 8px !important;
+  }
+
+  .cover-info__footer {
+    margin-top: auto !important;
   }
 
   /* Page 3 (Specs & Ordering) tight print overrides */
