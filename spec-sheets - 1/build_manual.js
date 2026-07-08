@@ -358,14 +358,7 @@ for (let i = 1; i <= 11; i++) {
           <div class="sheet-footer__page">${i}</div>
         </footer>`;
 
-  const openAttr = (i === 1) ? ' open' : '';
-  
-  bodyHtml += `  <details class="sheet-section" id="${config.id}"${openAttr}>
-    <summary class="sheet-section__summary">
-      <span class="sheet-section__num">${config.num}</span>
-      <span class="sheet-section__title">${config.title}</span>
-      <svg class="sheet-section__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </summary>
+  bodyHtml += `  <div class="sheet-section" id="${config.id}">
     <div class="sheet-section__body">
       <section class="sheet">
 ${headerHtml}
@@ -375,7 +368,7 @@ ${pageBody}
 ${footerHtml}
       </section>
     </div>
-  </details>
+  </div>
 \n`;
 }
 
