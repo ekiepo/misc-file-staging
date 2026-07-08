@@ -1,0 +1,56 @@
+/* ============================================================
+   DAUER — TYPE TOKENS
+
+   ⚠ FONT SUBSTITUTION IN EFFECT
+   DauerLogoStandards.pdf specifies "HelveticaNeue 63 Medium
+   Extended" (body/wordmark) and "HelveticaNeue 73 Bold Extended
+   Oblique" (display) as the true brand faces. Those are paid,
+   non-web fonts we don't have files for. Archivo / Archivo
+   Expanded (Google Fonts, free) are the working substitutes —
+   already in production use across the Morpheus manual + spec
+   sheet — chosen because Expanded's extended proportions and
+   heavy weights are the closest open match to the Helvetica
+   Neue Extended family's condensed-but-wide character.
+   Swap this @import + the two font-family tokens the moment
+   real HelveticaNeue Extended files are supplied.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Expanded:wght@500;600;700;800;900&display=swap');
+
+:root {
+  /* ---------- Font families ---------- */
+  --font-display: 'Archivo Expanded', Helvetica, Arial, sans-serif; /* stand-in for HelveticaNeue 73 Bold Extended Oblique */
+  --font-body:    'Archivo', Helvetica, Arial, sans-serif;          /* stand-in for HelveticaNeue 63 Medium Extended */
+
+  /* ---------- Display / headline scale (--font-display, 800–900) ----------
+     Sized for print (pt) by default; same tokens work as px for
+     screen work — treat the number as unitless scale, not literal. */
+  --text-display-hero:  46pt;  /* spec-sheet product name ("MORPHEUS") */
+  --text-display-lg:    22pt;  /* section headline */
+  --text-display-md:    18pt;
+  --text-display-sm:    13pt;
+
+  /* ---------- Body / label scale (--font-body) ---------- */
+  --text-body-lg:   9pt;
+  --text-body-md:   8pt;   /* default body / spec value */
+  --text-body-sm:   7.5pt;
+  --text-caption:   6.5pt;
+
+  /* ---------- Eyebrow / label style ----------
+     All-caps, wide tracking, orange, bold — used above every
+     headline and as the small-caps section tag in doc headers. */
+  --text-eyebrow-size:      7.5pt;
+  --text-eyebrow-weight:    700;
+  --text-eyebrow-tracking:  0.22em;
+
+  /* ---------- Weights ---------- */
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+  --font-weight-heavy:    800;
+  --font-weight-black:    900;
+
+  /* ---------- Numeric data (spec tables, lumen counts) ---------- */
+  --text-data-variant: tabular-nums;
+}

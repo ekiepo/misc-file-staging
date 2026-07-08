@@ -1,0 +1,75 @@
+/* ============================================================
+   DAUER — COLOR TOKENS
+   Base scales first (raw brand palette), semantic aliases below.
+   Orange 500 + Charcoal 900 are the two values fixed by
+   DauerLogoStandards.pdf — do not adjust those two.
+   ============================================================ */
+
+:root {
+
+  /* ---------- Brand Orange ----------
+     500 = spec exact: CMYK 0/50/100/0 · RGB 247/148/29
+     PMS 138C (coated) / PMS 130U (uncoated) */
+  --dauer-orange-50:  #fef6ea;
+  --dauer-orange-100: #fce9c8;
+  --dauer-orange-200: #fad293;
+  --dauer-orange-300: #f7b968;
+  --dauer-orange-400: #f7a63f;
+  --dauer-orange-500: #f7941d; /* brand orange — PMS 138C */
+  --dauer-orange-600: #dd7f0e;
+  --dauer-orange-700: #b3660a;
+  --dauer-orange-800: #874e0b;
+  --dauer-orange-900: #5c3609;
+
+  /* ---------- Charcoal (ink / dark neutral) ----------
+     900 = spec "Deep Grey 90%K" as used across Morpheus collateral */
+  --dauer-charcoal-950: #1c1b1a;
+  --dauer-charcoal-900: #2b2b2b; /* Deep Grey 90%K — primary ink + dark surface */
+  --dauer-charcoal-700: #3a3a3a;
+  --dauer-charcoal-500: #6f6f6f;
+  --dauer-charcoal-400: #8a8a8a; /* Light Grey 40%K — secondary text */
+  --dauer-charcoal-300: #9a9a9a;
+  --dauer-charcoal-200: #c4c1ba;
+
+  /* ---------- Paper (warm neutral surfaces) ----------
+     Warm off-whites pulled from the printed collateral —
+     never pure/cool grey, always a hair warm. */
+  --dauer-paper-0:   #ffffff; /* sheet white */
+  --dauer-paper-50:  #f1efea; /* card / image-slot fill */
+  --dauer-paper-100: #e2dfd8; /* hairline dividers, borders */
+  --dauer-paper-200: #d8d6cf; /* deskpad / page background behind sheets */
+
+  /* ================= Semantic aliases ================= */
+
+  /* Text */
+  --color-text-primary:    var(--dauer-charcoal-900);
+  --color-text-secondary:  var(--dauer-charcoal-400);
+  --color-text-tertiary:   var(--dauer-charcoal-300);
+  --color-text-accent:     var(--dauer-orange-500);
+  --color-text-on-dark:            #ffffff;
+  --color-text-on-dark-secondary:  var(--dauer-orange-500);
+  --color-text-on-dark-tertiary:   #9a9a9a;
+
+  /* Surfaces */
+  --color-surface-page:    var(--dauer-paper-200);
+  --color-surface-sheet:   var(--dauer-paper-0);
+  --color-surface-card:    var(--dauer-paper-50);
+  --color-surface-dark:    var(--dauer-charcoal-900);
+  --color-surface-darker:  var(--dauer-charcoal-950);
+
+  /* Borders */
+  --color-border:          var(--dauer-paper-100);
+  --color-border-on-dark:  rgba(255,255,255,0.14);
+  --color-border-accent:   var(--dauer-orange-500);
+
+  /* Accent / interactive */
+  --color-accent:            var(--dauer-orange-500);
+  --color-accent-hover:      var(--dauer-orange-600);
+  --color-accent-active:     var(--dauer-orange-700);
+  --color-accent-soft:       var(--dauer-orange-50);
+  --color-focus-ring:        var(--dauer-orange-400);
+
+  /* Status (used sparingly — compliance / diagnostics only) */
+  --color-positive: #2f8f5b;
+  --color-caution:  var(--dauer-orange-500);
+}

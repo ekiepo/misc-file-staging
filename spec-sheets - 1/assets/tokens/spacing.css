@@ -1,0 +1,36 @@
+/* ============================================================
+   DAUER — SPACING & GEOMETRY TOKENS
+   ============================================================ */
+
+:root {
+  /* ---------- Base spacing scale (px) — for screen work ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* ---------- Print page geometry ----------
+     Every Dauer print doc (spec sheet, manual) is US Letter,
+     0.5in body margin, sheets floated on a warm deskpad. */
+  --page-size-letter-w: 8.5in;
+  --page-size-letter-h: 11in;
+  --page-margin: 0.5in;
+  --page-deskpad-padding: 0.55in;
+  --page-sheet-shadow: 0 2px 14px rgba(0,0,0,.13);
+
+  /* ---------- Radii ----------
+     Dauer print collateral stays almost square — small radii
+     only, used for photo tiles and callout cards, never pills. */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* ---------- Borders ---------- */
+  --border-hairline: 1px solid var(--color-border);
+  --border-accent-rule: 2px solid var(--color-border-accent);
+}
