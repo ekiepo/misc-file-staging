@@ -689,6 +689,27 @@
   }
 }
 
+@media (max-width: 480px) {
+  .toc-row {
+    gap: 6px;
+  }
+  .toc-row__label {
+    font-size: 0.85rem;
+  }
+  .cover-info__footer {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+  }
+  .cover-info__footer div {
+    width: 100% !important;
+    text-align: center;
+    margin-left: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
 /* ============================================================
    PRINT — letter page frames, page breaks, and column forces.
    Inherits letter dimensions from spec-sheet.css.
