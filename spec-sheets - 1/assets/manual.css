@@ -128,26 +128,31 @@
     justify-content: space-between;
     gap: 0.3in;
   }
+
   .brand-logo {
     height: 0.9in;
     padding-left: 60px;
     padding-bottom: 10px;
     align-self: center;
   }
+
   .cover-grid {
     flex-direction: row;
     gap: 0.34in;
     margin-top: 0.34in;
     min-height: 0;
   }
+
   .cover-col-media {
     flex: 1.25;
     min-width: 0;
     gap: 0.15in;
   }
+
   .cover-col-info {
     flex: 1;
   }
+
   .cover-hero-img {
     flex: 1;
     display: block;
@@ -178,7 +183,7 @@
   color: inherit;
 }
 
-.toc-row + .toc-row {
+.toc-row+.toc-row {
   border-top: 1px solid var(--dauer-paper-100);
 }
 
@@ -359,6 +364,7 @@
     gap: 4px 8px !important;
     margin-top: 4px !important;
   }
+
   .mount-photo-label {
     width: 200px;
   }
@@ -611,6 +617,7 @@
   .topic-row {
     flex-wrap: wrap;
   }
+
   .topic-row__shot {
     width: 100%;
     height: auto;
@@ -661,7 +668,7 @@
     height: 11in !important;
     padding: 0.5in !important;
     background: #fff !important;
-    box-shadow: 0 2px 14px rgba(0,0,0,.13) !important;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, .13) !important;
     box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;
@@ -688,14 +695,16 @@
    ============================================================ */
 
 @media print {
+
   /* No auto-growing sheets for print! Keep the fixed geometry. */
   .sheet {
     break-inside: avoid;
   }
-  
+
   .sheet-section {
     break-before: page;
   }
+
   .sheet-section:first-child {
     break-before: auto;
   }
@@ -733,7 +742,7 @@
   .topic-row__text {
     font-size: 9pt !important;
   }
-  
+
   .mount-photos-grid {
     display: grid !important;
     grid-template-columns: 1fr auto 1fr auto !important;
@@ -774,14 +783,14 @@
     display: block !important;
     width: 340px !important;
   }
-  
+
   .title-block {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
   }
-  
+
   .brand-logo {
     height: 0.9in !important;
     padding-left: 60px !important;
@@ -793,39 +802,46 @@
   .cover-info__row {
     padding-bottom: 2px !important;
   }
+
   .cover-info__value {
     font-size: 7.5pt !important;
   }
+
   .cover-info__drawing {
     max-height: 1.05in !important;
     margin-top: 10px !important;
   }
 
   /* Page 3 (Specs & Ordering) tight print overrides */
-  .data-table th, .data-table td {
+  .data-table th,
+  .data-table td {
     padding: 3.5px 5px !important;
     font-size: 7.2pt !important;
   }
+
   .data-table td[colspan="5"] {
     padding: 4px 5px 2px !important;
     font-size: 7.2pt !important;
   }
+
   .specs-ref-cell {
     font-size: 7.2pt !important;
     padding: 1.5px 0 !important;
   }
+
   .specs-ref-header {
     font-size: 6.8pt !important;
     padding: 2px 0 1px !important;
   }
+
   .specs-section-title {
     font-size: 7.5pt !important;
     margin-top: 4px !important;
     margin-bottom: 2px !important;
   }
+
   .mount-photo-label {
     font-size: 7.2pt !important;
     padding: 1.5px 0 !important;
   }
 }
-
