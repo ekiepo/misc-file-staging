@@ -29,7 +29,11 @@
 
     sections.forEach((section, i) => {
       if (isMobile) {
-        section.open = (activeSection && section === activeSection) || (!activeSection && i === 0);
+        if (section.id === 'contents') {
+          section.open = true;
+        } else {
+          section.open = (activeSection && section === activeSection) || (!activeSection && i === 0);
+        }
       } else {
         section.open = true;
       }
