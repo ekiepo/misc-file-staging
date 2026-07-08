@@ -124,7 +124,7 @@ for (let i = 1; i <= 11; i++) {
   } else if (i >= 5 && i <= 10) {
     pageBody = pageBody.replace(/<div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat\(4,1fr\);grid-template-rows:repeat\(4,1fr\);gap:0\.15in;padding-top:0\.14in;">/g, '<div class="figure-grid">');
   } else if (i === 11) {
-    pageBody = pageBody.replace(/<div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:0\.1in;padding-top:0\.2in;">/g, '<div class="topic-list">');
+    pageBody = pageBody.replace(/<div style="flex:1;min-height:0;padding-top:0\.2in;display:flex;flex-direction:column;">/g, '<div class="topic-list">');
   }
 
   // Clean up custom tags `<image-slot id="..." src="..." ...>` -> `<img id="..." src="..." ...>`
@@ -251,15 +251,22 @@ for (let i = 1; i <= 11; i++) {
   if (i === 3) {
     pageBody = pageBody.replace(/<table style="width:100%;border-collapse:collapse;border:1px solid #e2dfd8;border-radius:6px;overflow:hidden;">/g, '<div class="table-scroll"><table class="data-table">');
     pageBody = pageBody.replace(/<\/table>/, '</table></div>');
+    pageBody = pageBody.replace(/<tr style="background:#2b2b2b;">/g, '<tr>');
     
-    // Add IDs to spec sheet content titles
+    // Strip inline th and td styles
+    pageBody = pageBody.replace(/<th style="[^"]*">/g, '<th>');
+    pageBody = pageBody.replace(/<td\s+colspan="5"\s+style="[^"]*">(.*?)<\/td>/g, '<td colspan="5">$1</td>');
+    pageBody = pageBody.replace(/<tr>\s*<td colspan="5">/g, '<tr class="data-table__group"><td colspan="5">');
+    pageBody = pageBody.replace(/<td style="[^"]*">/g, '<td>');
+
+    // Convert Page 3 section-intros to classes
     pageBody = pageBody.replace(
-      /<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;">Beam Angle &amp; Lumen Output<\/div>/g,
-      '<div id="beam-angle" style="font-family:\'Archivo Expanded\',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:.02em;">Beam Angle &amp; Lumen Output</div>'
+      /<div>\s*<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;">Beam Angle &amp; Lumen Output<\/div>\s*<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:8pt;color:#8a8a8a;margin-top:3px;">Use no less than 32\.30 VA per fixture for transformer load calculations\.<\/div>\s*<\/div>/g,
+      '<div class="section-intro" id="beam-angle"><h2>Beam Angle &amp; Lumen Output</h2><p>Use no less than 32.30 VA per fixture for transformer load calculations.</p></div>'
     );
     pageBody = pageBody.replace(
-      /<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;">Ordering Information<\/div>/g,
-      '<div id="ordering-info" style="font-family:\'Archivo Expanded\',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:.02em;">Ordering Information</div>'
+      /<div>\s*<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:18pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;">Ordering Information<\/div>/g,
+      '<div class="section-intro" id="ordering-info"><h2>Ordering Information</h2>'
     );
     
     // Ordering Info Titles
@@ -292,6 +299,12 @@ for (let i = 1; i <= 11; i++) {
     pageBody = pageBody.replace(/<div style="display:flex;gap:14px;align-items:flex-start;">/g, '<div class="safety-item">');
     pageBody = pageBody.replace(/<div style="flex:none;width:26px;height:26px;border-radius:50%;background:#2b2b2b;color:#fff;font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-weight:700;font-size:11pt;display:flex;align-items:center;justify-content:center;">(\d+)<\/div>/g, '<div class="safety-item__num">$1</div>');
     pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:10pt;line-height:1\.45;color:#3a3a3a;padding-top:3px;text-wrap:pretty;">/g, '<div class="safety-item__text">');
+    
+    // Page 4 Section Intro replacement (with flexible whitespace matching)
+    pageBody = pageBody.replace(
+      /<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:20pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;margin-bottom:0\.06in;">Safety Information<\/div>\s*<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:8\.5pt;color:#8a8a8a;margin-bottom:0\.22in;">Read and follow all warnings before installation\. Review with your compliance team prior to publication\.<\/div>/g,
+      '<div class="section-intro"><h2>Safety Information</h2><p>Read and follow all warnings before installation. Review with your compliance team prior to publication.</p></div>'
+    );
   }
 
   // Pages 5 to 10: How-To grids
@@ -329,6 +342,12 @@ for (let i = 1; i <= 11; i++) {
     pageBody = pageBody.replace(/<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:11pt;font-weight:700;color:#2b2b2b;line-height:1\.18;">/g, '<div class="topic-row__title">');
     pageBody = pageBody.replace(/<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:9pt;line-height:1\.4;color:#3a3a3a;margin-top:5px;">/g, '<div class="topic-row__text">');
     
+    // Page 11 Section Intro replacement (with flexible whitespace matching)
+    pageBody = pageBody.replace(
+      /<div style="font-family:'Archivo Expanded',Helvetica,Arial,sans-serif;font-size:20pt;font-weight:800;color:#2b2b2b;letter-spacing:\.02em;margin-bottom:0\.04in;">Additional Topics<\/div>\s*<div style="font-family:'Archivo',Helvetica,Arial,sans-serif;font-size:8\.5pt;color:#6f6f6f;line-height:1\.35;margin-bottom:0\.14in;">Quick reference for features that don't need full step-by-step spreads\.<\/div>/g,
+      '<div class="section-intro"><h2>Additional Topics</h2><p>Quick reference for features that don\'t need full step-by-step spreads.</p></div>'
+    );
+
     // Wraps topic images
     pageBody = pageBody.replace(/<img id="slot-add-(\d+)" class="topic-row-img"([^>]*)>/g, (match, num, rest) => {
       return `<div class="topic-row__shot"><img id="slot-add-${num}" class="topic-row-img"${rest}></div>`;
@@ -340,6 +359,9 @@ for (let i = 1; i <= 11; i++) {
   pageBody = pageBody.replace(/<img id="([^"]*qr-[a-zA-Z0-9_-]+)" src="[^"]+"([^>]*)>/g, (match, id, rest) => {
     return `<img id="${id}" src="assets/img/manual/${id}.svg"${rest}>`;
   });
+
+  // Strip inline font-size span wrappers that override standard stylesheet sizes on screen
+  pageBody = pageBody.replace(/<span style="font-size:\s*\d+(?:\.\d+)?(?:px|pt);">([\s\S]*?)<\/span>/g, '$1');
 
   // Header and Footer formatting
   const middleText = (i === 3) ? 'Morpheus Smart Accent Fixture - page 3' : 'Morpheus Smart Accent Fixture';
