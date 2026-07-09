@@ -273,6 +273,91 @@
       padding: 1rem 1.5rem;
     }
   }
+
+  /* KLE Animation Card */
+  .kle-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stage {
+    position: relative;
+    width: 300px;
+    height: 250px;
+    background: #141414;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .apex {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    z-index: 3;
+    filter: drop-shadow(0 0 10px rgba(247, 148, 29, 0.85));
+  }
+
+  .reveal {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 300px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 22px;
+    box-sizing: border-box;
+    clip-path: polygon(50% 0%, 46% 100%, 54% 100%);
+    animation: kle-reveal 4.4s ease-in-out infinite;
+    background: linear-gradient(rgba(247, 148, 29, 0.20), rgba(247, 148, 29, 0.02));
+  }
+
+  .kle {
+    font-family: 'Archivo', Helvetica, Arial, sans-serif;
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(247, 148, 29, 0.38);
+    font-stretch: 125%;
+    font-variation-settings: "wdth" 125;
+  }
+
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.34em;
+    font-weight: 600;
+    color: var(--color-brand-orange);
+    text-transform: uppercase;
+    margin-top: 13px;
+    white-space: nowrap;
+  }
+
+  @keyframes kle-reveal {
+    0%, 16% {
+      clip-path: polygon(50% 0%, 46% 100%, 54% 100%);
+    }
+    50%, 66% {
+      clip-path: polygon(50% 0%, -8% 100%, 108% 100%);
+    }
+    100% {
+      clip-path: polygon(50% 0%, 46% 100%, 54% 100%);
+    }
+  }
 </style>
 </head>
 <body>
@@ -292,6 +377,19 @@
     <div class="hero__eyebrow">Smart Landscape Lighting</div>
     <h2 class="hero__title">Morpheus Accent Fixture</h2>
     <p class="hero__subtitle">Technical specifications, ordering configurations, and installation resources for the Morpheus smart lighting ecosystem.</p>
+  </section>
+
+  <!-- KLE Reveal Animation Section -->
+  <section class="kle-section">
+    <div class="stage">
+      <img class="apex" src="spec-sheets - 1/assets/img/apex.png" alt="Morpheus Fixture Head">
+      <div class="reveal">
+        <div style="text-align:center;">
+          <div class="kle">KLE</div>
+          <div class="tag">Kinetic Lighting Effect</div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <div class="grid-container">
