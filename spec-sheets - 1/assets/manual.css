@@ -745,18 +745,23 @@
   .figure-grid {
     grid-template-columns: repeat(4, 1fr) !important;
     grid-template-rows: repeat(4, 1fr) !important;
-    gap: 0.15in !important;
-    padding-top: 0.14in !important;
+    gap: 0.12in !important;
+    padding-top: 0.10in !important;
     flex: 1;
     min-height: 0;
   }
 
   .figure-cell__img {
-    height: 1.65in !important;
+    height: 1.45in !important;
+  }
+
+  .figure-cell__body {
+    padding: 4px 6px !important;
   }
 
   .figure-cell__caption {
     font-size: 6.5pt !important;
+    line-height: 1.25 !important;
   }
 
   .figure-cell__fig {

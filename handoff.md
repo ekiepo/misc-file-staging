@@ -6,20 +6,21 @@ Welcome! This workspace contains the high-end, responsive, and print-ready produ
 
 ## 1. System Overview & Architecture
 
-The workspace consists of three main pages and two stylesheets:
+The workspace consists of a central landing page portal, three main document pages, two custom stylesheets, and a compilation script:
 
-### Core Files
-* **[uplight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/uplight.html)**: The specification and ordering sheet for the Morpheus Smart Uplight fixture.
-* **[downlight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/downlight.html)**: The specification and ordering sheet for the Morpheus Smart Downlight fixture.
-* **[manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual.html)**: The compiled, 11-page responsive and print-ready Morpheus User Manual.
+### Core Portal & Sheets
+* **[index.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/index.html)**: The main landing portal linking to the spec sheets and user manual. It includes the integrated, responsive KLE Reveal animation widget.
+* **[spec-sheets - 1/uplight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/uplight.html)**: The specification and ordering sheet for the Morpheus Smart Uplight fixture.
+* **[spec-sheets - 1/downlight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/downlight.html)**: The specification and ordering sheet for the Morpheus Smart Downlight fixture.
+* **[spec-sheets - 1/manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual.html)**: The compiled, 11-page responsive and print-ready Morpheus User Manual.
 
 ### Stylesheets
 * **[assets/spec-sheet.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/assets/spec-sheet.css)**: Holds the reset, navigation header, grid systems, and print media parameters shared by the Uplight and Downlight spec sheets.
 * **[assets/manual.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/assets/manual.css)**: Contains custom overrides specifically tailored for the User Manual layout, pagination, print grids, and spacings.
 
 ### Compilation / Build Pipeline
-* **[manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual-clean.html)**: The source HTML document for the User Manual. Do not edit `manual.html` directly for content changes; make changes here instead.
-* **[build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/build_manual.js)**: Node.js compiler script. Run `node build_manual.js` to compile and generate the final `manual.html`.
+* **[spec-sheets - 1/manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual-clean.html)**: The source HTML document for the User Manual. **Do not edit `manual.html` directly** for content changes; make changes here instead.
+* **[spec-sheets - 1/build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/build_manual.js)**: Node.js compiler script. Run `node build_manual.js` to compile and generate the final `manual.html`.
 
 ---
 
@@ -49,9 +50,33 @@ The workspace consists of three main pages and two stylesheets:
    * **Problem**: Having collapsible accordions on mobile forced users to open tabs one by one, reducing readability of the user manual.
    * **Solution**: Modified `build_manual.js` to compile the user manual sheets inside simple `div` wrapper containers rather than `<details>` accordions. Pages stack open by default on mobile. Added a fixed floating back-to-TOC button (`.floating-toc-btn`) with `opacity: 0.4` at the bottom-right corner for quick navigation.
 
-7. **Centered Widescreen Desktop Viewport (90% Width / 1150px Max Width)**:
-   * **Problem**: Desktop pages were limited to a narrow `8.5in` width on wide screens, creating excessive empty side margins.
-   * **Solution**: Changed sheet widths to `90%` of the viewport with a max-width limit of `1150px` on desktop viewports. Flex centered the parent wrappers to prevent shrink-wrap layout collapsing. Set page heights to `auto` on screen view to allow the wider columns to align naturally.
+7. **Reversion of Manual Sheet Sizing**:
+   * **Problem**: Manual sheets resized to `90%` width on desktop caused layouts to align differently than Uplight and Downlight.
+   * **Solution**: Restored manual desktop sheet sizing to match Uplight and Downlight (`width: 8.5in !important` and `height: 11in !important`), preserving the exact letter-size print-preview boundaries.
+
+8. **Synchronized Beam Angle Tables**:
+   * **Problem**: The "Beam Angle & Lumen Output" table values in `uplight.html` and `downlight.html` did not match the master values defined in `manual.html`.
+   * **Solution**: Mapped the table values from `manual.html` to both spec sheets. Because the column layout differs (with current and output columns shifted), values were mapped columns-by-columns. Also updated the load calculation wattage to `32.28 VA` to be mathematically consistent.
+
+9. **Page 4 Smart Features Synchronization**:
+   * **Problem**: Page 4 features card titles, descriptions, and demo video source links diverged between `uplight.html` and `downlight.html`.
+   * **Solution**: Synchronized all features cards on page 4 of `downlight.html` (e.g., Optics, Dimming, and Scenes video URLs and descriptions) to match the edits made on `uplight.html`.
+
+10. **KLE Animation Optimization & Portal Integration**:
+    * **Problem**: The standalone "KLE Reveal" animation page was heavily bloated (258KB) due to raw `588x588` base64 image assets and woff2 font packages embedded inside the page manifest.
+    * **Solution**: Resized the fixture-head image asset to its actual rendering size (`44x44` pixels, reducing it from 98KB to 3.9KB) and replaced base64 fonts with a Google Fonts CDN import. This reduced the standalone page size to **16KB** (a **93.7% size reduction**). The optimized animation was then embedded as a premium dark card directly on [index.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/index.html).
+
+11. **Card Image Tuning (index.html)**:
+    * **Problem**: Fixture hero images in the portal cards were cropped and parts were cut off.
+    * **Solution**: Configured the document card images (`.doc-card__image`) to use `object-fit: contain` to prevent any image cropping.
+
+12. **Print-only Visibility Adjustments**:
+    * **Problem**: The floating print button on the user manual remained visible on paper prints.
+    * **Solution**: Configured print stylesheets to completely hide the floating action button (`@media print { .print-button { display: none !important; } }`) to keep print pages clean.
+
+13. **Smallest Font Constraint**:
+    * **Problem**: Captions and subtexts were set too small on screens (6.5px), which was unreadable.
+    * **Solution**: Enforced an 8px minimum size threshold for screen viewports (e.g., in `.figure-cell_caption` and sub-captions) without altering the layout properties on physical print media.
 
 ---
 
@@ -63,6 +88,14 @@ The workspace consists of three main pages and two stylesheets:
 > ```bash
 > node build_manual.js
 > ```
+
+> [!IMPORTANT]
+> **Regex Compilation Safety**:
+> When editing headers or structural tags in `manual-clean.html`, note that the build script [build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/build_manual.js) uses regex replacement patterns. Make sure replacements support variable spacing (`\s*`) and closing elements, as minor format changes can cause regex mismatches.
+
+> [!TIP]
+> **Table Mapping**:
+> When syncing table values across spec sheets and manuals, do not assume identical column indices. Check header mappings carefully (e.g. `Delivered Lumens @ 50%` vs `Output ~32%` current levels).
 
 > [!TIP]
 > **Layout & Print Syncing**:
