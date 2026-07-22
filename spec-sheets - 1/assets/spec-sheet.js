@@ -180,4 +180,150 @@
       }
     }
   });
+
+  // --- IES Data Modal ---
+  // Map table beam labels to IES filename convention
+  const BEAM_MAP = {
+    '16°': '15',
+    '25°': '25',
+    '35°': '35',
+    '45°': '45',
+    '70°': '70',
+    'Horizontal': 'X',
+    'Vertical': 'Y',
+  };
+
+  // CCT folder mapping
+  const CCT_FOLDER = {
+    '2700K': '2700K-25-100%_IESNA2002',
+    '3000K': '3000K-35-100%_IESNA2002',
+  };
+
+  // Level suffix per CCT
+  const LEVEL_SUFFIX = {
+    '2700K': '33',
+    '3000K': '32',
+  };
+
+  const iesDialog = document.createElement('dialog');
+  iesDialog.className = 'ies-dialog';
+  iesDialog.id = 'iesDataDialog';
+
+  const iesContainer = document.createElement('div');
+  iesContainer.className = 'ies-dialog-container';
+
+  const iesClose = document.createElement('button');
+  iesClose.className = 'ies-dialog-close';
+  iesClose.setAttribute('aria-label', 'Close');
+
+  const iesTitle = document.createElement('div');
+  iesTitle.className = 'ies-dialog-title';
+
+  const iesBody = document.createElement('div');
+  iesBody.className = 'ies-dialog-body';
+
+  iesContainer.appendChild(iesClose);
+  iesContainer.appendChild(iesTitle);
+  iesContainer.appendChild(iesBody);
+  iesDialog.appendChild(iesContainer);
+  document.body.appendChild(iesDialog);
+
+  // Close triggers
+  iesClose.addEventListener('click', () => iesDialog.close());
+
+  iesDialog.addEventListener('click', (event) => {
+    if (event.target === iesDialog) {
+      iesDialog.close();
+    }
+  });
+
+  iesDialog.addEventListener('close', () => {
+    iesTitle.textContent = '';
+    iesBody.innerHTML = '';
+  });
+
+  // Helper: build the IES section HTML for a given level
+  function buildIesSection(label, pdfUrl, iesUrl) {
+    const section = document.createElement('div');
+    section.className = 'ies-dialog-section';
+
+    const labelEl = document.createElement('div');
+    labelEl.className = 'ies-dialog-section-label';
+    labelEl.textContent = label;
+
+    const actions = document.createElement('div');
+    actions.className = 'ies-dialog-actions';
+
+    const pdfBtn = document.createElement('a');
+    pdfBtn.className = 'ies-dialog-btn ies-dialog-btn--primary';
+    pdfBtn.href = pdfUrl;
+    pdfBtn.target = '_blank';
+    pdfBtn.rel = 'noopener noreferrer';
+    pdfBtn.textContent = '📄 Ver PDF';
+
+    const iesBtn = document.createElement('a');
+    iesBtn.className = 'ies-dialog-btn ies-dialog-btn--secondary';
+    iesBtn.href = iesUrl;
+    iesBtn.download = '';
+    iesBtn.textContent = '⬇ Descargar IES';
+
+    actions.appendChild(pdfBtn);
+    actions.appendChild(iesBtn);
+    section.appendChild(labelEl);
+    section.appendChild(actions);
+
+    return section;
+  }
+
+  // Global click delegation on data-table rows
+  document.addEventListener('click', (event) => {
+    const row = event.target.closest('.data-table tbody tr');
+    if (!row) return;
+    // Ignore group-header rows
+    if (row.classList.contains('data-table__group')) return;
+
+    const beamText = row.querySelector('td:first-child')?.textContent?.trim();
+    if (!beamText) return;
+    const beam = BEAM_MAP[beamText];
+    if (!beam) return;
+
+    // Find the CCT from the nearest preceding data-table__group row
+    let prev = row.previousElementSibling;
+    let cct = null;
+    while (prev) {
+      if (prev.classList.contains('data-table__group')) {
+        const text = prev.textContent;
+        if (text.includes('3000K')) { cct = '3000K'; break; }
+        if (text.includes('2700K')) { cct = '2700K'; break; }
+      }
+      prev = prev.previousElementSibling;
+    }
+    if (!cct) return;
+
+    const folder = CCT_FOLDER[cct];
+    const levelSuffix = LEVEL_SUFFIX[cct];
+    const baseUrl = `assets/ies_files/${folder}/${cct}-${beam}`;
+
+    // Build modal content
+    iesTitle.innerHTML = `IES Data <small>— ${beamText} · ${cct}</small>`;
+
+    iesBody.innerHTML = '';
+
+    // 100% level
+    iesBody.appendChild(buildIesSection(
+      '100% Output',
+      `${baseUrl}-100%.pdf`,
+      `${baseUrl}-100%_IESNA2002.IES`
+    ));
+
+    // Reduced level (33% for 2700K, 32% for 3000K)
+    iesBody.appendChild(buildIesSection(
+      `${levelSuffix}% Output`,
+      `${baseUrl}-${levelSuffix}%.pdf`,
+      `${baseUrl}-${levelSuffix}%_IESNA2002.IES`
+    ));
+
+    event.preventDefault();
+    iesDialog.showModal();
+  });
 })();
