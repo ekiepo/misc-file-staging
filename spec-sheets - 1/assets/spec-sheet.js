@@ -323,7 +323,7 @@
     const rows = document.querySelectorAll('.data-table tbody tr:not(.data-table__group)');
     rows.forEach((row) => {
       if (!row.hasAttribute('data-tooltip')) {
-        row.setAttribute('data-tooltip', 'Click to view PDF and download IES data');
+        row.setAttribute('data-tooltip', 'View IES data');
       }
     });
   }
