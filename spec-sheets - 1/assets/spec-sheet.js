@@ -318,17 +318,6 @@
       });
   }
 
-  // Set tooltip on data-table rows to indicate they are clickable for IES/PDF
-  function setRowTooltips() {
-    const rows = document.querySelectorAll('.data-table tbody tr:not(.data-table__group)');
-    rows.forEach((row) => {
-      if (!row.hasAttribute('data-tooltip')) {
-        row.setAttribute('data-tooltip', 'View IES data');
-      }
-    });
-  }
-  setRowTooltips();
-
   // Global click delegation on data-table rows
   document.addEventListener('click', (event) => {
     const row = event.target.closest('.data-table tbody tr');
