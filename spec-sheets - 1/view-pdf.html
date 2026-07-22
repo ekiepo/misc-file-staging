@@ -11,6 +11,7 @@
     html, body { height: 100%; }
     /* Keep the standard site header; integrate the viewer inside a .sheet */
     .pdf-viewer { position: relative; }
+    .site-nav__center { flex: 1; text-align: center; }
     .pdf-doc { display: flex; flex-direction: column; gap: 12px; }
     .pdf-page { background: var(--color-surface-sheet); border-radius: var(--radius-sm); overflow: hidden; border: var(--border-hairline); }
     .pdf-page canvas { width: 100%; height: auto; display: block; background: #fff; }
@@ -29,6 +30,9 @@
         <span class="site-nav__title-main">MORPHEUS</span>
         <small>PDF Viewer</small>
       </span>
+    </div>
+    <div class="site-nav__center">
+      <button type="button" class="btn-print" id="iesDownloadBtn">Download IES FILE</button>
     </div>
     <div class="site-nav__actions">
       <button type="button" class="btn-print" id="printBtn">Print / Save PDF</button>
@@ -69,33 +73,33 @@
   <script>
     (function() {
       const printBtn = document.getElementById('printBtn');
+      const iesDownloadBtn = document.getElementById('iesDownloadBtn');
       const fallback = document.getElementById('fallback');
       const fallbackLink = document.getElementById('fallbackLink');
       const loading = document.getElementById('loading');
       const container = document.getElementById('pdfContainer');
       let pdfDoc = null;
 
-      function getSrcFromHash() {
+      function getParamFromHash(key) {
         const h = window.location.hash || '';
         if (!h) return null;
-        // Support forms like #src=... or just a raw encoded URL after #
-        if (h.startsWith('#src=')) return decodeURIComponent(h.slice(5));
-        if (h.length > 1) return decodeURIComponent(h.slice(1));
-        return null;
+        const params = new URLSearchParams(h.startsWith('#') ? h.slice(1) : h);
+        return params.get(key) || null;
       }
 
-      function getPdfSrc() {
+      function getParam(key) {
         const params = new URLSearchParams(window.location.search);
-        const q = params.get('src');
+        const q = params.get(key);
         if (q) return decodeURIComponent(q);
-        const fromHash = getSrcFromHash();
+        const fromHash = getParamFromHash(key);
         if (fromHash) return fromHash;
         return null;
       }
 
-      const pdfSrc = getPdfSrc();
+      const pdfSrc = getParam('src');
+      const iesSrc = getParam('ies');
+
       if (!pdfSrc) {
-        // No src provided: show a clear hint
         fallback.style.display = 'flex';
         return;
       }
@@ -105,10 +109,35 @@
         document.title = 'Morpheus — PDF Viewer · ' + filename;
       } catch {}
 
-      // Ensure fallback link always points to the original PDF
       if (fallbackLink) fallbackLink.href = pdfSrc;
 
-      // Render helpers
+      // --- IES download helper ---
+      function downloadIesFile(url) {
+        const filename = decodeURIComponent(url.split('/').pop() || 'file');
+        fetch(url)
+          .then((res) => res.blob())
+          .then((blob) => {
+            const objectUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = objectUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(objectUrl);
+          })
+          .catch(() => {
+            window.open(url, '_blank');
+          });
+      }
+
+      if (iesDownloadBtn && iesSrc) {
+        iesDownloadBtn.addEventListener('click', function () {
+          downloadIesFile(iesSrc);
+        });
+      }
+
+      // --- PDF rendering helpers ---
       function clearContainer() {
         container.innerHTML = '';
       }
@@ -136,7 +165,6 @@
         clearContainer();
         const widthPx = container.clientWidth || container.parentElement.clientWidth || 800;
         for (let n = 1; n <= pdfDoc.numPages; n++) {
-          // eslint-disable-next-line no-await-in-loop
           await renderPage(pdfDoc, n, widthPx);
         }
         loading.style.display = 'none';
@@ -147,10 +175,9 @@
         resizeTimer = setTimeout(renderAll, 150);
       }
 
-      // Header action: try to open the browser print dialog directly using a hidden iframe
-      // Falls back to opening the PDF in a new tab if the print call is blocked
+      // Header print action
       if (printBtn) {
-        printBtn.addEventListener('click', function() {
+        printBtn.addEventListener('click', function () {
           try {
             const urlForPrint = pdfSrc + (pdfSrc.includes('#') ? '&' : '#') + 'toolbar=0&navpanes=0&scrollbar=0&view=Fit';
             const iframe = document.createElement('iframe');
@@ -173,7 +200,6 @@
                 window.open(pdfSrc, '_blank', 'noopener');
               }
             };
-            // Safety timeout: if onload/print doesn't happen, fallback
             setTimeout(() => {
               if (!printed) {
                 cleanup();
@@ -194,7 +220,6 @@
           loading.style.display = 'block';
           const lib = window['pdfjsLib'];
           if (!lib) throw new Error('PDF.js library not available');
-          // Configure worker now that lib is present
           lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
           const task = lib.getDocument({ url: pdfSrc });
           pdfDoc = await task.promise;
@@ -211,30 +236,8 @@
       if (window['pdfjsLib']) {
         startPdfRender();
       } else {
-        // Wait for the page to finish loading deferred scripts
         window.addEventListener('load', startPdfRender, { once: true });
       }
-
-      // Print button: try printing the iframe; if blocked or fails, open original in a new tab
-      printBtn.addEventListener('click', () => {
-        const w = document.getElementById('pdfFrame').contentWindow;
-        try {
-          if (w && typeof w.print === 'function') {
-            w.focus();
-            w.print();
-          } else {
-            window.open(pdfSrc, '_blank', 'noopener');
-          }
-        } catch (e) {
-          window.open(pdfSrc, '_blank', 'noopener');
-        }
-      });
-
-      // Fallback link setup
-      fallbackLink.href = pdfSrc;
-      frame.addEventListener('error', () => {
-        fallback.style.display = 'flex';
-      });
     })();
   </script>
 </body>

@@ -260,9 +260,11 @@
     // Build absolute, robust URLs to avoid any base-path quirks
     const viewerUrl = new URL('view-pdf.html', window.location.href);
     const pdfAbs = new URL(pdfUrl, window.location.href);
-    // Put src in both query and hash for maximum resilience (some setups drop ?src)
+    const iesAbs = new URL(iesUrl, window.location.href);
+    // Put src and ies in both query and hash for maximum resilience
     viewerUrl.searchParams.set('src', pdfAbs.toString());
-    viewerUrl.hash = 'src=' + encodeURIComponent(pdfAbs.toString());
+    viewerUrl.searchParams.set('ies', iesAbs.toString());
+    viewerUrl.hash = 'src=' + encodeURIComponent(pdfAbs.toString()) + '&ies=' + encodeURIComponent(iesAbs.toString());
     pdfBtn.href = viewerUrl.toString();
     pdfBtn.target = '_blank';
     pdfBtn.rel = 'noopener noreferrer';
@@ -275,7 +277,7 @@
 
     const iesBtn = document.createElement('button');
     iesBtn.className = 'ies-dialog-btn ies-dialog-btn--secondary';
-    iesBtn.textContent = 'Download IES';
+    iesBtn.textContent = 'Download IES FILE';
     iesBtn.addEventListener('click', (e) => {
       e.preventDefault();
       downloadIesFile(iesUrl);
@@ -315,6 +317,17 @@
         window.open(url, '_blank');
       });
   }
+
+  // Set tooltip on data-table rows to indicate they are clickable for IES/PDF
+  function setRowTooltips() {
+    const rows = document.querySelectorAll('.data-table tbody tr:not(.data-table__group)');
+    rows.forEach((row) => {
+      if (!row.hasAttribute('data-tooltip')) {
+        row.setAttribute('data-tooltip', 'Click to view PDF and download IES data');
+      }
+    });
+  }
+  setRowTooltips();
 
   // Global click delegation on data-table rows
   document.addEventListener('click', (event) => {
