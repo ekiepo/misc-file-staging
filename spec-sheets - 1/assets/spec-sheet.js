@@ -261,11 +261,13 @@
     pdfBtn.rel = 'noopener noreferrer';
     pdfBtn.textContent = '📄 Ver PDF';
 
-    const iesBtn = document.createElement('a');
+    const iesBtn = document.createElement('button');
     iesBtn.className = 'ies-dialog-btn ies-dialog-btn--secondary';
-    iesBtn.href = iesUrl;
-    iesBtn.download = '';
     iesBtn.textContent = '⬇ Descargar IES';
+    iesBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      downloadIesFile(iesUrl);
+    });
 
     actions.appendChild(pdfBtn);
     actions.appendChild(iesBtn);
@@ -273,6 +275,33 @@
     section.appendChild(actions);
 
     return section;
+  }
+
+  // Helper: download IES file — fetch + Blob (HTTP) or direct link (file://)
+  function downloadIesFile(url) {
+    // Use decoded filename so saved file name doesn't contain %25
+    const filename = decodeURIComponent(url.split('/').pop() || 'file');
+
+    // Try fetch + Blob (works when served via HTTP, e.g. VS Code Live Preview)
+    fetch(url)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(objectUrl);
+      })
+      .catch(() => {
+        // Fallback for file:// — open in new tab so the user can save manually.
+        // Chrome blocks the `download` attribute on file:// URLs, so a direct
+        // download is not possible without serving via HTTP. The file opens in
+        // a new tab showing its content; the user can press Ctrl+S to save.
+        window.open(url, '_blank');
+      });
   }
 
   // Global click delegation on data-table rows
@@ -302,7 +331,17 @@
 
     const folder = CCT_FOLDER[cct];
     const levelSuffix = LEVEL_SUFFIX[cct];
-    const baseUrl = `assets/ies_files/${folder}/${cct}-${beam}`;
+
+    // Build encoded URLs to safely handle reserved characters like % in filenames
+    const folderEnc = encodeURIComponent(folder);
+    const stem = `${cct}-${beam}`; // e.g., "3000K-25"
+    const baseEnc = `assets/ies_files/${folderEnc}`;
+
+    // Encode filenames so that "%" becomes "%25" for HTTP requests
+    const file100Pdf = encodeURIComponent(`${stem}-100%.pdf`);
+    const file100Ies = encodeURIComponent(`${stem}-100%_IESNA2002.IES`);
+    const fileLvlPdf = encodeURIComponent(`${stem}-${levelSuffix}%.pdf`);
+    const fileLvlIes = encodeURIComponent(`${stem}-${levelSuffix}%_IESNA2002.IES`);
 
     // Build modal content
     iesTitle.innerHTML = `IES Data <small>— ${beamText} · ${cct}</small>`;
@@ -312,15 +351,15 @@
     // 100% level
     iesBody.appendChild(buildIesSection(
       '100% Output',
-      `${baseUrl}-100%.pdf`,
-      `${baseUrl}-100%_IESNA2002.IES`
+      `${baseEnc}/${file100Pdf}`,
+      `${baseEnc}/${file100Ies}`
     ));
 
     // Reduced level (33% for 2700K, 32% for 3000K)
     iesBody.appendChild(buildIesSection(
       `${levelSuffix}% Output`,
-      `${baseUrl}-${levelSuffix}%.pdf`,
-      `${baseUrl}-${levelSuffix}%_IESNA2002.IES`
+      `${baseEnc}/${fileLvlPdf}`,
+      `${baseEnc}/${fileLvlIes}`
     ));
 
     event.preventDefault();
