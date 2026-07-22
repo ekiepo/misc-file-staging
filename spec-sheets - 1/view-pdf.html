@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Morpheus — PDF Viewer</title>
+  <link rel="stylesheet" href="assets/spec-sheet.css">
+  <style>
+    html, body { height: 100%; }
+    body { display: flex; flex-direction: column; }
+    main { flex: 1; min-height: 0; display: flex; }
+    .pdf-viewer { flex: 1; min-height: 0; position: relative; }
+    .pdf-frame { width: 100%; height: 100%; border: 0; background: #2b2b2b; }
+    .fallback {
+      position: absolute; inset: 64px 12px 12px; display: none;
+      align-items: center; justify-content: center; color: #666;
+      font: 14px/1.4 system-ui, -apple-system, sans-serif; text-align: center;
+    }
+    .fallback a { color: inherit; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <div class="site-nav__brand">
+      <img class="site-nav__logo" src="assets/img/logo-mark.png" alt="">
+      <span class="site-nav__title">
+        <span class="site-nav__title-main">MORPHEUS</span>
+        <small>PDF Viewer</small>
+      </span>
+    </div>
+    <div class="site-nav__actions">
+      <button type="button" class="btn-print" id="printBtn">Print / Save PDF</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="pdf-viewer">
+      <iframe id="pdfFrame" class="pdf-frame" title="PDF document"></iframe>
+      <div id="fallback" class="fallback">
+        <div>
+          <p>Couldn't load the PDF here.</p>
+          <p><a id="fallbackLink" href="#" target="_blank" rel="noopener">Open PDF in a new tab</a></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      const frame = document.getElementById('pdfFrame');
+      const printBtn = document.getElementById('printBtn');
+      const fallback = document.getElementById('fallback');
+      const fallbackLink = document.getElementById('fallbackLink');
+
+      function getSrcFromHash() {
+        const h = window.location.hash || '';
+        if (!h) return null;
+        // Support forms like #src=... or just a raw encoded URL after #
+        if (h.startsWith('#src=')) return decodeURIComponent(h.slice(5));
+        if (h.length > 1) return decodeURIComponent(h.slice(1));
+        return null;
+      }
+
+      function getPdfSrc() {
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('src');
+        if (q) return decodeURIComponent(q);
+        const fromHash = getSrcFromHash();
+        if (fromHash) return fromHash;
+        return null;
+      }
+
+      const pdfSrc = getPdfSrc();
+      if (!pdfSrc) {
+        // No src provided: show a clear hint
+        fallback.style.display = 'flex';
+        return;
+      }
+
+      try {
+        const filename = decodeURIComponent(pdfSrc.split('/').pop() || 'Document');
+        document.title = 'Morpheus — PDF Viewer · ' + filename;
+      } catch {}
+
+      // Try to embed the PDF
+      frame.src = pdfSrc;
+
+      // Print button: try printing the iframe; if blocked or fails, open original in a new tab
+      printBtn.addEventListener('click', () => {
+        const w = document.getElementById('pdfFrame').contentWindow;
+        try {
+          if (w && typeof w.print === 'function') {
+            w.focus();
+            w.print();
+          } else {
+            window.open(pdfSrc, '_blank', 'noopener');
+          }
+        } catch (e) {
+          window.open(pdfSrc, '_blank', 'noopener');
+        }
+      });
+
+      // Fallback link setup
+      fallbackLink.href = pdfSrc;
+      frame.addEventListener('error', () => {
+        fallback.style.display = 'flex';
+      });
+    })();
+  </script>
+</body>
+</html>

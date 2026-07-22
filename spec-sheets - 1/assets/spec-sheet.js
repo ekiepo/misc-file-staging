@@ -256,14 +256,26 @@
 
     const pdfBtn = document.createElement('a');
     pdfBtn.className = 'ies-dialog-btn ies-dialog-btn--primary';
-    pdfBtn.href = pdfUrl;
+    // Route through in-site PDF viewer to keep Morpheus header/layout
+    // Build absolute, robust URLs to avoid any base-path quirks
+    const viewerUrl = new URL('view-pdf.html', window.location.href);
+    const pdfAbs = new URL(pdfUrl, window.location.href);
+    // Put src in both query and hash for maximum resilience (some setups drop ?src)
+    viewerUrl.searchParams.set('src', pdfAbs.toString());
+    viewerUrl.hash = 'src=' + encodeURIComponent(pdfAbs.toString());
+    pdfBtn.href = viewerUrl.toString();
     pdfBtn.target = '_blank';
     pdfBtn.rel = 'noopener noreferrer';
-    pdfBtn.textContent = '📄 Ver PDF';
+    pdfBtn.textContent = 'View PDF';
+    // Ensure new tab open with full query string preserved
+    pdfBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.open(pdfBtn.href, '_blank', 'noopener');
+    });
 
     const iesBtn = document.createElement('button');
     iesBtn.className = 'ies-dialog-btn ies-dialog-btn--secondary';
-    iesBtn.textContent = '⬇ Descargar IES';
+    iesBtn.textContent = 'Download IES';
     iesBtn.addEventListener('click', (e) => {
       e.preventDefault();
       downloadIesFile(iesUrl);

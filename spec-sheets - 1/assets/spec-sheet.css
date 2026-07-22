@@ -1448,6 +1448,7 @@ a {
 .ies-dialog-close::before {
   content: "×";
   display: block;
+  transform: translateY(-1px);
 }
 
 .ies-dialog-close:hover {
