@@ -763,6 +763,16 @@ a {
   white-space: normal;
 }
 
+/* --- Hover en filas de datos (no en grupos) --- */
+.data-table tbody tr:not(.data-table__group):hover {
+  cursor: pointer;
+  background: var(--color-accent-soft);
+}
+
+.data-table tbody tr:not(.data-table__group):hover td:first-child {
+  font-weight: 800;
+}
+
 .ordering-info {
   margin-bottom: 16px;
 }
