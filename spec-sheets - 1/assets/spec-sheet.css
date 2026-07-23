@@ -772,14 +772,10 @@ a {
   font-size: 0.65rem;
 }
 
-/* --- Hover en filas de datos (no en grupos) --- */
+/* --- Row hover (data rows only, not group headers) --- */
 .data-table tbody tr:not(.data-table__group):hover {
   cursor: pointer;
   background: var(--color-accent-soft);
-}
-
-.data-table tbody tr:not(.data-table__group):hover td:first-child {
-  font-weight: 800;
 }
 
 .ordering-info {
