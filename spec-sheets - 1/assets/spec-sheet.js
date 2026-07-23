@@ -180,4 +180,203 @@
       }
     }
   });
+
+  // --- IES Data Modal ---
+  // Map table beam labels to IES filename convention
+  const BEAM_MAP = {
+    '16°': '15',
+    '25°': '25',
+    '35°': '35',
+    '45°': '45',
+    '70°': '70',
+    'Horizontal': 'X',
+    'Vertical': 'Y',
+  };
+
+  // CCT folder mapping
+  const CCT_FOLDER = {
+    '2700K': '2700K-25-100%_IESNA2002',
+    '3000K': '3000K-35-100%_IESNA2002',
+  };
+
+  // Level suffix per CCT
+  const LEVEL_SUFFIX = {
+    '2700K': '33',
+    '3000K': '32',
+  };
+
+  const iesDialog = document.createElement('dialog');
+  iesDialog.className = 'ies-dialog';
+  iesDialog.id = 'iesDataDialog';
+
+  const iesContainer = document.createElement('div');
+  iesContainer.className = 'ies-dialog-container';
+
+  const iesClose = document.createElement('button');
+  iesClose.className = 'ies-dialog-close';
+  iesClose.setAttribute('aria-label', 'Close');
+
+  const iesTitle = document.createElement('div');
+  iesTitle.className = 'ies-dialog-title';
+
+  const iesBody = document.createElement('div');
+  iesBody.className = 'ies-dialog-body';
+
+  iesContainer.appendChild(iesClose);
+  iesContainer.appendChild(iesTitle);
+  iesContainer.appendChild(iesBody);
+  iesDialog.appendChild(iesContainer);
+  document.body.appendChild(iesDialog);
+
+  // Close triggers
+  iesClose.addEventListener('click', () => iesDialog.close());
+
+  iesDialog.addEventListener('click', (event) => {
+    if (event.target === iesDialog) {
+      iesDialog.close();
+    }
+  });
+
+  iesDialog.addEventListener('close', () => {
+    iesTitle.textContent = '';
+    iesBody.innerHTML = '';
+  });
+
+  // Helper: build the IES section HTML for a given level
+  function buildIesSection(label, pdfUrl, iesUrl) {
+    const section = document.createElement('div');
+    section.className = 'ies-dialog-section';
+
+    const labelEl = document.createElement('div');
+    labelEl.className = 'ies-dialog-section-label';
+    labelEl.textContent = label;
+
+    const actions = document.createElement('div');
+    actions.className = 'ies-dialog-actions';
+
+    const pdfBtn = document.createElement('a');
+    pdfBtn.className = 'ies-dialog-btn ies-dialog-btn--primary';
+    // Route through in-site PDF viewer to keep Morpheus header/layout
+    // Build absolute, robust URLs to avoid any base-path quirks
+    const viewerUrl = new URL('view-pdf.html', window.location.href);
+    const pdfAbs = new URL(pdfUrl, window.location.href);
+    const iesAbs = new URL(iesUrl, window.location.href);
+    // Put src and ies in both query and hash for maximum resilience
+    viewerUrl.searchParams.set('src', pdfAbs.toString());
+    viewerUrl.searchParams.set('ies', iesAbs.toString());
+    viewerUrl.hash = 'src=' + encodeURIComponent(pdfAbs.toString()) + '&ies=' + encodeURIComponent(iesAbs.toString());
+    pdfBtn.href = viewerUrl.toString();
+    pdfBtn.target = '_blank';
+    pdfBtn.rel = 'noopener noreferrer';
+    pdfBtn.textContent = 'View PDF';
+    // Ensure new tab open with full query string preserved
+    pdfBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.open(pdfBtn.href, '_blank', 'noopener');
+    });
+
+    const iesBtn = document.createElement('button');
+    iesBtn.className = 'ies-dialog-btn ies-dialog-btn--secondary';
+    iesBtn.textContent = 'Download IES FILE';
+    iesBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      downloadIesFile(iesUrl);
+    });
+
+    actions.appendChild(pdfBtn);
+    actions.appendChild(iesBtn);
+    section.appendChild(labelEl);
+    section.appendChild(actions);
+
+    return section;
+  }
+
+  // Helper: Download IES file — fetch + Blob (HTTP) or direct link (file://)
+  function downloadIesFile(url) {
+    // Use decoded filename so saved file name doesn't contain %25
+    const filename = decodeURIComponent(url.split('/').pop() || 'file');
+
+    // Try fetch + Blob (works when served via HTTP, e.g. VS Code Live Preview)
+    fetch(url)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(objectUrl);
+      })
+      .catch(() => {
+        // Fallback for file:// — open in new tab so the user can save manually.
+        // Chrome blocks the `download` attribute on file:// URLs, so a direct
+        // download is not possible without serving via HTTP. The file opens in
+        // a new tab showing its content; the user can press Ctrl+S to save.
+        window.open(url, '_blank');
+      });
+  }
+
+  // Global click delegation on data-table rows
+  document.addEventListener('click', (event) => {
+    const row = event.target.closest('.data-table tbody tr');
+    if (!row) return;
+    // Ignore group-header rows
+    if (row.classList.contains('data-table__group')) return;
+
+    const beamText = row.querySelector('td:first-child')?.textContent?.trim();
+    if (!beamText) return;
+    const beam = BEAM_MAP[beamText];
+    if (!beam) return;
+
+    // Find the CCT from the nearest preceding data-table__group row
+    let prev = row.previousElementSibling;
+    let cct = null;
+    while (prev) {
+      if (prev.classList.contains('data-table__group')) {
+        const text = prev.textContent;
+        if (text.includes('3000K')) { cct = '3000K'; break; }
+        if (text.includes('2700K')) { cct = '2700K'; break; }
+      }
+      prev = prev.previousElementSibling;
+    }
+    if (!cct) return;
+
+    const folder = CCT_FOLDER[cct];
+    const levelSuffix = LEVEL_SUFFIX[cct];
+
+    // Build encoded URLs to safely handle reserved characters like % in filenames
+    const folderEnc = encodeURIComponent(folder);
+    const stem = `${cct}-${beam}`; // e.g., "3000K-25"
+    const baseEnc = `assets/ies_files/${folderEnc}`;
+
+    // Encode filenames so that "%" becomes "%25" for HTTP requests
+    const file100Pdf = encodeURIComponent(`${stem}-100%.pdf`);
+    const file100Ies = encodeURIComponent(`${stem}-100%_IESNA2002.IES`);
+    const fileLvlPdf = encodeURIComponent(`${stem}-${levelSuffix}%.pdf`);
+    const fileLvlIes = encodeURIComponent(`${stem}-${levelSuffix}%_IESNA2002.IES`);
+
+    // Build modal content
+    iesTitle.innerHTML = `IES Data <small>— ${beamText} · ${cct}</small>`;
+
+    iesBody.innerHTML = '';
+
+    // 100% level
+    iesBody.appendChild(buildIesSection(
+      '100% Output',
+      `${baseEnc}/${file100Pdf}`,
+      `${baseEnc}/${file100Ies}`
+    ));
+
+    // Reduced level (33% for 2700K, 32% for 3000K)
+    iesBody.appendChild(buildIesSection(
+      `${levelSuffix}% Output`,
+      `${baseEnc}/${fileLvlPdf}`,
+      `${baseEnc}/${fileLvlIes}`
+    ));
+
+    event.preventDefault();
+    iesDialog.showModal();
+  });
 })();

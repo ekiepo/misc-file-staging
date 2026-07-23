@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Morpheus — PDF Viewer</title>
+  <link rel="stylesheet" href="assets/spec-sheet.css">
+  <!-- PDF.js from CDN for integrated rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+  <style>
+    html, body { height: 100%; }
+    /* Keep the standard site header; integrate the viewer inside a .sheet */
+    .pdf-viewer { position: relative; }
+    .site-nav__center { flex: 1; text-align: center; }
+    .pdf-doc { display: flex; flex-direction: column; gap: 12px; }
+    .pdf-page { background: var(--color-surface-sheet); border-radius: var(--radius-sm); overflow: hidden; border: var(--border-hairline); }
+    .pdf-page canvas { width: 100%; height: auto; display: block; background: #fff; }
+    .loading { color: var(--color-text-secondary); font: 14px/1.4 system-ui, -apple-system, sans-serif; padding: 12px 0; }
+    .fallback { display: none; color: #666; font: 14px/1.4 system-ui, -apple-system, sans-serif; text-align: center; padding: 16px 0; }
+    .fallback a { color: inherit; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <div class="site-nav__brand">
+      <img class="site-nav__logo" src="assets/img/logo-mark.png" alt="">
+      <span class="site-nav__title">
+        <span class="site-nav__title-main">MORPHEUS</span>
+        <small>PDF Viewer</small>
+      </span>
+    </div>
+    <div class="site-nav__center">
+      <button type="button" class="btn-print" id="iesDownloadBtn">Download IES FILE</button>
+    </div>
+    <div class="site-nav__actions">
+      <button type="button" class="btn-print" id="printBtn">Print / Save PDF</button>
+    </div>
+  </header>
+
+  <main id="main" class="sheet-stack">
+    <section class="sheet">
+      <header class="sheet-header">
+        <div class="sheet-header__brand">
+          <img class="sheet-header__logo" src="assets/img/logo-mark.png" alt="">
+          <div class="sheet-header__product">MORPHEUS<small>PDF Viewer</small></div>
+        </div>
+        <div class="sheet-header__section">Document</div>
+      </header>
+
+      <div class="sheet-body">
+        <div class="pdf-viewer">
+          <div id="loading" class="loading">Loading PDF…</div>
+          <div id="pdfContainer" class="pdf-doc" aria-live="polite"></div>
+          <div id="fallback" class="fallback">
+            <div>
+              <p>Couldn't load the PDF here.</p>
+              <p><a id="fallbackLink" href="#" target="_blank" rel="noopener">Open PDF in a new tab</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="sheet-footer">
+        <div>HQ: 10505 NW 112 Ave, Suite 18, Miami, FL 33178 · Plant: 1430 Gould Blvd., Suite 3, La Vergne, TN 37086 · 888.DAUER.LED · DauerManufacturing.com</div>
+        <div class="sheet-footer__doc">Morpheus Smart Accent Fixture</div>
+        <div class="sheet-footer__page">PDF</div>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      const printBtn = document.getElementById('printBtn');
+      const iesDownloadBtn = document.getElementById('iesDownloadBtn');
+      const fallback = document.getElementById('fallback');
+      const fallbackLink = document.getElementById('fallbackLink');
+      const loading = document.getElementById('loading');
+      const container = document.getElementById('pdfContainer');
+      let pdfDoc = null;
+
+      function getParamFromHash(key) {
+        const h = window.location.hash || '';
+        if (!h) return null;
+        const params = new URLSearchParams(h.startsWith('#') ? h.slice(1) : h);
+        return params.get(key) || null;
+      }
+
+      function getParam(key) {
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get(key);
+        if (q) return decodeURIComponent(q);
+        const fromHash = getParamFromHash(key);
+        if (fromHash) return fromHash;
+        return null;
+      }
+
+      const pdfSrc = getParam('src');
+      const iesSrc = getParam('ies');
+
+      if (!pdfSrc) {
+        fallback.style.display = 'flex';
+        return;
+      }
+
+      try {
+        const filename = decodeURIComponent(pdfSrc.split('/').pop() || 'Document');
+        document.title = 'Morpheus — PDF Viewer · ' + filename;
+      } catch {}
+
+      if (fallbackLink) fallbackLink.href = pdfSrc;
+
+      // --- IES download helper ---
+      function downloadIesFile(url) {
+        const filename = decodeURIComponent(url.split('/').pop() || 'file');
+        fetch(url)
+          .then((res) => res.blob())
+          .then((blob) => {
+            const objectUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = objectUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(objectUrl);
+          })
+          .catch(() => {
+            window.open(url, '_blank');
+          });
+      }
+
+      if (iesDownloadBtn && iesSrc) {
+        iesDownloadBtn.addEventListener('click', function () {
+          downloadIesFile(iesSrc);
+        });
+      }
+
+      // --- PDF rendering helpers ---
+      function clearContainer() {
+        container.innerHTML = '';
+      }
+
+      async function renderPage(pdf, pageNumber, widthPx) {
+        const page = await pdf.getPage(pageNumber);
+        const viewport = page.getViewport({ scale: 1 });
+        const scale = Math.max(0.1, widthPx / viewport.width);
+        const scaled = page.getViewport({ scale });
+        const wrapper = document.createElement('div');
+        wrapper.className = 'pdf-page';
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        canvas.width = Math.floor(scaled.width);
+        canvas.height = Math.floor(scaled.height);
+        wrapper.appendChild(canvas);
+        container.appendChild(wrapper);
+        await page.render({ canvasContext: ctx, viewport: scaled }).promise;
+      }
+
+      let resizeTimer = null;
+      async function renderAll() {
+        if (!pdfDoc) return;
+        loading.style.display = 'block';
+        clearContainer();
+        const widthPx = container.clientWidth || container.parentElement.clientWidth || 800;
+        for (let n = 1; n <= pdfDoc.numPages; n++) {
+          await renderPage(pdfDoc, n, widthPx);
+        }
+        loading.style.display = 'none';
+      }
+
+      function scheduleRerender() {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderAll, 150);
+      }
+
+      // Header print action
+      if (printBtn) {
+        printBtn.addEventListener('click', function () {
+          try {
+            const urlForPrint = pdfSrc + (pdfSrc.includes('#') ? '&' : '#') + 'toolbar=0&navpanes=0&scrollbar=0&view=Fit';
+            const iframe = document.createElement('iframe');
+            iframe.style.visibility = 'hidden';
+            iframe.style.position = 'fixed';
+            iframe.style.right = '0';
+            iframe.style.bottom = '0';
+            iframe.style.width = '0';
+            iframe.style.height = '0';
+            let printed = false;
+            const cleanup = () => { try { iframe.remove(); } catch {} };
+            iframe.onload = () => {
+              try {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+                printed = true;
+                setTimeout(cleanup, 1000);
+              } catch (e) {
+                cleanup();
+                window.open(pdfSrc, '_blank', 'noopener');
+              }
+            };
+            setTimeout(() => {
+              if (!printed) {
+                cleanup();
+                window.open(pdfSrc, '_blank', 'noopener');
+              }
+            }, 5000);
+            iframe.src = urlForPrint;
+            document.body.appendChild(iframe);
+          } catch (e) {
+            window.open(pdfSrc, '_blank', 'noopener');
+          }
+        });
+      }
+
+      // Start rendering once PDF.js is ready
+      async function startPdfRender() {
+        try {
+          loading.style.display = 'block';
+          const lib = window['pdfjsLib'];
+          if (!lib) throw new Error('PDF.js library not available');
+          lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+          const task = lib.getDocument({ url: pdfSrc });
+          pdfDoc = await task.promise;
+          await renderAll();
+          window.addEventListener('resize', scheduleRerender);
+          window.addEventListener('orientationchange', scheduleRerender);
+        } catch (err) {
+          console.error('PDF load error:', err);
+          loading.style.display = 'none';
+          fallback.style.display = 'block';
+        }
+      }
+
+      if (window['pdfjsLib']) {
+        startPdfRender();
+      } else {
+        window.addEventListener('load', startPdfRender, { once: true });
+      }
+    })();
+  </script>
+</body>
+</html>
