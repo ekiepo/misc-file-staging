@@ -256,15 +256,11 @@
 
     const pdfBtn = document.createElement('a');
     pdfBtn.className = 'ies-dialog-btn ies-dialog-btn--primary';
-    // Route through in-site PDF viewer to keep Morpheus header/layout
-    // Build absolute, robust URLs to avoid any base-path quirks
+    // Route through in-site PDF viewer keeping Morpheus header/layout.
+    // Use only hash params with already-once-encoded, relative URLs to avoid double-encoding.
     const viewerUrl = new URL('view-pdf.html', window.location.href);
-    const pdfAbs = new URL(pdfUrl, window.location.href);
-    const iesAbs = new URL(iesUrl, window.location.href);
-    // Put src and ies in both query and hash for maximum resilience
-    viewerUrl.searchParams.set('src', pdfAbs.toString());
-    viewerUrl.searchParams.set('ies', iesAbs.toString());
-    viewerUrl.hash = 'src=' + encodeURIComponent(pdfAbs.toString()) + '&ies=' + encodeURIComponent(iesAbs.toString());
+    viewerUrl.search = '';
+    viewerUrl.hash = 'src=' + pdfUrl + '&ies=' + iesUrl;
     pdfBtn.href = viewerUrl.toString();
     pdfBtn.target = '_blank';
     pdfBtn.rel = 'noopener noreferrer';
