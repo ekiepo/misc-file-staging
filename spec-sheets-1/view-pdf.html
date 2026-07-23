@@ -35,6 +35,7 @@
       <button type="button" class="btn-print" id="iesDownloadBtn">Download IES FILE</button>
     </div>
     <div class="site-nav__actions">
+      <button type="button" class="btn-print" id="closeBtn" aria-label="Close this viewer">Close</button>
       <button type="button" class="btn-print" id="printBtn">Print / Save PDF</button>
     </div>
   </header>
@@ -73,7 +74,32 @@
   <script>
     (function() {
       const printBtn = document.getElementById('printBtn');
+      const closeBtn = document.getElementById('closeBtn');
       const iesDownloadBtn = document.getElementById('iesDownloadBtn');
+            // Close button: try to close the tab; if blocked, go back or to referrer
+            if (closeBtn) {
+              closeBtn.addEventListener('click', function () {
+                try {
+                  window.close();
+                  // If window didn't close (blocked), fallback navigation
+                  setTimeout(() => {
+                    if (!window.closed) {
+                      if (document.referrer) {
+                        window.location.href = document.referrer;
+                      } else if (history.length > 1) {
+                        history.back();
+                      } else {
+                        window.location.assign('../index.html');
+                      }
+                    }
+                  }, 50);
+                } catch (e) {
+                  if (document.referrer) window.location.href = document.referrer;
+                  else if (history.length > 1) history.back();
+                  else window.location.assign('../index.html');
+                }
+              });
+            }
       const fallback = document.getElementById('fallback');
       const fallbackLink = document.getElementById('fallbackLink');
       const loading = document.getElementById('loading');
