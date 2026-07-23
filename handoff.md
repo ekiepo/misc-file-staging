@@ -10,17 +10,17 @@ The workspace consists of a central landing page portal, three main document pag
 
 ### Core Portal & Sheets
 * **[index.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/index.html)**: The main landing portal linking to the spec sheets and user manual. It includes the integrated, responsive KLE Reveal animation widget.
-* **[spec-sheets - 1/uplight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/uplight.html)**: The specification and ordering sheet for the Morpheus Smart Uplight fixture.
-* **[spec-sheets - 1/downlight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/downlight.html)**: The specification and ordering sheet for the Morpheus Smart Downlight fixture.
-* **[spec-sheets - 1/manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual.html)**: The compiled, 11-page responsive and print-ready Morpheus User Manual.
+* **[spec-sheets-1/uplight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/uplight.html)**: The specification and ordering sheet for the Morpheus Smart Uplight fixture.
+* **[spec-sheets-1/downlight.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/downlight.html)**: The specification and ordering sheet for the Morpheus Smart Downlight fixture.
+* **[spec-sheets-1/manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/manual.html)**: The compiled, 11-page responsive and print-ready Morpheus User Manual.
 
 ### Stylesheets
-* **[assets/spec-sheet.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/assets/spec-sheet.css)**: Holds the reset, navigation header, grid systems, and print media parameters shared by the Uplight and Downlight spec sheets.
-* **[assets/manual.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/assets/manual.css)**: Contains custom overrides specifically tailored for the User Manual layout, pagination, print grids, and spacings.
+* **[assets/spec-sheet.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/assets/spec-sheet.css)**: Holds the reset, navigation header, grid systems, and print media parameters shared by the Uplight and Downlight spec sheets.
+* **[assets/manual.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/assets/manual.css)**: Contains custom overrides specifically tailored for the User Manual layout, pagination, print grids, and spacings.
 
 ### Compilation / Build Pipeline
-* **[spec-sheets - 1/manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual-clean.html)**: The source HTML document for the User Manual. **Do not edit `manual.html` directly** for content changes; make changes here instead.
-* **[spec-sheets - 1/build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/build_manual.js)**: Node.js compiler script. Run `node build_manual.js` to compile and generate the final `manual.html`.
+* **[spec-sheets-1/manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/manual-clean.html)**: The source HTML document for the User Manual. **Do not edit `manual.html` directly** for content changes; make changes here instead.
+* **[spec-sheets-1/build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/build_manual.js)**: Node.js compiler script. Run `node build_manual.js` to compile and generate the final `manual.html`.
 
 ---
 
@@ -84,14 +84,14 @@ The workspace consists of a central landing page portal, three main document pag
 
 > [!IMPORTANT]
 > **Content Modifications**: 
-> Always make manual layout/content updates inside [manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/manual-clean.html). Once completed, execute the compiler script inside the spec-sheets directory:
+> Always make manual layout/content updates inside [manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/manual-clean.html). Once completed, execute the compiler script inside the spec-sheets directory:
 > ```bash
 > node build_manual.js
 > ```
 
 > [!IMPORTANT]
 > **Regex Compilation Safety**:
-> When editing headers or structural tags in `manual-clean.html`, note that the build script [build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets%20-%201/build_manual.js) uses regex replacement patterns. Make sure replacements support variable spacing (`\s*`) and closing elements, as minor format changes can cause regex mismatches.
+> When editing headers or structural tags in `manual-clean.html`, note that the build script [build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/spec-sheets-1/build_manual.js) uses regex replacement patterns. Make sure replacements support variable spacing (`\s*`) and closing elements, as minor format changes can cause regex mismatches.
 
 > [!TIP]
 > **Table Mapping**:
