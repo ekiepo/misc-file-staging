@@ -291,7 +291,7 @@
     return section;
   }
 
-  // Helper: download IES file — fetch + Blob (HTTP) or direct link (file://)
+  // Helper: Download IES file — fetch + Blob (HTTP) or direct link (file://)
   function downloadIesFile(url) {
     // Use decoded filename so saved file name doesn't contain %25
     const filename = decodeURIComponent(url.split('/').pop() || 'file');
