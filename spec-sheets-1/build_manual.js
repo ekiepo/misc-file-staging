@@ -86,11 +86,10 @@ const tocMapping = [
   { text: 'Chapter 8: Create a Static Preset', target: '#chapter-8', num: '8' },
   { text: 'Chapter 9: Kinetic Lighting Effect (KLE) Loops', target: '#chapter-9', num: '9' },
   { text: 'Chapter 10: Advanced - Tap-and-Run Presets', target: '#chapter-10', num: '10' },
-  { text: '15: Wi-Fi + Bluetooth Pairing', target: '#topic-16', num: '11' },
-  { text: '16: Voice Control Setup', target: '#topic-13', num: '11' },
-  { text: '17: OTA Firmware Updates', target: '#topic-14', num: '11' },
-  { text: '18: Download Dauer Mobile App', target: '#topic-15', num: '11' },
-  { text: '19: Placeholder', target: '#topic-19', num: '11' }
+  { text: 'Topic 11: Network Expansion', target: '#topic-11', num: '11' },
+  { text: 'Topic 12: Voice Control Setup', target: '#topic-12', num: '11' },
+  { text: 'Topic 13: OTA Firmware Updates', target: '#topic-13', num: '11' },
+  { text: 'Topic 14: Download Dauer Mobile App', target: '#topic-14', num: '11' }
 ];
 
 let bodyHtml = '';
