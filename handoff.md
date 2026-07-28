@@ -18,9 +18,8 @@ The workspace consists of a central landing page portal, three main document pag
 * **[assets/spec-sheet.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/assets/spec-sheet.css)**: Holds the reset, navigation header, grid systems, and print media parameters shared by the Uplight and Downlight spec sheets.
 * **[assets/manual.css](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/assets/manual.css)**: Contains custom overrides specifically tailored for the User Manual layout, pagination, print grids, and spacings.
 
-### Compilation / Build Pipeline
-* **[morpheus/manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/manual-clean.html)**: The source HTML document for the User Manual. **Do not edit `manual.html` directly** for content changes; make changes here instead.
-* **[morpheus/build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/build_manual.js)**: Node.js compiler script. Run `node build_manual.js` to compile and generate the final `manual.html`.
+### User Manual Status
+* **[morpheus/manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/manual.html)**: The user manual is a standard static HTML page that is edited **directly**. The legacy compilation pipeline (`manual-clean.html` and `build_manual.js`) has been eliminated to keep edits simple and direct.
 
 ---
 
@@ -84,14 +83,7 @@ The workspace consists of a central landing page portal, three main document pag
 
 > [!IMPORTANT]
 > **Content Modifications**: 
-> Always make manual layout/content updates inside [manual-clean.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/manual-clean.html). Once completed, execute the compiler script inside the spec-sheets directory:
-> ```bash
-> node build_manual.js
-> ```
-
-> [!IMPORTANT]
-> **Regex Compilation Safety**:
-> When editing headers or structural tags in `manual-clean.html`, note that the build script [build_manual.js](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/build_manual.js) uses regex replacement patterns. Make sure replacements support variable spacing (`\s*`) and closing elements, as minor format changes can cause regex mismatches.
+> The Node-based compilation pipeline has been eliminated. Make all content and layout updates directly inside [manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/manual.html). It is a standard, fully self-contained static HTML file.
 
 > [!TIP]
 > **Table Mapping**:
