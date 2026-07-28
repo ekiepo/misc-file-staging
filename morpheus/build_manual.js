@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-const srcPath = '/Users/dannysanchez/Temp Share Repo/misc-file-staging/spec-sheets-1/manual-clean.html';
-const destPath = '/Users/dannysanchez/Temp Share Repo/misc-file-staging/spec-sheets-1/manual.html';
+const srcPath = '/Users/dannysanchez/Temp Share Repo/misc-file-staging/morpheus/manual-clean.html';
+const destPath = '/Users/dannysanchez/Temp Share Repo/misc-file-staging/morpheus/manual.html';
 
 const html = fs.readFileSync(srcPath, 'utf8');
 
