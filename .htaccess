@@ -1,0 +1,19 @@
+# ----------------------------------------------------------------------
+# Bluehost (Apache) Redirect Configuration File
+# Place this file in the root directory of your website (e.g., public_html)
+# ----------------------------------------------------------------------
+
+# Enable the Rewrite Engine
+RewriteEngine On
+
+# --- 301 Permanent Redirects ---
+# Use 301 redirects for content that has moved permanently.
+# Syntax: Redirect 301 /old-local-path /new-local-path-or-url
+# Example:
+# Redirect 301 /old-manual.html /morpheus/manual.html
+
+# --- 302 Temporary Redirects ---
+# Use 302 redirects for temporary changes (promotions, seasonal landing pages, etc.).
+# Syntax: Redirect 302 /old-local-path /new-local-path-or-url
+# Example:
+# Redirect 302 /spec-sheets /morpheus/uplight.html
