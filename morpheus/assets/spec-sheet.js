@@ -181,6 +181,47 @@
     }
   });
 
+  // --- Image Zoom Popup Modal ---
+  const imgDialog = document.createElement('dialog');
+  imgDialog.className = 'image-zoom-dialog';
+  imgDialog.id = 'imageZoomDialog';
+
+  const imgContainer = document.createElement('div');
+  imgContainer.className = 'image-zoom-dialog-container';
+
+  const imgCloseBtn = document.createElement('button');
+  imgCloseBtn.className = 'image-zoom-dialog-close';
+  imgCloseBtn.setAttribute('aria-label', 'Close image zoom');
+
+  const zoomedImg = document.createElement('img');
+  zoomedImg.className = 'image-zoom-dialog-img';
+
+  imgContainer.appendChild(imgCloseBtn);
+  imgContainer.appendChild(zoomedImg);
+  imgDialog.appendChild(imgContainer);
+  document.body.appendChild(imgDialog);
+
+  // Close triggers
+  imgCloseBtn.addEventListener('click', () => imgDialog.close());
+
+  imgDialog.addEventListener('click', (event) => {
+    if (event.target === imgDialog) {
+      imgDialog.close();
+    }
+  });
+
+  // Global click event delegation for zoomable images
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('.zoomable-image');
+    if (!trigger) return;
+
+    event.preventDefault();
+    zoomedImg.src = trigger.src;
+    zoomedImg.alt = trigger.alt;
+
+    imgDialog.showModal();
+  });
+
   // --- IES Data Modal ---
   // Map table beam labels to IES filename convention
   const BEAM_MAP = {
