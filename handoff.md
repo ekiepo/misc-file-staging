@@ -92,3 +92,15 @@ The workspace consists of a central landing page portal, three main document pag
 > [!TIP]
 > **Layout & Print Syncing**:
 > To ensure screen display and print output remain perfectly synchronized, write layout-wide CSS globally inside `assets/spec-sheet.css` or `assets/manual.css`, and use print-specific overrides inside the `@media print` query blocks only when scaling elements for the physical page boundaries.
+
+> [!TIP]
+> **Updating and Replacing Figures/Images**:
+> To replace or update manual figures (e.g., `slot-cX-fY.webp`), convert the new image (PNG/JPEG) into **WebP format** to follow the project's standard:
+> 1. Use the `cwebp` command-line tool (installable via Homebrew: `brew install webp`).
+> 2. If you see a missing library error (e.g., `libtiff.6.dylib`), run `brew install libtiff` to resolve the shared library dependency.
+> 3. Perform the conversion with high quality (recommended `-q 95` for sharp text and UI icons, or `-lossless` for perfect graphic reproduction):
+>    ```bash
+>    cwebp -q 95 path/to/new_image.png -o misc-file-staging/morpheus/assets/img/manual/slot-cX-fY.webp
+>    ```
+> 4. Overwrite the target `.webp` asset in the `assets/img/manual/` folder directly. You do not need to edit `manual.html` if the filename and ID remain identical.
+
