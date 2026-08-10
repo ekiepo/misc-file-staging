@@ -704,7 +704,7 @@ a {
   overflow-x: auto;
   border: var(--border-hairline);
   border-radius: var(--radius-md);
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 
 .data-table {
