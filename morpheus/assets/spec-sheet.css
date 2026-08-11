@@ -1693,6 +1693,50 @@ a {
   }
 }
 
+/* ---------- Safety Information (Page 3) ---------- */
+
+.safety-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.safety-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.safety-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.safety-item__num {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2b2b2b;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.safety-item__text {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #3a3a3a;
+  padding-top: 3px;
+  text-wrap: pretty;
+}
+
 /* ============================================================
    PRINT — reproduces the fixed 8.5in x 11in, 5-sheet layout
    ============================================================ */
@@ -1830,5 +1874,26 @@ a {
   .image-zoom-dialog,
   .image-zoom-dialog::backdrop {
     display: none !important;
+  }
+
+  /* Safety Page Print Overrides */
+  .safety-item__text {
+    font-size: 10pt !important;
+  }
+
+  .safety-item__num {
+    font-size: 11pt !important;
+  }
+
+  .safety-body .section-intro h2 {
+    font-size: 20pt !important;
+    margin-bottom: 0.06in !important;
+    margin-top: 0 !important;
+  }
+
+  .safety-body .section-intro p {
+    font-size: 8.5pt !important;
+    margin-bottom: 0.22in !important;
+    color: #8a8a8a !important;
   }
 }
