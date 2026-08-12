@@ -104,3 +104,19 @@ The workspace consists of a central landing page portal, three main document pag
 >    ```
 > 4. Overwrite the target `.webp` asset in the `assets/img/manual/` folder directly. You do not need to edit `manual.html` if the filename and ID remain identical.
 
+> [!TIP]
+> **Vercel Blob Integration & Direct Uploads**:
+> To bypass serverless function execution payload size limitations (4.5 MB limit), upload large media assets directly from the client browser using the `@vercel/blob/client` SDK (`upload()`).
+> * Configure a serverless signature token endpoint at `/api/upload.js` that uses the `@vercel/blob` server SDK to generate client authorization tokens.
+> * To prevent client-token generation errors locally, always pull current Vercel environment credentials (namely `BLOB_READ_WRITE_TOKEN` and `BLOB_STORE_ID`) using `npx vercel env pull` to generate the `.env.local` file.
+> * Keep dev tool portals (like `/upload.html`) isolated; do not render link cards to staging utilities on the public client-facing [index.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/index.html) page.
+
+> [!CAUTION]
+> **Asset Collision & Overwrite Prevention**:
+> Never share generic screenshot naming patterns across multiple chapters (e.g., using `slot-c11-f1.webp` inside both Chapter 4 and Chapter 11). This leads to silent image overwrites when new pages/chapters are committed. Always use unique, chapter-prefixed naming schemes (e.g., `slot-c4-fX` for Chapter 4, `slot-c11-fY` for Chapter 11).
+> * If a binary asset is accidentally overwritten in a git commit, you can recover it by extracting it directly from the parent commit:
+>   ```bash
+>   git show <commit_hash>^:morpheus/assets/img/manual/slot-colliding-name.webp > morpheus/assets/img/manual/slot-new-name.webp
+>   ```
+
+

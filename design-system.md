@@ -214,3 +214,17 @@ Before completing the design system transformation, perform these checks:
 *   [ ] **Font Size Threshold**: Ensure no body text on digital screens renders below `8px` (captions can scale smaller for print only).
 *   [ ] **Print Margins**: Trigger print preview (`Ctrl+P` / `Cmd+P`). Check that elements on Page 1 (dimensions) and Page 3 (accessories) do not collide with footer lines or spill over onto extra pages.
 *   [ ] **Input Stability**: Focus the editable text lines. Verify no active blue outlines appear and that typing text does not shift adjacent layouts.
+
+---
+
+## 7. Assets & File Naming Conventions
+
+To maintain a clean and reliable asset library, adhere to these guidelines for all images, screenshots, and diagrams added to documentation pages:
+
+*   **Format & Compression**: Store all raster graphics (like app screenshot figures) in **WebP format** (`-q 95` quality threshold) to keep the project lightweight while preserving text readability. Use SVG vectors for diagrams, logos, and QR codes.
+*   **Unique Chapter Prefixes**: Always prefix figures with their exact chapter or topic identifier to avoid overwrite collisions (e.g. use `slot-c4-fX.webp` for Chapter 4 Astronomical Timer screens, and `slot-c11-fY.webp` for Chapter 11 Network Diagnosis screens). Never reuse names or placeholder ranges across files.
+*   **Git Asset Recovery**: If a binary asset is accidentally overwritten, retrieve the previous version from git history by referencing the parent commit:
+    ```bash
+    git show <commit_hash>^:morpheus/assets/img/manual/slot-colliding-name.webp > morpheus/assets/img/manual/slot-new-name.webp
+    ```
+
