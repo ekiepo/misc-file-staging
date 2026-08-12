@@ -223,8 +223,8 @@ To maintain a clean and reliable asset library, adhere to these guidelines for a
 
 *   **Format & Compression**: Store all raster graphics (like app screenshot figures) in **WebP format** (`-q 95` quality threshold) to keep the project lightweight while preserving text readability. Use SVG vectors for diagrams, logos, and QR codes.
 *   **Unique Chapter Prefixes**: Always prefix figures with their exact chapter or topic identifier to avoid overwrite collisions (e.g. use `slot-c4-fX.webp` for Chapter 4 Astronomical Timer screens, and `slot-c11-fY.webp` for Chapter 11 Network Diagnosis screens). Never reuse names or placeholder ranges across files.
+*   **Decoupling Shared Assets**: When updating spec sheets or manual files, check if an asset (such as `dimension-drawing.png`) is referenced by multiple distinct document types (like both `downlight.html` and `uplight.html`). If the visual change is specific to only one fixture, decouple it by creating a new unique asset (e.g. `downlight-dimension-drawing.webp`) and updating the HTML file rather than overwriting the shared path.
 *   **Git Asset Recovery**: If a binary asset is accidentally overwritten, retrieve the previous version from git history by referencing the parent commit:
     ```bash
     git show <commit_hash>^:morpheus/assets/img/manual/slot-colliding-name.webp > morpheus/assets/img/manual/slot-new-name.webp
     ```
-

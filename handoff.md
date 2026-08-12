@@ -77,6 +77,18 @@ The workspace consists of a central landing page portal, three main document pag
     * **Problem**: Captions and subtexts were set too small on screens (6.5px), which was unreadable.
     * **Solution**: Enforced an 8px minimum size threshold for screen viewports (e.g., in `.figure-cell_caption` and sub-captions) without altering the layout properties on physical print media.
 
+14. **Downlight Spec Sheet Diagram Decoupling**:
+    * **Problem**: Both `downlight.html` and `uplight.html` shared the same dimension drawing asset (`assets/img/dimension-drawing.png`). Overwriting it for one fixture would incorrectly change the diagram for the other, since they have different dimensions and shroud designs.
+    * **Solution**: Decoupled the drawings by creating a separate downlight-specific dimension asset (`assets/img/downlight-dimension-drawing.webp`) in WebP format and updated the `src` attribute inside `downlight.html` while keeping the `zoomable-image` class and interactivity fully intact.
+
+15. **Chapter 10 Automation Preset Flow Remap**:
+    * **Problem**: The original Chapter 10 in the User Manual contained a bloated, 10-step "Create Tap-and-Run Presets - Advanced" flow that did not align with modern app features.
+    * **Solution**: Cleaned up the cards and rewrote Chapter 10 to cover "Apply Automation Presets". Replaced all 10 legacy cards with a streamlined, 5-figure geolocation preset flow (Fig 10.1 to Fig 10.5) using newly converted WebP screenshots.
+
+16. **User Manual Figure Updates**:
+    * **Problem**: Several figures in the manual had out-of-date screenshots or incorrect layout references.
+    * **Solution**: Swapped the source assets with updated WebP screen captures for Figure 1.7 (`slot-c1-f7.webp`), Figure 8.6 (`slot-c9-f7.webp`), and Figure 9.8 (`slot-c10-f7.webp`).
+
 ---
 
 ## 3. Developer Guidelines & Lessons Learned
