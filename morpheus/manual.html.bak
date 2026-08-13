@@ -184,27 +184,27 @@
                   <span class="toc-row__num">6</span>
                 </a>
                 <a class="toc-row" href="#chapter-3">
-                  <span class="toc-row__label toc-row__label--sub">Chapter 3: Control Panel Overview</span>
+                  <span class="toc-row__label toc-row__label--sub">Chapter 3: Share a fixture</span>
                   <span class="toc-row__leader"></span>
                   <span class="toc-row__num">6</span>
                 </a>
                 <a class="toc-row" href="#chapter-4">
-                  <span class="toc-row__label toc-row__label--sub">Chapter 4: Share a fixture</span>
+                  <span class="toc-row__label toc-row__label--sub">Chapter 4: Astronomical Timer</span>
                   <span class="toc-row__leader"></span>
                   <span class="toc-row__num">7</span>
                 </a>
                 <a class="toc-row" href="#chapter-5">
-                  <span class="toc-row__label toc-row__label--sub">Chapter 5: Astronomical Timer</span>
+                  <span class="toc-row__label toc-row__label--sub">Chapter 5: Managing Groups</span>
                   <span class="toc-row__leader"></span>
                   <span class="toc-row__num">7</span>
                 </a>
                 <a class="toc-row" href="#chapter-6">
-                  <span class="toc-row__label toc-row__label--sub">Chapter 6: Managing Groups</span>
+                  <span class="toc-row__label toc-row__label--sub">Chapter 6: Scheduling</span>
                   <span class="toc-row__leader"></span>
-                  <span class="toc-row__num">7</span>
+                  <span class="toc-row__num">8</span>
                 </a>
                 <a class="toc-row" href="#chapter-7">
-                  <span class="toc-row__label toc-row__label--sub">Chapter 7: Scheduling</span>
+                  <span class="toc-row__label toc-row__label--sub">Chapter 7: Control Panel Overview</span>
                   <span class="toc-row__leader"></span>
                   <span class="toc-row__num">8</span>
                 </a>
@@ -219,7 +219,7 @@
                   <span class="toc-row__num">9</span>
                 </a>
                 <a class="toc-row" href="#chapter-10">
-                  <span class="toc-row__label toc-row__label--sub">Chapter 10: Apply Automation Presets</span>
+                  <span class="toc-row__label toc-row__label--sub">Chapter 10: Advanced - Tap-and-Run Presets</span>
                   <span class="toc-row__leader"></span>
                   <span class="toc-row__num">10</span>
                 </a>
@@ -833,49 +833,47 @@
               </div>
               <div class="chapter-lead-card" id="chapter-3">
                 <div class="chapter-lead-card__eyebrow">CHAPTER 3</div>
-                <div class="chapter-lead-card__title">Control Panel Overview</div><img id="qr-c3"
-                  src="assets/img/manual/qr-c3.svg"
+                <div class="chapter-lead-card__title">Share a Fixture or Group</div><img id="qr-c12"
+                  src="assets/img/manual/qr-c12.svg"
                   data-video="https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4"
                   class="qr qr-clickable" alt=""
                   style="width:0.84in;height:0.84in;border-radius:3px;display:block;flex:none;margin-top:1px;">
                 <div class="chapter-lead-card__caption">Click or Scan · How-To Video</div>
               </div>
-              <div class="figure-cell"><img id="slot-c3-f1" src="assets/img/manual/slot-c3-f1.webp"
+              <div class="figure-cell"><img id="slot-c12-f1" src="assets/img/manual/slot-c12-f1.webp"
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
                   <div class="figure-cell__fig">FIG 3.1</div>
-                  <div class="figure-cell__caption">Select a fixture or group from the Home screen to open its Control
-                    Panel.</div>
+                  <div class="figure-cell__caption">Open the fixture or group controls, tap the three dots (<b
+                      data-path-to-node="5,1,2,0" data-index-in-node="56">...</b>) icon, and select <b
+                      data-path-to-node="5,1,2,0" data-index-in-node="78">Share Device</b>.</div>
                 </div>
               </div>
-              <div class="figure-cell"><img id="slot-c3-f2" src="assets/img/manual/slot-c3-f2.webp"
+              <div class="figure-cell"><img id="slot-c12-f2" src="assets/img/manual/slot-c12-f2.webp"
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
                   <div class="figure-cell__fig">FIG 3.2</div>
-                  <div class="figure-cell__caption">Tap a preset to instantly snap to that beam angle. Press the clock
-                    for the
-                    scheduler, the power button to turn on/off and the KLE Presets to access loops.
-                  </div>
+                  <div class="figure-cell__caption">Select <b>Share Device</b></div>
                 </div>
               </div>
-              <div class="figure-cell"><img id="slot-c3-f4" src="assets/img/manual/slot-c3-f4.webp"
+              <div class="figure-cell"><img id="slot-c12-f3" src="assets/img/manual/slot-c12-f3.webp"
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
                   <div class="figure-cell__fig">FIG 3.3</div>
-                  <div class="figure-cell__caption">Use the KLE buttons to program your Kinetic Lighting Effect. More
-                    details are in chapter 9.&nbsp;</div>
+                  <div class="figure-cell__caption">Tap <b data-path-to-node="3,3,2,0" data-index-in-node="4">Copy
+                      Sharing Link</b> to copy the invitation URL to your clipboard.</div>
                 </div>
               </div>
-              <div class="figure-cell"><img id="slot-c3-f3" src="assets/img/manual/slot-c3-f3.webp"
+              <div class="figure-cell"><img id="slot-c12-f4" src="assets/img/manual/slot-c12-f4.webp"
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
                   <div class="figure-cell__fig">FIG 3.4</div>
-                  <div class="figure-cell__caption">Drag the X and Y axis sliders to custom-widen or narrow the beam
-                    shape.</div>
+                  <div class="figure-cell__caption">Set the maximum number of times the link can be used to activate
+                    sharing.</div>
                 </div>
               </div>
             </div>
@@ -901,72 +899,17 @@
           </header>
           <div class="sheet-body">
             <div class="figure-grid">
-              <div class="figure-cell"><img id="slot-c4-f3" src="assets/img/manual/slot-c4-f3.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 3.5</div>
-                  <div class="figure-cell__caption">Tap <b data-path-to-node="5,4,2,0"
-                      data-index-in-node="4">Vertical</b> or <b data-path-to-node="5,4,2,0"
-                      data-index-in-node="16">Horizontal</b> mode to lock the sliders to a 16° by 70° ratio.</div>
-                </div>
-              </div>
-              <div class="chapter-lead-card" id="chapter-4">
-                <div class="chapter-lead-card__eyebrow">CHAPTER 4</div>
-                <div class="chapter-lead-card__title">Share a Fixture or Group</div><img id="qr-c12"
-                  src="assets/img/manual/qr-c12.svg"
-                  data-video="https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4"
-                  class="qr qr-clickable" alt=""
-                  style="width:0.84in;height:0.84in;border-radius:3px;display:block;flex:none;margin-top:1px;">
-                <div class="chapter-lead-card__caption">Click or Scan · How-To Video</div>
-              </div>
-              <div class="figure-cell"><img id="slot-c12-f1" src="assets/img/manual/slot-c12-f1.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 4.1</div>
-                  <div class="figure-cell__caption">Open the fixture or group controls, tap the three dots (<b
-                      data-path-to-node="5,1,2,0" data-index-in-node="56">...</b>) icon, and select <b
-                      data-path-to-node="5,1,2,0" data-index-in-node="78">Share Device</b>.</div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c12-f2" src="assets/img/manual/slot-c12-f2.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 4.2</div>
-                  <div class="figure-cell__caption">Select <b>Share Device</b></div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c12-f3" src="assets/img/manual/slot-c12-f3.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 4.3</div>
-                  <div class="figure-cell__caption">Tap <b data-path-to-node="3,3,2,0" data-index-in-node="4">Copy
-                      Sharing Link</b> to copy the invitation URL to your clipboard.</div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c12-f4" src="assets/img/manual/slot-c12-f4.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 4.4</div>
-                  <div class="figure-cell__caption">Set the maximum number of times the link can be used to activate
-                    sharing.</div>
-                </div>
-              </div>
               <div class="figure-cell"><img id="slot-c12-f15" src="assets/img/manual/slot-c12-f15.webp"
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 4.5</div>
+                  <div class="figure-cell__fig">FIG 3.5</div>
                   <div class="figure-cell__caption">To view or remove existing users, tap <b data-path-to-node="3,5,2,0"
                       data-index-in-node="38">Sharing Management</b> on the Share Device screen.</div>
                 </div>
               </div>
-              <div class="chapter-lead-card" id="chapter-5">
-                <div class="chapter-lead-card__eyebrow">CHAPTER 5</div>
+              <div class="chapter-lead-card" id="chapter-4">
+                <div class="chapter-lead-card__eyebrow">CHAPTER 4</div>
                 <div class="chapter-lead-card__title">Astronomical Timer</div><img id="qr-c11"
                   src="assets/img/manual/qr-c11.svg"
                   data-video="https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4"
@@ -978,7 +921,7 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 5.1</div>
+                  <div class="figure-cell__fig">FIG 4.1</div>
                   <div class="figure-cell__caption">From the <b data-path-to-node="4,1,2,0"
                       data-index-in-node="9">Scene</b> tab, select either the <b data-path-to-node="4,1,2,0"
                       data-index-in-node="38">Morpheus Sunset</b> or <b data-path-to-node="4,1,2,0"
@@ -989,7 +932,7 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 5.2</div>
+                  <div class="figure-cell__fig">FIG 4.2</div>
                   <div class="figure-cell__caption">Tap a fixture name within the automation to customize individual
                     settings or remove it.</div>
                 </div>
@@ -998,7 +941,7 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 5.3</div>
+                  <div class="figure-cell__fig">FIG 4.3</div>
                   <div class="figure-cell__caption">Open your customized timer tile under the <b
                       data-path-to-node="4,3,2,0" data-index-in-node="42">Automation</b> list to modify its settings.
                   </div>
@@ -1008,7 +951,7 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 5.4</div>
+                  <div class="figure-cell__fig">FIG 4.4</div>
                   <div class="figure-cell__caption">Tap <b data-path-to-node="4,4,2,0"
                       data-index-in-node="4">Sunset/Sunrise</b> to adjust execution frequencies, schedule days, or
                     custom times.</div>
@@ -1018,13 +961,13 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 5.5</div>
+                  <div class="figure-cell__fig">FIG 4.5</div>
                   <div class="figure-cell__caption">Tap <b data-path-to-node="4,5,2,0" data-index-in-node="4">Custom</b>
                     to manually configure specific timer rules.</div>
                 </div>
               </div>
-              <div class="chapter-lead-card" id="chapter-6">
-                <div class="chapter-lead-card__eyebrow">CHAPTER 6</div>
+              <div class="chapter-lead-card" id="chapter-5">
+                <div class="chapter-lead-card__eyebrow">CHAPTER 5</div>
                 <div class="chapter-lead-card__title">Creating and Editing Groups</div><img id="qr-c5"
                   src="assets/img/manual/qr-c5.svg"
                   data-video="https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4"
@@ -1036,7 +979,7 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.1</div>
+                  <div class="figure-cell__fig">FIG 5.1</div>
                   <div class="figure-cell__caption">From the Control Panel of any fixture, tap the three dots (<b
                       data-path-to-node="5,1,2,0" data-index-in-node="59">...</b>) icon.</div>
                 </div>
@@ -1045,9 +988,64 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.2</div>
+                  <div class="figure-cell__fig">FIG 5.2</div>
                   <div class="figure-cell__caption">Tap the <b data-path-to-node="5,2,2,0" data-index-in-node="8">Create
                       Group</b> button.</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c7-f1" src="assets/img/manual/slot-c7-f1.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 5.3</div>
+                  <div class="figure-cell__caption">Select the fixtures you want to group together, then tap <b
+                      data-path-to-node="5,3,2,0" data-index-in-node="57">Save</b>.</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c7-f2" src="assets/img/manual/slot-c7-f2.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 5.4</div>
+                  <div class="figure-cell__caption">Enter a descriptive name for your group, then tap <b
+                      data-path-to-node="5,4,2,0" data-index-in-node="50">Finish</b>.</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c7-f3" src="assets/img/manual/slot-c7-f3.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 5.5</div>
+                  <div class="figure-cell__caption">To edit any existing group or individual fixture, open its controls
+                    and tap (...).</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c7-f4" src="assets/img/manual/slot-c7-f4.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 5.6</div>
+                  <div class="figure-cell__caption">Tap the <b data-path-to-node="5,6,2,0" data-index-in-node="8">Pencil
+                      icon</b> next to the current name to modify device or group details.</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c7-f5" src="assets/img/manual/slot-c7-f5.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 5.7</div>
+                  <div class="figure-cell__caption">Enter a clear name (e.g., <i data-path-to-node="5,7,2,0"
+                      data-index-in-node="26">Front Oak</i>, <i data-path-to-node="5,7,2,0"
+                      data-index-in-node="37">Fountain Accent</i>) and assign an area or room.</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c7-f6" src="assets/img/manual/slot-c7-f6.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 5.8</div>
+                  <div class="figure-cell__caption">Tap <b data-path-to-node="5,8,2,0" data-index-in-node="4">Group
+                      Devices</b> to add or remove fixtures from an active group at any time.</div>
                 </div>
               </div>
             </div>
@@ -1073,73 +1071,23 @@
           </header>
           <div class="sheet-body">
             <div class="figure-grid">
-              <div class="figure-cell"><img id="slot-c7-f1" src="assets/img/manual/slot-c7-f1.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.3</div>
-                  <div class="figure-cell__caption">Select the fixtures you want to group together, then tap <b
-                      data-path-to-node="5,3,2,0" data-index-in-node="57">Save</b>.</div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c7-f2" src="assets/img/manual/slot-c7-f2.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.4</div>
-                  <div class="figure-cell__caption">Enter a descriptive name for your group, then tap <b
-                      data-path-to-node="5,4,2,0" data-index-in-node="50">Finish</b>.</div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c7-f3" src="assets/img/manual/slot-c7-f3.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.5</div>
-                  <div class="figure-cell__caption">To edit any existing group or individual fixture, open its controls
-                    and tap (...).</div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c7-f4" src="assets/img/manual/slot-c7-f4.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.6</div>
-                  <div class="figure-cell__caption">Tap the <b data-path-to-node="5,6,2,0" data-index-in-node="8">Pencil
-                      icon</b> next to the current name to modify device or group details.</div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c7-f5" src="assets/img/manual/slot-c7-f5.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.7</div>
-                  <div class="figure-cell__caption">Enter a clear name (e.g., <i data-path-to-node="5,7,2,0"
-                      data-index-in-node="26">Front Oak</i>, <i data-path-to-node="5,7,2,0"
-                      data-index-in-node="37">Fountain Accent</i>) and assign an area or room.</div>
-                </div>
-              </div>
-              <div class="figure-cell"><img id="slot-c7-f6" src="assets/img/manual/slot-c7-f6.webp"
-                  class="figure-cell__img" alt=""
-                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
-                <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.8</div>
-                  <div class="figure-cell__caption">Tap <b data-path-to-node="5,8,2,0" data-index-in-node="4">Group
-                      Devices</b> to add or remove fixtures from an active group at any time.</div>
-                </div>
-              </div>
               <div class="figure-cell"><img id="slot-c7-f7" src="assets/img/manual/slot-c7-f7.webp"
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 6.9</div>
+                  <div class="figure-cell__fig">FIG 5.9</div>
                   <div class="figure-cell__caption">Your new group will appear in the list of devices on the home
                     screen.
                   </div>
                 </div>
               </div>
-              <div class="chapter-lead-card" id="chapter-7">
-                <div class="chapter-lead-card__eyebrow">CHAPTER 7</div>
+
+
+
+
+
+              <div class="chapter-lead-card" id="chapter-6">
+                <div class="chapter-lead-card__eyebrow">CHAPTER 6</div>
                 <div class="chapter-lead-card__title">Scheduling</div><img id="qr-c7" src="assets/img/manual/qr-c7.svg"
                   data-video="https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4"
                   class="qr qr-clickable" alt=""
@@ -1150,7 +1098,7 @@
                   class="figure-cell__img" alt=""
                   style="width: 100%; height: var(--slot-h,1.65in);  display: block; flex: none">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 7.1</div>
+                  <div class="figure-cell__fig">FIG 6.1</div>
                   <div class="figure-cell__caption">Select a device or group from the Home screen. From its Control
                     Panel, tap the <b data-path-to-node="4,1,2,0" data-index-in-node="79">Clock icon</b>.</div>
                 </div>
@@ -1159,7 +1107,7 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 7.2</div>
+                  <div class="figure-cell__fig">FIG 6.2</div>
                   <div class="figure-cell__caption">Tap the <b data-path-to-node="4,2,2,0" data-index-in-node="8">Add
                       Schedule</b> button at the bottom of the screen.</div>
                 </div>
@@ -1168,7 +1116,7 @@
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div class="figure-cell__body">
-                  <div class="figure-cell__fig">FIG 7.3</div>
+                  <div class="figure-cell__fig">FIG 6.3</div>
                   <div class="figure-cell__caption">Choose the time, select the active days, and set the action to <b
                       data-path-to-node="4,3,2,0" data-index-in-node="63">ON</b> or <b data-path-to-node="4,3,2,0"
                       data-index-in-node="69">OFF</b>. Tap <b data-path-to-node="4,3,2,0"
@@ -1180,9 +1128,66 @@
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
                 <div
                   style="padding: 5px 7px 6px; flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden">
-                  <div class="figure-cell__fig">FIG 7.4</div>
+                  <div class="figure-cell__fig">FIG 6.4</div>
                   <div class="figure-cell__caption">Review your new active schedule. Repeat these steps to add more
                     schedules to the device or group.</div>
+                </div>
+              </div>
+              <div class="chapter-lead-card" id="chapter-7">
+                <div class="chapter-lead-card__eyebrow">CHAPTER 7</div>
+                <div class="chapter-lead-card__title">Control Panel Overview</div><img id="qr-c3"
+                  src="assets/img/manual/qr-c3.svg"
+                  data-video="https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4"
+                  class="qr qr-clickable" alt=""
+                  style="width:0.84in;height:0.84in;border-radius:3px;display:block;flex:none;margin-top:1px;">
+                <div class="chapter-lead-card__caption">Click or Scan · How-To Video</div>
+              </div>
+              <div class="figure-cell"><img id="slot-c3-f1" src="assets/img/manual/slot-c3-f1.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 7.1</div>
+                  <div class="figure-cell__caption">Select a fixture or group from the Home screen to open its Control
+                    Panel.</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c3-f2" src="assets/img/manual/slot-c3-f2.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 7.2</div>
+                  <div class="figure-cell__caption">Tap a preset to instantly snap to that beam angle. Press the clock
+                    for the
+                    scheduler, the power button to turn on/off and the KLE Presets to access loops.
+                  </div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c3-f4" src="assets/img/manual/slot-c3-f4.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 7.3</div>
+                  <div class="figure-cell__caption">Use the KLE buttons to program your Kinetic Lighting Effect. More
+                    details are in chapter 9.&nbsp;</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c3-f3" src="assets/img/manual/slot-c3-f3.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 7.4</div>
+                  <div class="figure-cell__caption">Drag the X and Y axis sliders to custom-widen or narrow the beam
+                    shape.</div>
+                </div>
+              </div>
+              <div class="figure-cell"><img id="slot-c4-f3" src="assets/img/manual/slot-c4-f3.webp"
+                  class="figure-cell__img" alt=""
+                  style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
+                <div class="figure-cell__body">
+                  <div class="figure-cell__fig">FIG 7.5</div>
+                  <div class="figure-cell__caption">Tap <b data-path-to-node="5,4,2,0"
+                      data-index-in-node="4">Vertical</b> or <b data-path-to-node="5,4,2,0"
+                      data-index-in-node="16">Horizontal</b> mode to lock the sliders to a 16° by 70° ratio.</div>
                 </div>
               </div>
               <div class="chapter-lead-card" id="chapter-8">
@@ -1243,6 +1248,14 @@
           </header>
           <div class="sheet-body">
             <div class="figure-grid">
+
+
+
+
+
+
+
+
               <div class="figure-cell"><img id="slot-c9-f5" src="assets/img/manual/slot-c9-f5.webp"
                   class="figure-cell__img" alt=""
                   style="width:100%;height:var(--slot-h,1.65in);display:block;flex:none;">
