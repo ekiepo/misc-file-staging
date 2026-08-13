@@ -89,6 +89,15 @@ The workspace consists of a central landing page portal, three main document pag
     * **Problem**: Several figures in the manual had out-of-date screenshots or incorrect layout references.
     * **Solution**: Swapped the source assets with updated WebP screen captures for Figure 1.7 (`slot-c1-f7.webp`), Figure 8.6 (`slot-c9-f7.webp`), and Figure 9.8 (`slot-c10-f7.webp`).
 
+17. **Chapter Reorder — "Control Panel Overview" Promoted to Chapter 3** (2026-08-13):
+    * **Problem**: Control Panel Overview sat at Chapter 7, after the sharing, timer, and grouping chapters — but it teaches the control surface those later chapters assume the reader already knows.
+    * **Solution**: Moved the 6-cell block (lead card + 5 figures) out of page 8 and reinserted it on page 6 directly after `FIG 2.9`. Renumbering: old Ch3→4, Ch4→5, Ch5→6, Ch6→7. **Chapters 1, 2, and 8–11 keep their original numbers** — Chapter 7 vacated its own slot, which absorbs the shift, so `FIG 9.1` is still `FIG 9.1`. All 80 `FIG n.n` labels were re-verified as sequential from `1.1` to `11.7` with no gaps or duplicates.
+    * **Also updated**: All 11 TOC rows (reordered, relabeled, `href` anchors realigned to `#chapter-N`, page numbers corrected — Ch4 6→7, Ch6 8→7). The stale TOC entry "Chapter 10: Advanced - Tap-and-Run Presets" was synced to the card's actual title, "Apply Automation Presets".
+
+18. **Per-Chapter How-To Video Links Restored**:
+    * **Problem**: Every `data-video` attribute in the manual pointed at the same placeholder clip (`main-promo-voice.mp4` on Vercel Blob), so all 11 chapter QR cards opened identical footage.
+    * **Solution**: Each chapter lead card now carries its own local clip under `assets/videos/` (e.g. Ch3 → `control-panel-manual.mp4`, Ch7 → `scheduler.mp4`, Ch9 → `kle-presets.mp4`). 11 distinct videos, all verified to resolve on disk.
+
 ---
 
 ## 3. Developer Guidelines & Lessons Learned
@@ -96,6 +105,31 @@ The workspace consists of a central landing page portal, three main document pag
 > [!IMPORTANT]
 > **Content Modifications**: 
 > The Node-based compilation pipeline has been eliminated. Make all content and layout updates directly inside [manual.html](file:///Users/dannysanchez/Temp%20Share%20Repo/misc-file-staging/morpheus/manual.html). It is a standard, fully self-contained static HTML file.
+
+> [!IMPORTANT]
+> **The 16-Slot Page Grid (How-To Pages 5–10)**:
+> Each how-to page is a `.figure-grid` locked to **4 columns × 4 rows = 16 slots** on desktop and in print. Chapter lead cards (`.chapter-lead-card`) and figure cells (`.figure-cell`) are both plain grid children occupying **exactly one slot each** — there is no spanning.
+> * This makes the manual one continuous 91-cell stream that happens to be chopped into `<div class="sheet-section">` wrappers. Chapters routinely start mid-page and run across a page boundary; that is normal, not a bug.
+> * **Adding or removing any single cell shifts every following cell and cascades to the end of the guide.** Insert or delete cells in multiples that keep each page at exactly 16, or manually repack every downstream page.
+> * A page holding fewer than 16 cells renders visible empty slots. This is only acceptable at a **chapter break that coincides with the end of a page** — currently pages 9 (13 cells) and 10 (14 cells), both of which end a chapter. Never leave a short page mid-chapter.
+> * Blank lines inside a `.figure-grid` are harmless whitespace and do **not** create grid items — do not mistake them for spacers when counting slots.
+
+> [!TIP]
+> **Verifying a Reorder**:
+> After moving chapters or figures, confirm the result mechanically rather than by eye:
+> ```bash
+> # 1. Cells per page — pages 5–8 must read 16 (9 and 10 end chapters)
+> awk '/sheet-section" id=/{split($0,a,"id=\"");split(a[2],b,"\"");p=b[1]}
+>      /class="figure-cell"|class="chapter-lead-card"/{c[p]++}
+>      END{for(k in c) print c[k], k}' manual.html | sort -k2
+>
+> # 2. Figure labels must run 1.1 → 11.7 with no gaps or repeats.
+> #    NOTE: some labels are wrapped in <span style="letter-spacing">
+> #    (FIG 2.5–2.7), so strip tags before comparing — a plain
+> #    grep -o '...__fig">[^<]*' silently reports them as blank.
+> python3 -c "import re;s=open('manual.html').read();print(' '.join(re.sub(r'<[^>]*>','',m).strip() for m in re.findall(r'<div class=\"figure-cell__fig\">(.*?)</div>',s,re.S)))"
+> ```
+> Also re-check that every TOC `href="#chapter-N"` matches the `Chapter N:` label in the same row, and that the page number in each TOC row matches the `sheet-section` the card actually landed in.
 
 > [!TIP]
 > **Table Mapping**:
@@ -130,5 +164,22 @@ The workspace consists of a central landing page portal, three main document pag
 >   ```bash
 >   git show <commit_hash>^:morpheus/assets/img/manual/slot-colliding-name.webp > morpheus/assets/img/manual/slot-new-name.webp
 >   ```
+
+> [!CAUTION]
+> **Asset Filenames Do Not Track Chapter Numbers**:
+> After the Chapter 7 → Chapter 3 reorder, `slot-cX-fY` and `qr-cX` filenames no longer correspond to the chapter that displays them — Chapter 6 "Creating and Editing Groups" renders `slot-c7-*.webp`, Chapter 4 renders `qr-c12.svg`, and so on. **Never infer a chapter from an asset filename, and never rename assets to "fix" the mismatch** — renaming is exactly what causes the silent overwrite collisions described above. Locate figures by their `FIG n.n` label or by reading the surrounding markup instead.
+
+> [!CAUTION]
+> **QR Vectors and `data-video` Are Two Independent Links**:
+> Each chapter lead card carries two separate paths to the same video, and only one of them moves automatically:
+> * **`data-video` (the click target)** lives in the card's markup, so it travels with the card during a reorder and stays correct. A delegated handler in `assets/spec-sheet.js` reads it on click.
+> * **The QR SVG (the scan target)** has its URL baked into the vector art at generation time. Moving or renumbering a chapter does **not** update it, and it cannot be verified by reading the HTML — it must be scanned.
+>
+> Three QR vectors are currently reused across two chapters each — `qr-c5.svg` (Ch6 + Ch10), `qr-c11.svg` (Ch5 + Ch11), `qr-c12.svg` (Ch2 + Ch4) — so at most one chapter in each pair can scan to the right clip. **Scan-test all 11 codes and regenerate the duplicated vectors before any print run.** The reuse also produces duplicate `id` attributes, which is invalid HTML; nothing depends on those ids today.
+
+> [!CAUTION]
+> **Manual Videos Are Local, Not Blob-Hosted**:
+> The 11 chapter clips now resolve to `assets/videos/*.mp4` — **116 MB referenced out of a 752 MB directory**. This diverges from the Vercel Blob guidance above, and the folder holds many unreferenced legacy clips (`0720.mp4`, `MORPHEUS_06-small.mov`, and others). Before deploying, either move these clips to Blob storage and repoint `data-video`, or prune the unreferenced files so the bundle stays shippable.
+> * Two filenames contain **literal spaces** (`Morpheus Shorts - installation.mp4`, `network diagnosis.mp4`). They work locally because browsers tolerate spaces in `src`, but some CDNs and static hosts do not. Prefer percent-encoding (`%20`) or hyphenated filenames when touching these entries.
 
 

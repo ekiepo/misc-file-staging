@@ -118,6 +118,40 @@ If featuring hardware videos or tutorials, place them in a dedicated container a
     *   The container has `border-radius: 12px`, `overflow: hidden`, `background-color: #000`, and a soft shadow.
     *   The video element inside should have `width: 100%` and `height: auto` to naturally adapt to its aspect ratio without layout shifts.
 
+### E. The How-To Grid (Fixed 16-Slot Page)
+
+Step-by-step chapters are laid out on a **rigid 4 × 4 grid — 16 slots per page**, enforced on desktop screens and again in print so both states break identically.
+
+```css
+.figure-grid {
+  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-rows: repeat(4, 1fr) !important;
+  gap: 0.15in !important;   /* 0.12in in @media print */
+  flex: 1;
+  min-height: 0;
+}
+```
+
+*   **One cell, one slot.** Chapter lead cards (`.chapter-lead-card`) and figure cells (`.figure-cell`) are equal grid children. Nothing spans, so a chapter card consumes a slot exactly like a figure does.
+*   **The document is one continuous stream.** Page wrappers are containers, not chapter boundaries. A chapter is expected to begin mid-page and flow across a page break — that is the intended reading rhythm, and forcing every chapter to start on a fresh page would leave large holes.
+*   **Cell count is load-bearing.** Because the stream is continuous, inserting or deleting a single cell shifts everything after it and cascades to the last page. Any content change must either preserve a multiple of 16 per page or be followed by a manual repack of every downstream page.
+*   **Short pages are allowed only at the end of a chapter.** Trailing empty slots read as a deliberate section break when the chapter also ends there. A short page in the middle of a chapter reads as a layout bug.
+*   Whitespace and blank lines inside the grid container do not generate grid items — never count them as spacers.
+
+#### Chapter & Figure Numbering Contract
+
+Three things must agree at all times, and none of them update automatically:
+
+| Element | Location | Must match |
+| :--- | :--- | :--- |
+| `id="chapter-N"` | on `.chapter-lead-card` | the eyebrow text `CHAPTER N` |
+| `FIG N.n` | `.figure-cell__fig` | the chapter its cell sits under, numbered from 1 |
+| TOC row | `href="#chapter-N"` + `Chapter N:` label + page number | the `sheet-section` the card actually lands in |
+
+> **Reordering rule.** When a chapter is *moved* rather than inserted, it vacates its old slot and that vacancy absorbs the shift. Only chapters between the destination and the origin are renumbered; everything after the origin keeps its number. Moving Chapter 7 to position 3 renumbers old 3–6 to 4–7 and leaves 8–11 untouched. Assuming "everything after shifts by one" produces a numbering gap.
+
+> **Label parsing warning.** Some `.figure-cell__fig` values are wrapped in an inline `<span style="letter-spacing">`. Strip tags before matching figure numbers — a naive `[^<]*` capture reports those labels as empty and hides real gaps.
+
 ---
 
 ## 5. Step-by-Step Legacy Conversion Guide
@@ -215,6 +249,14 @@ Before completing the design system transformation, perform these checks:
 *   [ ] **Print Margins**: Trigger print preview (`Ctrl+P` / `Cmd+P`). Check that elements on Page 1 (dimensions) and Page 3 (accessories) do not collide with footer lines or spill over onto extra pages.
 *   [ ] **Input Stability**: Focus the editable text lines. Verify no active blue outlines appear and that typing text does not shift adjacent layouts.
 
+After any chapter reorder, figure insertion, or content change to the how-to pages, also run:
+
+*   [ ] **Slot Count**: Every how-to page holds exactly 16 grid cells, except pages whose short count coincides with the end of a chapter. No empty slots mid-chapter.
+*   [ ] **Figure Sequence**: Strip inline tags, then confirm the `FIG n.n` labels run unbroken from the first chapter to the last — no gaps, no duplicates, no chapter restarting at anything but `.1`.
+*   [ ] **Anchor Integrity**: Each `id="chapter-N"` matches its own `CHAPTER N` eyebrow, and each TOC row's `href`, label number, and printed page number all agree with where the card physically sits.
+*   [ ] **Cross-References**: Grep the captions for phrases like "see chapter N" — prose references do not renumber themselves and will silently point at the wrong chapter.
+*   [ ] **Media Links**: Confirm every `data-video` path resolves on disk, and scan-test the printed QR codes separately (see §7 — the vector and the click target are independent).
+
 ---
 
 ## 7. Assets & File Naming Conventions
@@ -228,3 +270,17 @@ To maintain a clean and reliable asset library, adhere to these guidelines for a
     ```bash
     git show <commit_hash>^:morpheus/assets/img/manual/slot-colliding-name.webp > morpheus/assets/img/manual/slot-new-name.webp
     ```
+*   **Filenames Are Identifiers, Not Descriptions**: Once chapters have been reordered, the `cX` in `slot-cX-fY.webp` and `qr-cX.svg` records where the asset *originated*, not where it renders now. Treat these names as opaque ids. **Do not rename an asset to realign it with a new chapter number** — that is precisely the action that causes the overwrite collisions described above. Find figures by their `FIG n.n` label instead.
+
+### QR Codes vs. Click Targets
+
+A card that offers a how-to video carries **two independent links**, and a reorder only moves one of them:
+
+| Path | Where it lives | Survives a reorder? |
+| :--- | :--- | :--- |
+| `data-video="…"` | attribute inside the card markup, read by a delegated click handler in `spec-sheet.js` | **Yes** — it travels with the card |
+| The QR vector | the URL is baked into the SVG path data at generation time | **No** — and it cannot be checked by reading the HTML |
+
+*   Verify `data-video` by resolving the path on disk. Verify the QR **only** by scanning the rendered code — no amount of source inspection will catch a stale vector.
+*   Never reuse one QR vector across two chapters. Sharing a file guarantees the scan is wrong for at least one of them, and produces duplicate `id` attributes (invalid HTML) as a side effect.
+*   Avoid literal spaces in media filenames. Browsers tolerate them in a local `src`, but some CDNs and static hosts reject the unencoded URL — prefer hyphens or percent-encoding.
