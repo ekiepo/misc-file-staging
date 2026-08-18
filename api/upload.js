@@ -42,6 +42,7 @@ module.exports = async function handler(request, response) {
     }
 
     const jsonResponse = await handleUpload({
+      token: process.env.MEDIA_BLOB_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN,
       body,
       request,
       onBeforeGenerateToken: async (pathname /*, clientPayload */) => {

@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    { "source": "/qr", "destination": "/qr/index.html" },
+    { "source": "/MOR-QR-:suffix", "destination": "/api/track/MOR-QR-:suffix" }
+  ],
+  "headers": [
+    {
+      "source": "/qr/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "same-origin" }
+      ]
+    },
+    {
+      "source": "/MOR-QR-:suffix",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    }
+  ]
+}
