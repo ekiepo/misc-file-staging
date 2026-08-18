@@ -137,7 +137,7 @@ a {
 .site-nav__title-main {
   display: block;
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: .02em;
   white-space: nowrap;
@@ -288,7 +288,7 @@ a {
 
 .sheet-section__num {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 0.95rem;
   color: var(--color-accent);
   flex: none;
@@ -296,7 +296,7 @@ a {
 
 .sheet-section__title {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1rem;
   letter-spacing: .01em;
   flex: 1;
@@ -357,7 +357,7 @@ a {
 
 .sheet-header__product {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1rem;
   color: var(--color-text-primary);
   letter-spacing: .02em;
@@ -439,27 +439,28 @@ a {
 
 .title-block__product {
   font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 2.4rem;
+  font-weight: 800;
+  font-size: 2.75rem;
   color: var(--color-text-primary);
-  line-height: .98;
-  margin-top: 6px;
+  line-height: .95;
+  letter-spacing: .02em;
+  margin-top: 5px;
 }
 
 .title-block__subtitle {
-  font-family: var(--font-display);
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-weight: 400;
   font-size: 1.05rem;
   color: var(--color-text-secondary);
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .fill-fields {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
   min-width: 200px;
-  padding-top: 6px;
+  padding-top: 4px;
 }
 
 .fill-field {
@@ -472,7 +473,7 @@ a {
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: .18em;
+  letter-spacing: .22em;
   text-transform: uppercase;
   white-space: nowrap;
   flex: none;
@@ -499,7 +500,7 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .media-col,
@@ -520,7 +521,7 @@ a {
 
 .media-tile__label {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: .2em;
   color: var(--color-text-accent);
@@ -584,34 +585,37 @@ a {
 .callout--dark {
   background: var(--color-surface-dark);
   color: #fff;
-  border-radius: var(--radius-lg);
-  padding: 15px 17px;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
 }
 
 .callout--dark .eyebrow {
   color: var(--color-accent);
+  font-size: 0.62rem;
+  letter-spacing: .18em;
 }
 
 .callout--dark__value {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.05rem;
-  margin-top: 6px;
+  letter-spacing: .03em;
+  margin-top: 4px;
   line-height: 1.35;
 }
 
 .spec-list {
   display: flex;
   flex-direction: column;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .spec-row {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
-  border-bottom: var(--border-hairline);
-  padding: 8px 0;
+  align-items: baseline;
+  border-bottom: 1px solid #e8e5de;
+  padding: 5.5px 0;
 }
 
 .spec-row:last-child {
@@ -620,20 +624,23 @@ a {
 
 .spec-row__label {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: .05em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--color-text-primary);
-  width: 6.5em;
+  width: 7.8em;
   flex: none;
+  word-break: keep-all;
+  hyphens: none;
+  white-space: normal;
 }
 
 .spec-row__value {
   font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: var(--dauer-charcoal-700);
-  line-height: 1.35;
+  font-size: 0.78rem;
+  color: var(--color-text-primary);
+  line-height: 1.3;
   flex: 1 1 180px;
 }
 
@@ -683,16 +690,17 @@ a {
 
 .section-intro h2 {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.35rem;
+  font-weight: 700;
+  font-size: 1.55rem;
+  letter-spacing: -0.01em;
   color: var(--color-text-primary);
 }
 
 .section-intro p {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-text-secondary);
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .section-intro .accent {
@@ -718,12 +726,12 @@ a {
 }
 
 .data-table th {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
   color: #fff;
-  padding: 8px 10px;
+  padding: 6px 10px;
   text-align: right;
   white-space: nowrap;
 }
@@ -737,9 +745,9 @@ a {
 }
 
 .data-table td {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--dauer-charcoal-700);
-  padding: 7px 10px;
+  padding: 5px 10px;
   text-align: right;
   border-bottom: var(--border-hairline);
   font-variant-numeric: tabular-nums;
@@ -756,10 +764,10 @@ a {
   background: var(--color-surface-sheet);
   text-align: left;
   font-weight: 700;
-  letter-spacing: .16em;
+  letter-spacing: .14em;
   color: var(--color-text-accent);
   text-transform: uppercase;
-  padding-top: 12px;
+  padding-top: 10px;
   white-space: normal;
 }
 
@@ -779,19 +787,20 @@ a {
 }
 
 .ordering-info {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .ordering-info h3 {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
   color: var(--color-text-primary);
 }
 
 .ordering-info p {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--color-text-secondary);
   margin-top: 3px;
 }
@@ -817,11 +826,11 @@ a {
 
 .ref-table__title {
   background: var(--color-surface-card);
-  padding: 8px 12px;
+  padding: 7px 12px;
   font-family: var(--font-body);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: .16em;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--color-text-primary);
 }
@@ -829,16 +838,16 @@ a {
 .ref-table__rows {
   display: flex;
   flex-direction: column;
-  padding: 2px 12px 8px;
+  padding: 2px 12px 6px;
 }
 
 .ref-table__row {
   display: flex;
   gap: 10px;
-  padding: 7px 0;
+  padding: 5.5px 0;
   border-bottom: var(--border-hairline);
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   color: var(--dauer-charcoal-700);
   line-height: 1.3;
 }
@@ -1104,7 +1113,9 @@ a {
 }
 
 .tech-spec-group .spec-row__label {
-  width: 8.5em;
+  width: 9.8em;
+  word-break: keep-all;
+  hyphens: none;
 }
 
 .network-note {
