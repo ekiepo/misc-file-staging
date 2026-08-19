@@ -211,6 +211,20 @@
   $('#export-button').addEventListener('click', exportCsv);
   $('#import-button').addEventListener('click', () => $('#import-file').click());
   $('#import-file').addEventListener('change', (event) => event.target.files[0] && importCsv(event.target.files[0]));
+  $('#refresh-analytics').addEventListener('click', async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    button.classList.add('is-loading');
+    try {
+      await loadRegistry();
+      notice('Analytics refreshed.');
+    } catch (error) {
+      notice(error.message);
+    } finally {
+      button.disabled = false;
+      button.classList.remove('is-loading');
+    }
+  });
   $('#search').addEventListener('input', (event) => { state.query = event.target.value; renderTable(); refreshIcons(); });
   $('#filters').addEventListener('click', (event) => { const button = event.target.closest('[data-filter]'); if (!button) return; state.filter = button.dataset.filter; renderFilters(); renderTable(); refreshIcons(); });
   $('#registry-body').addEventListener('click', (event) => {
