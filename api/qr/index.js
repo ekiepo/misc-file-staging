@@ -1,5 +1,5 @@
 const {
-  loadRegistry, nextId, recordsWithAnalytics, requireAdmin, saveRegistry, validateUrl,
+  loadRegistry, nextId, recordsWithAnalytics, requireAdmin, saveRegistry, validateAnalyticsRange, validateUrl,
 } = require('../../lib/qr/store');
 
 function bodyOf(request) {
@@ -13,7 +13,12 @@ module.exports = async function handler(request, response) {
   try {
     const registry = await loadRegistry(request);
     if (request.method === 'GET') {
-      const records = await recordsWithAnalytics(registry);
+      const from = String(request.query.from || '');
+      const to = String(request.query.to || '');
+      if (!validateAnalyticsRange({ from, to })) {
+        return response.status(400).json({ error: 'Invalid analytics date range.' });
+      }
+      const records = await recordsWithAnalytics(registry, { from, to });
       return response.status(200).json({ records, settings: registry.settings, updatedAt: registry.updatedAt });
     }
 

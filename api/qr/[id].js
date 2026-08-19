@@ -5,8 +5,8 @@ const {
 module.exports = async function handler(request, response) {
   response.setHeader('Cache-Control', 'no-store');
   if (!requireAdmin(request, response)) return;
-  if (request.method !== 'PATCH') {
-    response.setHeader('Allow', 'PATCH');
+  if (!['PATCH', 'DELETE'].includes(request.method)) {
+    response.setHeader('Allow', 'PATCH, DELETE');
     return response.status(405).json({ error: 'Method not allowed.' });
   }
 
@@ -14,10 +14,19 @@ module.exports = async function handler(request, response) {
   if (!ID_PATTERN.test(id)) return response.status(400).json({ error: 'Invalid QR ID.' });
 
   try {
-    const body = typeof request.body === 'string' ? JSON.parse(request.body || '{}') : (request.body || {});
     const registry = await loadRegistry(request);
-    const record = registry.records.find((item) => item.id === id);
+    const recordIndex = registry.records.findIndex((item) => item.id === id);
+    const record = registry.records[recordIndex];
     if (!record) return response.status(404).json({ error: 'QR code not found.' });
+
+    if (request.method === 'DELETE') {
+      registry.records.splice(recordIndex, 1);
+      registry.deletedRecords.push({ ...record, deletedAt: new Date().toISOString(), deletedBy: 'admin' });
+      await saveRegistry(registry);
+      return response.status(200).json({ id, deleted: true });
+    }
+
+    const body = typeof request.body === 'string' ? JSON.parse(request.body || '{}') : (request.body || {});
     const destination = body.finalDestination ?? record.finalDestination;
     if (!validateUrl(destination)) return response.status(400).json({ error: 'A valid HTTP(S) final destination is required.' });
     const previousDestination = record.finalDestination;

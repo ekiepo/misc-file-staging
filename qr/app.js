@@ -1,5 +1,5 @@
 (() => {
-  const state = { token: sessionStorage.getItem('morpheusQrAdminToken') || '', records: [], settings: {}, query: '', filter: 'All', detailId: null };
+  const state = { token: sessionStorage.getItem('morpheusQrAdminToken') || '', records: [], analyticsRecords: [], settings: {}, query: '', filter: 'All', detailId: null, analyticsLimit: '10', analyticsStart: '', analyticsEnd: '' };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
@@ -37,9 +37,19 @@
     $('#app').hidden = false;
   }
 
+  function analyticsApiPath() {
+    const params = new URLSearchParams();
+    if (state.analyticsStart) params.set('from', state.analyticsStart);
+    if (state.analyticsEnd) params.set('to', state.analyticsEnd);
+    return `/api/qr${params.size ? `?${params}` : ''}`;
+  }
+
   async function loadRegistry() {
     const data = await api('/api/qr');
     state.records = data.records;
+    state.analyticsRecords = state.analyticsStart || state.analyticsEnd
+      ? (await api(analyticsApiPath())).records
+      : data.records;
     state.settings = data.settings;
     showApp();
     render();
@@ -67,12 +77,22 @@
     return 'badge-blue';
   }
 
+  function formatAnalyticsRange() {
+    const format = (value) => new Date(`${value}T00:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    if (state.analyticsStart && state.analyticsEnd) return `${format(state.analyticsStart)} - ${format(state.analyticsEnd)}`;
+    if (state.analyticsStart) return `Since ${format(state.analyticsStart)}`;
+    if (state.analyticsEnd) return `Through ${format(state.analyticsEnd)}`;
+    return 'All dates';
+  }
+
   function renderMetrics() {
-    const scans = state.records.reduce((sum, record) => sum + Number(record.scanCount || 0), 0);
-    const unique = state.records.reduce((sum, record) => sum + Number(record.uniqueVisitors || 0), 0);
+    const analytics = state.analyticsRecords;
+    const scans = analytics.reduce((sum, record) => sum + Number(record.scanCount || 0), 0);
+    const unique = analytics.reduce((sum, record) => sum + Number(record.uniqueVisitors || 0), 0);
     const active = state.records.filter((record) => record.status === 'active').length;
-    const top = [...state.records].sort((a, b) => Number(b.scanCount || 0) - Number(a.scanCount || 0))[0];
+    const top = [...analytics].sort((a, b) => Number(b.scanCount || 0) - Number(a.scanCount || 0))[0];
     $('#metric-scans').textContent = scans.toLocaleString();
+    $('#metric-date-note').textContent = formatAnalyticsRange();
     $('#metric-unique').textContent = unique.toLocaleString();
     $('#metric-active').textContent = active;
     $('#metric-active-note').textContent = `${state.records.length ? Math.round(active / state.records.length * 100) : 0}% of registry`;
@@ -106,9 +126,25 @@
   }
 
   function renderAnalytics() {
-    const ranked = [...state.records].sort((a, b) => Number(b.scanCount || 0) - Number(a.scanCount || 0)).slice(0, 10);
+    const rankedRecords = [...state.analyticsRecords].sort((a, b) => Number(b.scanCount || 0) - Number(a.scanCount || 0));
+    const ranked = state.analyticsLimit === 'all' ? rankedRecords : rankedRecords.slice(0, 10);
     const max = Math.max(1, ...ranked.map((record) => Number(record.scanCount || 0)));
     $('#bar-list').innerHTML = ranked.map((record) => `<div class="bar-row"><span>${esc(record.id)}</span><div><i style="width:${Math.max(2, Number(record.scanCount || 0) / max * 100)}%"></i></div><strong>${Number(record.scanCount || 0)}</strong></div>`).join('');
+    $$('#analytics-scope button').forEach((button) => {
+      const active = button.dataset.limit === state.analyticsLimit;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    $('#analytics-range-note').textContent = formatAnalyticsRange();
+    $('#clear-analytics-dates').disabled = !state.analyticsStart && !state.analyticsEnd;
+  }
+
+  async function refreshAnalytics() {
+    const data = await api(analyticsApiPath());
+    state.analyticsRecords = data.records;
+    renderMetrics();
+    renderAnalytics();
+    refreshIcons();
   }
 
   function render() {
@@ -125,6 +161,7 @@
     $('#editor-eyebrow').textContent = record?.id || 'NEW RECORD';
     $('#editor-title').textContent = record ? 'Edit QR code' : 'Create QR code';
     $('#editor-save').textContent = record ? 'Save changes' : 'Create QR code';
+    $('#editor-delete').hidden = !record;
     $('#editor-modal').hidden = false;
     setTimeout(() => form.elements.label.focus(), 0);
   }
@@ -211,12 +248,48 @@
   $('#export-button').addEventListener('click', exportCsv);
   $('#import-button').addEventListener('click', () => $('#import-file').click());
   $('#import-file').addEventListener('change', (event) => event.target.files[0] && importCsv(event.target.files[0]));
+  $('#analytics-scope').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-limit]');
+    if (!button) return;
+    state.analyticsLimit = button.dataset.limit;
+    renderAnalytics();
+  });
+  $('#analytics-date-filter').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const start = $('#analytics-start').value;
+    const end = $('#analytics-end').value;
+    if (start && end && start > end) return notice('Start date must be before the end date.');
+    state.analyticsStart = start;
+    state.analyticsEnd = end;
+    const button = $('#apply-analytics-dates');
+    button.disabled = true;
+    try {
+      await refreshAnalytics();
+      notice('Analytics date range applied.');
+    } catch (error) {
+      notice(error.message);
+    } finally {
+      button.disabled = false;
+    }
+  });
+  $('#clear-analytics-dates').addEventListener('click', async () => {
+    $('#analytics-start').value = '';
+    $('#analytics-end').value = '';
+    state.analyticsStart = '';
+    state.analyticsEnd = '';
+    try {
+      await refreshAnalytics();
+      notice('Showing analytics for all dates.');
+    } catch (error) {
+      notice(error.message);
+    }
+  });
   $('#refresh-analytics').addEventListener('click', async (event) => {
     const button = event.currentTarget;
     button.disabled = true;
     button.classList.add('is-loading');
     try {
-      await loadRegistry();
+      await refreshAnalytics();
       notice('Analytics refreshed.');
     } catch (error) {
       notice(error.message);
@@ -241,6 +314,22 @@
   $$('.modal-backdrop').forEach((modal) => modal.addEventListener('click', (event) => { if (event.target === modal) closeModals(); }));
   $('#detail-tracking').addEventListener('click', (event) => copy(event.currentTarget.dataset.copy));
   $('#detail-edit').addEventListener('click', () => { const record = state.records.find((item) => item.id === state.detailId); closeModals(); openEditor(record); });
+  $('#editor-delete').addEventListener('click', async () => {
+    const id = $('#editor-form').elements.id.value;
+    if (!id || !window.confirm(`Delete ${id}? Its permanent tracking URL will stop working. This cannot be undone.`)) return;
+    const button = $('#editor-delete');
+    button.disabled = true;
+    try {
+      await api(`/api/qr/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      closeModals();
+      notice(`${id} deleted.`);
+      await loadRegistry();
+    } catch (error) {
+      notice(error.message);
+    } finally {
+      button.disabled = false;
+    }
+  });
 
   $('#editor-form').addEventListener('submit', async (event) => {
     event.preventDefault();

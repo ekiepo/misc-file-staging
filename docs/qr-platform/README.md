@@ -10,15 +10,21 @@ The QR platform is deployed as part of the existing `misc-file-staging` Vercel p
 
 The QR image contains only the permanent tracking URL. A scan reaches the public redirect function, records a privacy-safe event, and returns a `302` redirect to the registry's editable final destination. Changing the final destination does not require regenerating or reprinting the QR code.
 
+## User documentation
+
+- [Quick-start guide](./QUICK-START.md) for registry administrators unfamiliar with the app.
+
 ## Storage
 
-The registry, scan events, and destination-change history are private objects in the dedicated `morpheus-qr-data` Vercel Blob store connected to this project:
+The registry, deleted-record tombstones, scan events, and destination-change history are private objects in the dedicated `morpheus-qr-data` Vercel Blob store connected to this project:
 
 - `morpheus-qr/registry.json`
 - `morpheus-qr/scans/{QR_ID}/{YYYY-MM-DD}/...json`
 - `morpheus-qr/history/{QR_ID}/...json`
 
 On the first request, the registry is initialized from `qr/data/seed.json`. That seed is derived from the supplied CSV and preserves every existing `MOR-QR-###` identifier.
+
+Deleted records are removed from the active registry and retained in the registry object's `deletedRecords` collection with deletion metadata. Their identifiers remain permanently reserved and are never assigned to a new QR code.
 
 ## Required Vercel environment
 
@@ -36,6 +42,38 @@ Brand name, product name, tracking base URL, and disabled-code fallback can also
 ## Administration flow
 
 The `/qr/` page itself is static and displays no registry data until a valid admin token is supplied. The token is kept in browser `sessionStorage`, so closing the tab clears the session. All registry APIs independently validate the bearer token; the public redirect and QR-image endpoints do not require authentication.
+
+### Registry
+
+- Search and filter the authoritative registry without changing its stored order or identifiers.
+- Create a QR with the next permanently reserved `MOR-QR-###` identifier.
+- Open a QR detail view to copy its tracking URL or download its SVG.
+- Edit its label, placement, final destination, campaign values, notes, or active status without changing the tracking URL.
+- Delete an existing row from its edit screen. Deletion requires confirmation, removes the active redirect, preserves a private tombstone, and prevents the identifier from being reused. Scans of a deleted tracking URL return `404`.
+- Import registry CSV records or export the current registry and scan totals.
+
+### Analytics
+
+- Summary metrics and the scan-performance chart default to all recorded dates.
+- Start and end dates are optional and inclusive. Either bound can be used independently; clearing the range restores all dates.
+- Date filters use the UTC date stored in each scan event and affect analytics metrics and chart rows only. Registry table scan counts remain all-time.
+- `Top 10` is the default chart scope; `Show all` displays every registry record.
+- Refresh reloads analytics from the API while preserving the selected date range and chart scope.
+
+### Settings
+
+Settings contains editable brand, product, tracking-origin, and disabled-code fallback values. The same screen includes read-only collection health for registry loading, bot classification, raw-IP storage, and redirect mode.
+
+## API behavior
+
+| Endpoint | Methods | Access | Purpose |
+| --- | --- | --- | --- |
+| `/api/qr` | `GET`, `POST` | Admin | List records with analytics or create the next QR ID. `GET` accepts optional `from` and `to` dates in `YYYY-MM-DD` format. |
+| `/api/qr/{MOR-QR-ID}` | `PATCH`, `DELETE` | Admin | Update an existing record or remove it while retaining its private tombstone. |
+| `/api/qr/import` | `POST` | Admin | Upsert authoritative CSV records without changing existing tracking slugs. |
+| `/api/qr/settings` | `PATCH` | Admin | Update editable platform settings. |
+| `/api/qr/code/{MOR-QR-ID}` | `GET`, `HEAD` | Public | Generate an SVG encoding the permanent tracking URL. |
+| `/MOR-QR-{suffix}` | `GET`, `HEAD` | Public | Record a scan on `GET` and return the editable `302` destination. |
 
 ## Porting to another domain
 
