@@ -130,7 +130,8 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 
 ## 6. Open items
 
-* **Video payload:** `morpheus/assets/videos/` is **752 MB on disk with only 17 files referenced.** The rest are unreferenced legacy clips (`0720.mp4`, `MORPHEUS_06-small.mov`, and others). Prune or move to Blob before this becomes a deploy problem.
+* **Video payload:** `morpheus/assets/videos/` is **529 MB across 18 files, 17 of them referenced.** Superseded legacy cuts were pruned; `Morpheus Shorts - Device Information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
+* **`manual.html:126`** (Chapter 1 lead card) still points at the `main-promo-voice.mp4` placeholder on Vercel Blob rather than a local chapter clip — the last survivor of the placeholder sweep described in §5.
 * **`MORPHEUS_06-small.mov`** is 45 MB of QuickTime and is the downlight page-1 hero demo. Chrome and Firefox cannot decode it — re-encode to MP4.
 * **Uplight hero and card 02 both point at `morpheus-shorts-down-lighting.mp4`** — same clip twice on one page, and it's a downlight clip. Restored as-found; may want a distinct hero.
 
