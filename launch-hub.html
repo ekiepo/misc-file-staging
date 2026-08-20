@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Morpheus Launch Toolkit - Dauer Manufacturing</title>
   <meta name="description"
-    content="Presentation hub for the Morpheus launch system: film, live documents, QR tracking, assets, decisions, and ownership.">
+    content="Morpheus launch hub with current videos, documents, print files, QR links, and assets.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -50,6 +50,10 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       text-rendering: geometricPrecision;
+    }
+
+    body.has-preview-open {
+      overflow: hidden;
     }
 
     body.presenter main,
@@ -309,6 +313,7 @@
     }
 
     .tile-grid,
+    .video-download-grid,
     .docs-grid,
     .asset-grid,
     .decision-grid,
@@ -323,10 +328,19 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .docs-grid,
+    .video-download-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
     .columns,
     .access-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .docs-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
     }
 
     .asset-grid {
@@ -366,6 +380,7 @@
 
     .doc-card,
     .asset-card,
+    .video-card,
     .card[data-link] {
       position: relative;
       overflow: hidden;
@@ -376,6 +391,7 @@
 
     .doc-card:hover,
     .asset-card:hover,
+    .video-card:hover,
     .card[data-link]:hover {
       transform: translateY(-2px);
       border-color: rgba(43, 43, 43, .28);
@@ -405,8 +421,209 @@
       padding: 20px;
     }
 
+    .doc-card .thumb {
+      aspect-ratio: 16 / 9;
+    }
+
+    .doc-card__body {
+      padding: 16px;
+    }
+
+    .doc-card h3 {
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.28;
+    }
+
+    .doc-card .meta {
+      margin-bottom: 7px;
+      font-size: 9px;
+    }
+
+    .doc-card .why {
+      margin-bottom: 8px;
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .doc-card--pdf .thumb img {
+      object-position: top center;
+    }
+
+    .doc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .print-link {
+      appearance: none;
+      padding: 0;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--dauer-orange-500);
+    }
+
+    .print-link:hover,
+    .print-link:focus-visible,
+    .open-link:hover,
+    .open-link:focus-visible {
+      color: var(--dauer-orange-600);
+    }
+
+    .print-frame {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      width: 1px;
+      height: 1px;
+      border: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .asset-card .thumb {
       aspect-ratio: 1 / 1;
+    }
+
+    .video-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--dauer-paper-0);
+      border: 1px solid var(--dauer-paper-100);
+      border-radius: 8px;
+      color: inherit;
+      text-decoration: none;
+      box-shadow: 0 2px 10px rgba(28, 27, 26, .05);
+    }
+
+    .video-card .thumb {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 0;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      border-bottom: 1px solid var(--dauer-paper-100);
+      cursor: pointer;
+    }
+
+    .video-card .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(28, 27, 26, 0) 45%, rgba(28, 27, 26, .42));
+      pointer-events: none;
+    }
+
+    .video-card .thumb::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 2;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, .9);
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(28, 27, 26, .24);
+      transform: translate(-50%, -50%);
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .video-card .thumb span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 3;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 12px solid var(--dauer-orange-500);
+      transform: translate(-36%, -50%);
+    }
+
+    .video-card .thumb:hover::before,
+    .video-card .thumb:focus-visible::before {
+      background: #fff;
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .video-card .thumb:focus-visible {
+      outline: 3px solid rgba(247, 148, 29, .72);
+      outline-offset: -3px;
+    }
+
+    .video-card__body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 16px;
+    }
+
+    .video-card h3 {
+      margin-bottom: 12px;
+      font-size: 13px;
+      line-height: 1.28;
+    }
+
+    .video-card .open-link {
+      margin-top: auto;
+    }
+
+    .video-preview-dialog {
+      width: min(1000px, calc(100vw - 32px));
+      padding: 0;
+      overflow: visible;
+      background: transparent;
+      border: 0;
+    }
+
+    .video-preview-dialog::backdrop {
+      background: rgba(28, 27, 26, .78);
+      backdrop-filter: blur(8px);
+    }
+
+    .video-preview-shell {
+      position: relative;
+      overflow: visible;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, .42);
+    }
+
+    .video-preview-shell video {
+      display: block;
+      width: 100%;
+      max-height: min(76vh, 720px);
+      background: #000;
+      border-radius: 8px;
+    }
+
+    .video-preview-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      background: #fff;
+      border: 0;
+      border-radius: 50%;
+      color: var(--dauer-charcoal-900);
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .24);
     }
 
     .animation-thumb {
@@ -687,7 +904,9 @@
 
       .hero-grid,
       .asset-grid,
-      .decision-grid {
+      .decision-grid,
+      .docs-grid,
+      .video-download-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -712,6 +931,7 @@
 
       .hero-grid,
       .tile-grid,
+      .video-download-grid,
       .docs-grid,
       .columns,
       .asset-grid,
@@ -790,7 +1010,7 @@
     <div class="nav-links" aria-label="Sections">
       <a href="#film">Film</a>
       <a href="#documents">Documents</a>
-      <a href="#qr-system">QR System</a>
+      <a href="#qr-system">QR Links</a>
       <a href="#assets">Assets</a>
       <a href="#decisions">Decisions</a>
     </div>
@@ -828,22 +1048,65 @@
             </video>
           </div>
         </div>
-        <div class="tile-grid">
-          <a class="card reveal-on-scroll" data-link="cutThirty">
-            <div class="meta">:30 · Trade ad landing</div>
-            <h3>Hero cut-down</h3>
-            <p>Short form version for scan destinations and paid media.</p>
-          </a>
-          <a class="card reveal-on-scroll" data-link="cutFifteen">
-            <div class="meta">:15 · Social</div>
-            <h3>Feature cut</h3>
-            <p>Compact placement for social feeds and distributor posts.</p>
-          </a>
-          <a class="card reveal-on-scroll" data-link="cutSix">
-            <div class="meta">:06 · Bumper</div>
-            <h3>Logo sting</h3>
-            <p>Fast recall asset for retargeting and presentation bumpers.</p>
-          </a>
+        <div class="video-download-grid" aria-label="Smart Features QR video downloads">
+          <article class="video-card reveal-on-scroll">
+            <button class="thumb" type="button" data-video-preview="featureBeam"
+              aria-label="Preview App-Adjustable Beam Presets">
+              <img src="morpheus/assets/img/launch-hub/video-beam-presets.jpg" alt="">
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="video-card__body">
+              <div class="meta">:29 · QR Demo</div>
+              <h3>App-Adjustable Beam Presets</h3>
+              <a class="open-link" data-link="featureBeam">Download MP4 -></a>
+            </div>
+          </article>
+          <article class="video-card reveal-on-scroll">
+            <button class="thumb" type="button" data-video-preview="featureMoonlighting" aria-label="Preview Moonlighting">
+              <img src="morpheus/assets/img/launch-hub/video-moonlighting.jpg" alt="">
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="video-card__body">
+              <div class="meta">:31 · QR Demo</div>
+              <h3>Moonlighting</h3>
+              <a class="open-link" data-link="featureMoonlighting">Download MP4 -></a>
+            </div>
+          </article>
+          <article class="video-card reveal-on-scroll">
+            <button class="thumb" type="button" data-video-preview="featureDimming"
+              aria-label="Preview Smooth Dimming and Shaping">
+              <img src="morpheus/assets/img/launch-hub/video-dimming-shaping.jpg" alt="">
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="video-card__body">
+              <div class="meta">:35 · QR Demo</div>
+              <h3>Smooth Dimming and Shaping</h3>
+              <a class="open-link" data-link="featureDimming">Download MP4 -></a>
+            </div>
+          </article>
+          <article class="video-card reveal-on-scroll">
+            <button class="thumb" type="button" data-video-preview="featureGrouping" aria-label="Preview Fixture Grouping">
+              <img src="morpheus/assets/img/launch-hub/video-fixture-grouping.jpg" alt="">
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="video-card__body">
+              <div class="meta">:32 · QR Demo</div>
+              <h3>Fixture Grouping</h3>
+              <a class="open-link" data-link="featureGrouping">Download MP4 -></a>
+            </div>
+          </article>
+          <article class="video-card reveal-on-scroll">
+            <button class="thumb" type="button" data-video-preview="featureKle"
+              aria-label="Preview Kinetic Lighting Effect Loop">
+              <img src="morpheus/assets/img/launch-hub/video-kle-loop.jpg" alt="">
+              <span aria-hidden="true"></span>
+            </button>
+            <div class="video-card__body">
+              <div class="meta">1:46 · QR Demo</div>
+              <h3>Kinetic Lighting Effect Loop</h3>
+              <a class="open-link" data-link="featureKle">Download MP4 -></a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -851,93 +1114,109 @@
     <section class="section" id="documents">
       <div class="wrap">
         <p class="eyebrow"><span class="section-number">02</span> · The Documents</p>
-        <h2>Live documents, not static leave-behinds.</h2>
-        <p class="lead">Morpheus is not a fixed-optic downlight, and it could not be described by a fixed sheet of
-          paper. These are live documents. Same content in print and on screen, updatable the day a spec changes, with
-          codes that jump straight to the video of the feature being described.</p>
+        <h2>Documents.</h2>
+        <p class="lead">Open the current pages or print the files from here.</p>
 
         <div class="docs-grid">
-          <a class="doc-card reveal-on-scroll" data-link="index">
+          <article class="doc-card reveal-on-scroll">
             <div class="thumb contain"><img src="morpheus/assets/img/logo-dauer-clear.png" alt=""></div>
             <div class="doc-card__body">
               <div class="meta">Portal</div>
               <h3>Index page</h3>
-              <p class="why">The launch point for the manual and both fixture sheets.</p>
-              <p class="why">Built as the permanent public front door to the documentation set.</p>
-              <span class="open-link">Open -></span>
+              <p class="why">Public page for the Morpheus documentation set.</p>
+              <p class="why">Links to the manual and both spec sheets.</p>
+              <div class="doc-actions">
+                <a class="open-link" data-link="index">Open -></a>
+              </div>
             </div>
-          </a>
-          <a class="doc-card reveal-on-scroll" data-link="manual">
+          </article>
+          <article class="doc-card reveal-on-scroll">
             <div class="thumb"><img src="morpheus/assets/img/manual/cover-hero2.png" alt=""></div>
             <div class="doc-card__body">
               <div class="meta">Manual</div>
               <h3>Interactive user manual</h3>
-              <p class="why">Pairing, programming, sharing, timers, presets, KLE, and network diagnosis.</p>
-              <p class="why">Structured for phone use, desktop review, and letter-size printing.</p>
-              <span class="open-link">Open -></span>
+              <p class="why">Setup, controls, schedules, sharing, presets, and troubleshooting.</p>
+              <p class="why">Open the live page or print it.</p>
+              <div class="doc-actions">
+                <a class="open-link" data-link="manual">Open -></a>
+                <button class="print-link" type="button" data-print-link="manual">Print -></button>
+              </div>
             </div>
-          </a>
-          <a class="doc-card reveal-on-scroll" data-link="specUplight">
+          </article>
+          <article class="doc-card reveal-on-scroll">
             <div class="thumb contain"><img src="morpheus/assets/img/manual/uplight-fixture-hero-2.png" alt=""></div>
             <div class="doc-card__body">
               <div class="meta">Spec sheet</div>
               <h3>Uplight spec sheet</h3>
-              <p class="why">Ordering data, beam output, riser options, accessories, and dimensions.</p>
-              <p class="why">Made editable where sales and specifiers need project-specific fields.</p>
-              <span class="open-link">Open -></span>
+              <p class="why">Specs, ordering info, beam data, accessories, and dimensions.</p>
+              <p class="why">Open the live page or print it.</p>
+              <div class="doc-actions">
+                <a class="open-link" data-link="specUplight">Open -></a>
+                <button class="print-link" type="button" data-print-link="specUplight">Print -></button>
+              </div>
             </div>
-          </a>
-          <a class="doc-card reveal-on-scroll" data-link="specDownlight">
+          </article>
+          <article class="doc-card reveal-on-scroll">
             <div class="thumb contain"><img src="morpheus/assets/img/manual/downlight-fixture-hero2.png" alt=""></div>
             <div class="doc-card__body">
               <div class="meta">Spec sheet</div>
               <h3>Downlight spec sheet</h3>
-              <p class="why">Tree-hugger kit layouts, mounting details, ordering data, and output tables.</p>
-              <p class="why">Built from the same system, with fixture-specific diagrams and assets.</p>
-              <span class="open-link">Open -></span>
+              <p class="why">Specs, mounting details, ordering info, and output tables.</p>
+              <p class="why">Open the live page or print it.</p>
+              <div class="doc-actions">
+                <a class="open-link" data-link="specDownlight">Open -></a>
+                <button class="print-link" type="button" data-print-link="specDownlight">Print -></button>
+              </div>
             </div>
-          </a>
+          </article>
+          <article class="doc-card doc-card--pdf reveal-on-scroll">
+            <div class="thumb"><img src="morpheus/assets/img/launch-hub/morpheus-vs-wac-comparison.jpg" alt=""></div>
+            <div class="doc-card__body">
+              <div class="meta">Comparison PDF</div>
+              <h3>Morpheus vs. WAC Grand Accent</h3>
+              <p class="why">Two-page PDF comparing Morpheus with WAC Grand Accent.</p>
+              <p class="why">Print from here.</p>
+              <div class="doc-actions">
+                <button class="print-link" type="button" data-print-link="comparisonPdf">Print -></button>
+              </div>
+            </div>
+          </article>
         </div>
 
         <div class="callout reveal-on-scroll">
-          <p><strong>It still prints.</strong> Every document has a print layout, and a printed code works exactly like
-            an on-screen one: it is the same code, pointing at the same place.</p>
+          <p><strong>Use this section for the latest document links and print versions.</strong></p>
         </div>
       </div>
     </section>
 
     <section class="section" id="qr-system">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">03</span> · The QR System</p>
-        <h2>The part print could never do.</h2>
-        <p class="lead">Same ad. Two magazines. A different code on each, both pointing at the same video. Sixty days
-          later you know which magazine to renew: not because someone thinks it worked, because you can see it.</p>
+        <p class="eyebrow"><span class="section-number">03</span> · QR Links</p>
+        <h2>QR links and reporting.</h2>
+        <p class="lead">Campaign codes, destinations, and scan reporting for launch materials.</p>
 
         <div class="tile-grid">
           <div class="card reveal-on-scroll">
-            <div class="meta">Routing</div>
-            <h3>The destination is editable after it is printed.</h3>
-            <p>A code in a catalog from last spring can point somewhere new tomorrow. Print stops being a one-way door.
-            </p>
+            <div class="meta">Destinations</div>
+            <h3>Update where a code points.</h3>
+            <p>Change the destination without changing the printed code.</p>
           </div>
           <div class="card reveal-on-scroll">
             <div class="meta">Reporting</div>
-            <h3>Analytics by day, by code.</h3>
-            <p>Not one aggregate number. Every code reports separately, so placements can be compared against each
-              other.</p>
+            <h3>Review scans by code.</h3>
+            <p>Use separate code data to compare placements.</p>
           </div>
           <div class="card reveal-on-scroll">
             <div class="meta">Campaigns</div>
-            <h3>Codes group into campaigns.</h3>
-            <p>A trade show, a magazine flight, a distributor mailing. Roll them up or break them out.</p>
+            <h3>Group related codes.</h3>
+            <p>Keep trade ads, mailers, stickers, and events organized.</p>
           </div>
         </div>
 
-        <p class="stat-line"><strong>30 codes live today</strong>, all routed through our own redirect. No third-party
-          service, no per-scan fee, and the data stays with Dauer.</p>
+        <p class="stat-line"><strong>30 codes live today</strong>, routed through Dauer redirect links.</p>
 
         <div class="callout reveal-on-scroll">
-          <p><strong>The scans from the top of this page are already in the dashboard.</strong></p>
+          <p><strong>Dashboard access lives here when it is connected.</strong></p>
           <div class="button-row">
             <a class="button" data-link="dashboard">Open the dashboard -></a>
           </div>
@@ -948,9 +1227,8 @@
     <section class="section" id="assets">
       <div class="wrap">
         <p class="eyebrow"><span class="section-number">04</span> · Brand Assets</p>
-        <h2>Finished, on-brand, ready to use.</h2>
-        <p class="lead">Everything below is staged as a launch asset. Known local assets open now; production download
-          packages can be wired in as soon as final URLs exist.</p>
+        <h2>Assets.</h2>
+        <p class="lead">Download the launch graphics, sticker, animation, and product image files staged here.</p>
 
         <div class="asset-grid">
           <a class="asset-card reveal-on-scroll" data-link="assetStylizedQr">
@@ -1009,30 +1287,26 @@
 
     <section class="section" id="unlocks">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">05</span> · What This Unlocks</p>
-        <h2>Two teams, equal value.</h2>
+        <p class="eyebrow"><span class="section-number">05</span> · Use Cases</p>
+        <h2>How this gets used.</h2>
         <div class="columns">
           <div class="list-card reveal-on-scroll">
             <p class="eyebrow">For Marketing</p>
             <ul>
-              <li>Update a spec the day it changes. No reprint cycle, no stale PDFs circulating in the channel.</li>
-              <li>See which channel actually produced scans, by day.</li>
-              <li>Run two placements against the same destination and compare them directly.</li>
-              <li>Every asset here is downloadable, reusable, and already on-brand.</li>
-              <li>The documents are live, so a correction is a five-minute fix rather than a print run.</li>
+              <li>Keep the current documents and assets in one place.</li>
+              <li>Update live pages when specs change.</li>
+              <li>Use dedicated QR codes for specific placements.</li>
+              <li>Download launch graphics and print files.</li>
+              <li>Check scan data when reports are available.</li>
             </ul>
           </div>
           <div class="list-card reveal-on-scroll">
             <p class="eyebrow">For Sales</p>
             <ul>
-              <li>A rep at a distributor counter answers a spec question in fifteen seconds, with no printed sheet in
-                the truck.</li>
-              <li>Codes per rep or per territory show which regions are actually putting material in front of people.
-              </li>
-              <li>The installer becomes a channel: scan the box sticker, watch the install video, one less support call.
-              </li>
-              <li>What a rep hands out is never out of date, because it is not a copy. It is a link to the live
-                document.</li>
+              <li>Open the latest manual and spec sheets from a phone.</li>
+              <li>Print the current documents before a meeting or handoff.</li>
+              <li>Share videos that explain the Smart Features.</li>
+              <li>Use QR links on printed pieces, boxes, and follow-up materials.</li>
             </ul>
           </div>
         </div>
@@ -1041,29 +1315,28 @@
 
     <section class="section" id="decisions">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">06</span> · Yours To Decide</p>
-        <h2>The next phase needs ownership.</h2>
-        <p class="lead">This is not a generic next-steps list. These are the decisions that turn the work from a launch
-          kit into a durable marketing and sales system.</p>
+        <p class="eyebrow"><span class="section-number">06</span> · Decisions</p>
+        <h2>Open items.</h2>
+        <p class="lead">Items to confirm before the launch hub is handed off or expanded.</p>
         <div class="decision-grid">
           <div class="decision-card reveal-on-scroll">
             <div class="num">01</div>
-            <h3>Campaign naming convention</h3>
-            <p>How codes get named so a report is readable in a year.</p>
-            <div class="recommend"><strong>Recommendation:</strong> channel, placement, date, and owner.</div>
+            <h3>Campaign names</h3>
+            <p>How codes and placements should be named in reports.</p>
+            <div class="recommend"><strong>Suggested format:</strong> channel, placement, date, and owner.</div>
           </div>
           <div class="decision-card reveal-on-scroll">
             <div class="num">02</div>
-            <h3>Which channels get dedicated codes</h3>
-            <p>Trade ads, counter cards, box stickers, trade show, email, rep leave-behinds.</p>
-            <div class="recommend"><strong>Recommendation:</strong> start broad where spend or territory attribution
-              matters.</div>
+            <h3>Dedicated codes</h3>
+            <p>Which channels need their own QR codes.</p>
+            <div class="recommend"><strong>Examples:</strong> trade ads, counter cards, box stickers, trade shows,
+              email, and rep handouts.</div>
           </div>
           <div class="decision-card reveal-on-scroll">
             <div class="num">03</div>
-            <h3>Launch sequencing</h3>
-            <p>What goes out first, who gets it, and when the channel starts seeing it.</p>
-            <div class="recommend"><strong>Recommendation:</strong> film, documents, QR dashboard, then channel-specific
+            <h3>Launch order</h3>
+            <p>What goes out first, who receives it, and when each channel starts using it.</p>
+            <div class="recommend"><strong>Current order:</strong> film, documents, QR reporting, then channel-specific
               assets.</div>
           </div>
         </div>
@@ -1072,26 +1345,25 @@
 
     <section class="section" id="access">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">07</span> · Access & Ownership</p>
-        <h2>Dauer owns the system.</h2>
-        <p class="lead">The point is not to make the company dependent on one person. The point is to leave Dauer with
-          live documents, owned redirect data, and a system that can be handed off cleanly.</p>
+        <p class="eyebrow"><span class="section-number">07</span> · Access</p>
+        <h2>Access and handoff.</h2>
+        <p class="lead">Hosting, login, export, and ownership notes for the launch hub.</p>
         <div class="access-grid">
           <div class="access-row reveal-on-scroll">
-            <div class="meta">Where it is hosted</div>
-            <p>Static site on Vercel, with the documents and redirect API in this project.</p>
+            <div class="meta">Hosting</div>
+            <p>Static site on Vercel, with launch files and documents in this project.</p>
           </div>
           <div class="access-row reveal-on-scroll">
-            <div class="meta">Who has logins</div>
-            <p>To be confirmed before handoff. This page leaves the slot explicit.</p>
+            <div class="meta">Logins</div>
+            <p>Confirm who should have access before handoff.</p>
           </div>
           <div class="access-row reveal-on-scroll">
             <div class="meta">Data export</div>
-            <p>CSV export can be produced any time from the QR registry and scan data.</p>
+            <p>Scan data can be exported when reporting is connected.</p>
           </div>
           <div class="access-row reveal-on-scroll">
-            <div class="meta">If the site changes</div>
-            <p>The codes keep working. The redirect layer is independent of the final destination.</p>
+            <div class="meta">Changes</div>
+            <p>Live page links can be updated as files and specs change.</p>
           </div>
         </div>
       </div>
@@ -1159,9 +1431,12 @@
       specUplight: "morpheus/uplight.html",
       specDownlight: "morpheus/downlight.html",
       film: "https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4",
-      cutThirty: "morpheus/assets/videos/Morpheus%20Shorts%20-%20Down%20Lighting.mp4",
-      cutFifteen: "morpheus/assets/videos/Morpheus%20Short%20-%20Beam%20Presets.mp4",
-      cutSix: "morpheus/assets/videos/KLE-preset.mp4",
+      featureBeam: "morpheus/assets/videos/morpheus-short-beam-presets.mp4",
+      featureMoonlighting: "morpheus/assets/videos/morpheus-shorts-down-lighting.mp4",
+      featureDimming: "morpheus/assets/videos/morpheus-shorts-manual-xy.mp4",
+      featureGrouping: "morpheus/assets/videos/morpheus-shorts-synced-group-lighting.mp4",
+      featureKle: "morpheus/assets/videos/kle-2.mp4",
+      comparisonPdf: "morpheus/assets/docs/morpheus-vs-wac-comparison.pdf",
       dashboard: "",
       campaignHero: "",
       assetStylizedQr: "morpheus/assets/img/launch-hub/dauer-stylized-qr.png",
@@ -1172,6 +1447,11 @@
     };
 
     const DOWNLOAD_LINKS = new Set([
+      "featureBeam",
+      "featureMoonlighting",
+      "featureDimming",
+      "featureGrouping",
+      "featureKle",
       "assetStylizedQr",
       "assetLockup",
       "assetSticker",
@@ -1218,6 +1498,96 @@
         el.removeAttribute("download");
         el.setAttribute("aria-disabled", "true");
       }
+    });
+
+    const printFrame = document.createElement("iframe");
+    printFrame.className = "print-frame";
+    printFrame.title = "Print document";
+    document.body.appendChild(printFrame);
+
+    let pendingPrintUrl = "";
+
+    printFrame.addEventListener("load", () => {
+      if (!pendingPrintUrl) return;
+      setTimeout(() => {
+        try {
+          printFrame.contentWindow.focus();
+          printFrame.contentWindow.print();
+        } catch {
+          window.open(pendingPrintUrl, "_blank", "noopener");
+        }
+        pendingPrintUrl = "";
+      }, 250);
+    });
+
+    document.querySelectorAll("[data-print-link]").forEach((button) => {
+      const url = LINKS[button.dataset.printLink];
+      if (!url) {
+        button.disabled = true;
+        button.setAttribute("aria-disabled", "true");
+        return;
+      }
+
+      button.addEventListener("click", () => {
+        pendingPrintUrl = resolveUrl(url);
+        printFrame.src = pendingPrintUrl;
+      });
+    });
+
+    const previewDialog = document.createElement("dialog");
+    previewDialog.className = "video-preview-dialog";
+    previewDialog.setAttribute("aria-label", "Video preview");
+
+    const previewShell = document.createElement("div");
+    previewShell.className = "video-preview-shell";
+
+    const previewClose = document.createElement("button");
+    previewClose.className = "video-preview-close";
+    previewClose.type = "button";
+    previewClose.setAttribute("aria-label", "Close video preview");
+    previewClose.textContent = "×";
+
+    const previewVideo = document.createElement("video");
+    previewVideo.controls = true;
+    previewVideo.playsInline = true;
+
+    previewShell.appendChild(previewClose);
+    previewShell.appendChild(previewVideo);
+    previewDialog.appendChild(previewShell);
+    document.body.appendChild(previewDialog);
+
+    const closePreview = () => {
+      previewDialog.close();
+    };
+
+    previewClose.addEventListener("click", closePreview);
+
+    previewDialog.addEventListener("click", (event) => {
+      if (event.target === previewDialog) {
+        closePreview();
+      }
+    });
+
+    previewDialog.addEventListener("close", () => {
+      previewVideo.pause();
+      previewVideo.removeAttribute("src");
+      previewVideo.load();
+      document.body.classList.remove("has-preview-open");
+    });
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-video-preview]");
+      if (!trigger) return;
+
+      const videoSrc = LINKS[trigger.dataset.videoPreview];
+      if (!videoSrc) return;
+
+      event.preventDefault();
+      previewVideo.src = videoSrc;
+      previewVideo.load();
+      previewDialog.showModal();
+      document.body.classList.add("has-preview-open");
+      previewVideo.play().catch(() => {});
     });
 
     const video = document.getElementById("film-video");
