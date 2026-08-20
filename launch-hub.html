@@ -12,7 +12,6 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300..900;1,300..900&family=Archivo+Expanded:wght@600;700;800&display=swap"
     rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
   <style>
     :root {
       --dauer-orange-500: #f7941d;
@@ -258,7 +257,7 @@
       border-radius: 8px;
     }
 
-    #hero-qr {
+    .hero-qr-img {
       width: 320px;
       height: 320px;
     }
@@ -339,7 +338,7 @@
     }
 
     .docs-grid {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
     }
 
@@ -349,6 +348,93 @@
 
     .decision-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .qr-system-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+      gap: 30px;
+      align-items: start;
+      margin-top: 34px;
+    }
+
+    .qr-system-layout .lead {
+      margin-bottom: 0;
+    }
+
+    .qr-insight-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .qr-insight {
+      padding: 18px;
+      background: rgba(255, 255, 255, .62);
+      border: 1px solid var(--dauer-paper-100);
+      border-radius: 8px;
+    }
+
+    .qr-insight h3 {
+      margin-bottom: 7px;
+      font-size: 14px;
+    }
+
+    .qr-insight p {
+      margin-bottom: 0;
+      color: var(--dauer-charcoal-500);
+      font-size: 14px;
+      line-height: 1.48;
+    }
+
+    .dashboard-preview {
+      display: grid;
+      gap: 12px;
+    }
+
+    .dashboard-preview__main,
+    .dashboard-preview__pair {
+      display: grid;
+      gap: 12px;
+    }
+
+    .dashboard-preview__pair {
+      grid-template-columns: 1.1fr .9fr;
+    }
+
+    .dashboard-shot {
+      overflow: hidden;
+      background: var(--dauer-paper-0);
+      border: 1px solid rgba(43, 43, 43, .14);
+      border-radius: 8px;
+      box-shadow: 0 10px 26px rgba(28, 27, 26, .12);
+    }
+
+    .dashboard-shot img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .dashboard-shot--wide {
+      aspect-ratio: 16 / 10.2;
+    }
+
+    .dashboard-shot--analytics {
+      aspect-ratio: 16 / 10;
+    }
+
+    .dashboard-shot--detail {
+      aspect-ratio: 16 / 10;
+    }
+
+    .dashboard-caption {
+      margin: 0;
+      color: var(--dauer-charcoal-400);
+      font-size: 12px;
+      line-height: 1.45;
     }
 
     .card,
@@ -426,6 +512,9 @@
     }
 
     .doc-card__body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
       padding: 16px;
     }
 
@@ -450,11 +539,18 @@
       object-position: top center;
     }
 
+    .doc-card,
+    .asset-card {
+      display: flex;
+      flex-direction: column;
+    }
+
     .doc-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 12px;
+      margin-top: auto;
+      padding-top: 12px;
     }
 
     .print-link {
@@ -491,6 +587,12 @@
 
     .asset-card .thumb {
       aspect-ratio: 1 / 1;
+    }
+
+    .asset-card__body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
     }
 
     .video-card {
@@ -711,6 +813,12 @@
       font-size: 13px;
     }
 
+    .asset-card .open-link {
+      display: block;
+      margin-top: auto;
+      padding-top: 14px;
+    }
+
     .why {
       margin: -3px 0 16px;
       color: var(--dauer-charcoal-500);
@@ -727,7 +835,6 @@
       margin-top: 26px;
       padding: 20px 22px;
       background: rgba(255, 255, 255, .72);
-      border-left: 5px solid var(--dauer-orange-500);
     }
 
     .callout p {
@@ -903,6 +1010,7 @@
     @media (max-width: 980px) {
 
       .hero-grid,
+      .qr-system-layout,
       .asset-grid,
       .decision-grid,
       .docs-grid,
@@ -931,6 +1039,8 @@
 
       .hero-grid,
       .tile-grid,
+      .qr-system-layout,
+      .dashboard-preview__pair,
       .video-download-grid,
       .docs-grid,
       .columns,
@@ -944,7 +1054,7 @@
         min-height: 280px;
       }
 
-      #hero-qr {
+      .hero-qr-img {
         width: 280px;
         height: 280px;
       }
@@ -996,7 +1106,7 @@
         text-transform: none;
       }
 
-      #hero-qr {
+      .hero-qr-img {
         width: 1.4in !important;
         height: 1.4in !important;
       }
@@ -1010,9 +1120,8 @@
     <div class="nav-links" aria-label="Sections">
       <a href="#film">Film</a>
       <a href="#documents">Documents</a>
-      <a href="#qr-system">QR Links</a>
       <a href="#assets">Assets</a>
-      <a href="#decisions">Decisions</a>
+      <a href="#qr-system">QR Links</a>
     </div>
   </nav>
 
@@ -1027,11 +1136,11 @@
         </div>
         <aside class="qr-card reveal-on-scroll" aria-label="Launch hub QR code">
           <div class="qr-frame">
-            <div id="hero-qr" aria-label="QR code for this launch hub"></div>
+            <img class="hero-qr-img" src="morpheus/assets/img/launch-hub/mor-qr-038.svg"
+              alt="QR code for this launch hub">
           </div>
-          <p class="qr-caption">Scan this now.<span>It will come up on your phone. We will come back to what just
-              happened in about fifteen minutes.</span></p>
-          <p class="short-url" id="hero-url">Preparing QR destination...</p>
+          <p class="qr-caption">Scan this.<span> Analytics tracking for each scan. We will come back to this in about fifteen minutes.</span></p>
+          <p class="short-url">MOR-QR-038</p>
         </aside>
       </div>
     </section>
@@ -1039,7 +1148,7 @@
     <section class="section" id="film">
       <div class="wrap">
         <p class="eyebrow"><span class="section-number">01</span> · The Film</p>
-        <h2>Morpheus Main Promo Video.</h2>
+        <h2>Morpheus Video Assets</h2>
         <p class="lead">The master version that can be sliced for shorter promo's. With and without voiceover.</p>
         <div class="media-shell reveal-on-scroll">
           <div class="video-wrap">
@@ -1113,9 +1222,9 @@
 
     <section class="section" id="documents">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">02</span> · The Documents</p>
-        <h2>Documents.</h2>
-        <p class="lead">Open the current pages or print the files from here.</p>
+        <p class="eyebrow"><span class="section-number">02</span> · The Document</p>
+        <h2>Document Assets</h2>
+        <p class="lead">Open the webpage directly or print the files from here.</p>
 
         <div class="docs-grid">
           <article class="doc-card reveal-on-scroll">
@@ -1170,6 +1279,18 @@
             </div>
           </article>
           <article class="doc-card doc-card--pdf reveal-on-scroll">
+            <div class="thumb"><img src="morpheus/assets/img/launch-hub/morpheus-product-sheet.jpg" alt=""></div>
+            <div class="doc-card__body">
+              <div class="meta">Product PDF</div>
+              <h3>Morpheus Product Sheet</h3>
+              <p class="why">One-page Morpheus product overview.</p>
+              <p class="why">Print from here.</p>
+              <div class="doc-actions">
+                <button class="print-link" type="button" data-print-link="productSheetPdf">Print -></button>
+              </div>
+            </div>
+          </article>
+          <article class="doc-card doc-card--pdf reveal-on-scroll">
             <div class="thumb"><img src="morpheus/assets/img/launch-hub/morpheus-vs-wac-comparison.jpg" alt=""></div>
             <div class="doc-card__body">
               <div class="meta">Comparison PDF</div>
@@ -1189,45 +1310,10 @@
       </div>
     </section>
 
-    <section class="section" id="qr-system">
-      <div class="wrap">
-        <p class="eyebrow"><span class="section-number">03</span> · QR Links</p>
-        <h2>QR links and reporting.</h2>
-        <p class="lead">Campaign codes, destinations, and scan reporting for launch materials.</p>
-
-        <div class="tile-grid">
-          <div class="card reveal-on-scroll">
-            <div class="meta">Destinations</div>
-            <h3>Update where a code points.</h3>
-            <p>Change the destination without changing the printed code.</p>
-          </div>
-          <div class="card reveal-on-scroll">
-            <div class="meta">Reporting</div>
-            <h3>Review scans by code.</h3>
-            <p>Use separate code data to compare placements.</p>
-          </div>
-          <div class="card reveal-on-scroll">
-            <div class="meta">Campaigns</div>
-            <h3>Group related codes.</h3>
-            <p>Keep trade ads, mailers, stickers, and events organized.</p>
-          </div>
-        </div>
-
-        <p class="stat-line"><strong>30 codes live today</strong>, routed through Dauer redirect links.</p>
-
-        <div class="callout reveal-on-scroll">
-          <p><strong>Dashboard access lives here when it is connected.</strong></p>
-          <div class="button-row">
-            <a class="button" data-link="dashboard">Open the dashboard -></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="section" id="assets">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">04</span> · Brand Assets</p>
-        <h2>Assets.</h2>
+        <p class="eyebrow"><span class="section-number">03</span> · Brand Assets</p>
+        <h2>Other marketing Assets</h2>
         <p class="lead">Download the launch graphics, sticker, animation, and product image files staged here.</p>
 
         <div class="asset-grid">
@@ -1285,59 +1371,87 @@
       </div>
     </section>
 
-    <section class="section" id="unlocks">
+    <section class="section" id="qr-system">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">05</span> · Use Cases</p>
-        <h2>How this gets used.</h2>
-        <div class="columns">
-          <div class="list-card reveal-on-scroll">
-            <p class="eyebrow">For Marketing</p>
-            <ul>
-              <li>Keep the current documents and assets in one place.</li>
-              <li>Update live pages when specs change.</li>
-              <li>Use dedicated QR codes for specific placements.</li>
-              <li>Download launch graphics and print files.</li>
-              <li>Check scan data when reports are available.</li>
-            </ul>
+        <p class="eyebrow"><span class="section-number">04</span> · QR Links</p>
+        <h2>QR tracking and reporting.</h2>
+
+        <div class="qr-system-layout">
+          <div>
+            <p class="lead">Permanent QR links, editable destinations, and scan reporting live in the dashboard.</p>
+
+            <div class="qr-insight-grid" aria-label="QR reporting overview">
+              <div class="qr-insight reveal-on-scroll">
+                <div class="meta">Registry</div>
+                <h3>Every code has a permanent ID.</h3>
+                <p>See where each code is used, what it is labeled, where it points, and whether it is active.</p>
+              </div>
+              <div class="qr-insight reveal-on-scroll">
+                <div class="meta">Destinations</div>
+                <h3>Final URLs can change after print.</h3>
+                <p>Update a scan destination without replacing the printed code on packaging, spec sheets, or handouts.</p>
+              </div>
+              <div class="qr-insight reveal-on-scroll">
+                <div class="meta">Reporting</div>
+                <h3>Scans are tracked by code.</h3>
+                <p>Review top performers, campaign filters, date ranges, location, device, browser, and recent activity.</p>
+              </div>
+            </div>
+
+            <div class="callout reveal-on-scroll">
+              <p><strong>Open the dashboard to review the registry and scan reporting.</strong></p>
+              <div class="button-row">
+                <a class="button" data-link="dashboard">Open the dashboard -></a>
+              </div>
+            </div>
           </div>
-          <div class="list-card reveal-on-scroll">
-            <p class="eyebrow">For Sales</p>
-            <ul>
-              <li>Open the latest manual and spec sheets from a phone.</li>
-              <li>Print the current documents before a meeting or handoff.</li>
-              <li>Share videos that explain the Smart Features.</li>
-              <li>Use QR links on printed pieces, boxes, and follow-up materials.</li>
-            </ul>
+
+          <div class="dashboard-preview reveal-on-scroll" aria-label="QR tracking dashboard preview">
+            <div class="dashboard-shot dashboard-shot--wide">
+              <img src="morpheus/assets/img/launch-hub/qr-dashboard-analytics-chart.png"
+                alt="QR tracking analytics showing scans by QR code and recent scan telemetry">
+            </div>
+            <div class="dashboard-preview__pair">
+              <div class="dashboard-shot dashboard-shot--analytics">
+                <img src="morpheus/assets/img/launch-hub/qr-dashboard-registry-page.png"
+                  alt="QR tracking registry showing code IDs, placements, destinations, scans, and status">
+              </div>
+              <div class="dashboard-shot dashboard-shot--detail">
+                <img src="morpheus/assets/img/launch-hub/qr-dashboard-detail-view.png"
+                  alt="QR detail view showing permanent tracking URL and current final destination">
+              </div>
+            </div>
+            <p class="dashboard-caption">Analytics, registry, and individual QR detail views from the tracking dashboard.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="decisions">
+    <section class="section" id="unlocks">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">06</span> · Decisions</p>
-        <h2>Open items.</h2>
-        <p class="lead">Items to confirm before the launch hub is handed off or expanded.</p>
-        <div class="decision-grid">
-          <div class="decision-card reveal-on-scroll">
-            <div class="num">01</div>
-            <h3>Campaign names</h3>
-            <p>How codes and placements should be named in reports.</p>
-            <div class="recommend"><strong>Suggested format:</strong> channel, placement, date, and owner.</div>
+        <p class="eyebrow"><span class="section-number">05</span> · Use Cases</p>
+        <h2>How this gets used.</h2>
+        <p class="lead">Use different QR IDs to learn which placement, handout, or follow-up is working.</p>
+        <div class="columns">
+          <div class="list-card reveal-on-scroll">
+            <p class="eyebrow">For Marketing</p>
+            <ul>
+              <li>Put separate QR codes on packaging, trade ads, dealer sheets, and event signage.</li>
+              <li>Send two codes to the same page when the destination is the same but the placement needs separate reporting.</li>
+              <li>Compare campaign groups to see which material is driving scans.</li>
+              <li>Change the final destination after print when a page, video, or spec sheet changes.</li>
+              <li>Use top performers and recent activity to decide which placements deserve more support.</li>
+            </ul>
           </div>
-          <div class="decision-card reveal-on-scroll">
-            <div class="num">02</div>
-            <h3>Dedicated codes</h3>
-            <p>Which channels need their own QR codes.</p>
-            <div class="recommend"><strong>Examples:</strong> trade ads, counter cards, box stickers, trade shows,
-              email, and rep handouts.</div>
-          </div>
-          <div class="decision-card reveal-on-scroll">
-            <div class="num">03</div>
-            <h3>Launch order</h3>
-            <p>What goes out first, who receives it, and when each channel starts using it.</p>
-            <div class="recommend"><strong>Current order:</strong> film, documents, QR reporting, then channel-specific
-              assets.</div>
+          <div class="list-card reveal-on-scroll">
+            <p class="eyebrow">For Sales</p>
+            <ul>
+              <li>Use a QR code in a meeting to open the current manual, spec sheet, or demo video on a phone.</li>
+              <li>Give each leave-behind or dealer packet its own code, even when it points to the same document.</li>
+              <li>Track which follow-up links get scanned after a sales call or sample handoff.</li>
+              <li>Route a printed code to the best current asset without reprinting old materials.</li>
+              <li>Use scan activity to see which topics are getting attention before the next conversation.</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -1345,25 +1459,24 @@
 
     <section class="section" id="access">
       <div class="wrap">
-        <p class="eyebrow"><span class="section-number">07</span> · Access</p>
-        <h2>Access and handoff.</h2>
-        <p class="lead">Hosting, login, export, and ownership notes for the launch hub.</p>
+        <p class="eyebrow"><span class="section-number">06</span> · Access</p>
+        <h2>Access, handoff, and next steps.</h2>
+        <p class="lead">Where the hub, final files, QR platform, and update process should live.</p>
         <div class="access-grid">
           <div class="access-row reveal-on-scroll">
             <div class="meta">Hosting</div>
-            <p>Static site on Vercel, with launch files and documents in this project.</p>
+            <p>Currently hosted on Vercel. The manual pages, spec sheets, and document downloads can be ported to the
+              Dauer site as the final destinations.</p>
           </div>
           <div class="access-row reveal-on-scroll">
-            <div class="meta">Logins</div>
-            <p>Confirm who should have access before handoff.</p>
+            <div class="meta">QR platform and data</div>
+            <p>The QR tracking platform should stay on Vercel. Scan data can be exported, and the registry is backed by
+              Supabase so destinations, counts, and state persist.</p>
           </div>
           <div class="access-row reveal-on-scroll">
-            <div class="meta">Data export</div>
-            <p>Scan data can be exported when reporting is connected.</p>
-          </div>
-          <div class="access-row reveal-on-scroll">
-            <div class="meta">Changes</div>
-            <p>Live page links can be updated as files and specs change.</p>
+            <div class="meta">Next steps</div>
+            <p>Confirm with the Dauer web team how manuals, PDFs, and downloads will be updated once hosted on the Dauer
+              site, so ongoing changes are easy to make.</p>
           </div>
         </div>
       </div>
@@ -1404,7 +1517,7 @@
         <div class="run-item">
           <div class="meta">0:42-0:52</div>
           <strong>Her floor</strong>
-          <p>Stop screen sharing. Section 06 is the prompt.</p>
+          <p>Stop screen sharing after the QR use cases.</p>
         </div>
         <div class="run-item">
           <div class="meta">0:52-1:00</div>
@@ -1436,8 +1549,9 @@
       featureDimming: "morpheus/assets/videos/morpheus-shorts-manual-xy.mp4",
       featureGrouping: "morpheus/assets/videos/morpheus-shorts-synced-group-lighting.mp4",
       featureKle: "morpheus/assets/videos/kle-2.mp4",
+      productSheetPdf: "morpheus/assets/docs/morpheus-product-sheet.pdf",
       comparisonPdf: "morpheus/assets/docs/morpheus-vs-wac-comparison.pdf",
-      dashboard: "",
+      dashboard: "https://dauer-mt.vercel.app/",
       campaignHero: "",
       assetStylizedQr: "morpheus/assets/img/launch-hub/dauer-stylized-qr.png",
       assetLockup: "morpheus/assets/img/launch-hub/dauer-logo-qr-lockup.png",
@@ -1457,13 +1571,6 @@
       "assetSticker",
       "assetPhotos"
     ]);
-
-    const cleanCurrentUrl = () => {
-      const url = new URL(window.location.href);
-      url.search = "";
-      url.hash = "";
-      return url.href;
-    };
 
     const resolveUrl = (value) => {
       if (!value) return "";
@@ -1597,25 +1704,6 @@
       source.type = "video/mp4";
       video.appendChild(source);
     }
-
-    const qrTarget = LINKS.campaignHero || LINKS.hub || cleanCurrentUrl();
-    const qrTargetResolved = resolveUrl(qrTarget);
-    document.getElementById("hero-url").textContent = qrTargetResolved;
-
-    window.addEventListener("load", () => {
-      const qrEl = document.getElementById("hero-qr");
-      if (qrEl && window.QRCode) {
-        qrEl.innerHTML = "";
-        new QRCode(qrEl, {
-          text: qrTargetResolved,
-          width: 320,
-          height: 320,
-          colorDark: "#0f0f0f",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
-    });
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const revealItems = document.querySelectorAll(".reveal-on-scroll");
