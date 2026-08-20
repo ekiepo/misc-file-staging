@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Morpheus Launch Toolkit - Dauer Manufacturing</title>
+  <meta name="description"
+    content="Presentation hub for the Morpheus launch system: film, live documents, QR tracking, assets, decisions, and ownership.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300..900;1,300..900&family=Archivo+Expanded:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <style>
+    :root {
+      --dauer-orange-500: #f7941d;
+      --dauer-orange-600: #dd7f0e;
+      --dauer-charcoal-950: #1c1b1a;
+      --dauer-charcoal-900: #2b2b2b;
+      --dauer-charcoal-500: #6f6f6f;
+      --dauer-charcoal-400: #8a8a8a;
+      --dauer-charcoal-300: #9a9a9a;
+      --dauer-paper-0: #ffffff;
+      --dauer-paper-50: #f1efea;
+      --dauer-paper-100: #e2dfd8;
+      --dauer-paper-200: #d8d6cf;
+      --font-display: "Archivo Expanded", Helvetica, Arial, sans-serif;
+      --font-body: "Archivo", Helvetica, Arial, sans-serif;
+      --maxw: 1120px;
+      --shadow-sheet: 0 2px 14px rgba(0, 0, 0, .13);
+      --shadow-lift: 0 18px 42px rgba(28, 27, 26, .13);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--dauer-paper-200);
+      color: var(--dauer-charcoal-900);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    body.presenter main,
+    body.presenter .site-nav,
+    body.presenter .site-footer {
+      display: none;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: 56px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: rgba(255, 255, 255, .86);
+      border-bottom: 1px solid rgba(43, 43, 43, .12);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .brand::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: var(--dauer-orange-500);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(247, 148, 29, .16);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      color: var(--dauer-charcoal-400);
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.is-active {
+      color: var(--dauer-orange-500);
+    }
+
+    main {
+      overflow: clip;
+    }
+
+    .section {
+      padding: 80px 28px;
+      scroll-margin-top: 78px;
+    }
+
+    .section:nth-child(even) {
+      background: rgba(241, 239, 234, .52);
+    }
+
+    .wrap {
+      width: min(100%, var(--maxw));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: calc(100vh - 56px);
+      padding-top: 64px;
+      display: grid;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: clamp(32px, 6vw, 72px);
+      align-items: center;
+    }
+
+    .eyebrow,
+    .meta,
+    .open-link,
+    .button,
+    .short-url {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--dauer-orange-500);
+      font-size: 11px;
+      letter-spacing: .16em;
+    }
+
+    .section-number {
+      color: var(--dauer-charcoal-400);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 22px;
+      font-size: clamp(36px, 5.4vw, 64px);
+      line-height: 1.04;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: clamp(25px, 3.2vw, 38px);
+      line-height: 1.12;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+      line-height: 1.25;
+      letter-spacing: .02em;
+    }
+
+    .lead {
+      max-width: 840px;
+      margin-bottom: 30px;
+      color: var(--dauer-charcoal-900);
+      font-size: clamp(18px, 2vw, 21px);
+      line-height: 1.48;
+      font-weight: 450;
+    }
+
+    .qr-card,
+    .card,
+    .doc-card,
+    .asset-card,
+    .decision-card,
+    .list-card,
+    .access-row,
+    .callout {
+      background: var(--dauer-paper-0);
+      border: 1px solid var(--dauer-paper-100);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(28, 27, 26, .05);
+    }
+
+    .qr-card {
+      padding: 22px;
+      box-shadow: var(--shadow-sheet);
+    }
+
+    .qr-frame {
+      min-height: 320px;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--dauer-paper-100);
+      border-radius: 8px;
+    }
+
+    #hero-qr {
+      width: 320px;
+      height: 320px;
+    }
+
+    .qr-caption {
+      margin: 18px 0 6px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .qr-caption span {
+      display: block;
+      margin-top: 6px;
+      color: var(--dauer-charcoal-500);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: none;
+    }
+
+    .short-url {
+      margin: 0;
+      overflow-wrap: anywhere;
+      color: var(--dauer-charcoal-400);
+      font-family: var(--font-body);
+      font-size: 12px;
+      line-height: 1.4;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .media-shell {
+      overflow: hidden;
+      background: var(--dauer-charcoal-950);
+      border: 1px solid rgba(43, 43, 43, .24);
+      border-radius: 8px;
+      box-shadow: var(--shadow-sheet);
+    }
+
+    .video-wrap {
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    .video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tile-grid,
+    .docs-grid,
+    .asset-grid,
+    .decision-grid,
+    .columns,
+    .access-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .tile-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .docs-grid,
+    .columns,
+    .access-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .asset-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .decision-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card,
+    .decision-card,
+    .list-card,
+    .access-row {
+      padding: 22px;
+    }
+
+    .card p,
+    .decision-card p,
+    .access-row p {
+      margin-bottom: 0;
+      color: var(--dauer-charcoal-500);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .meta {
+      margin-bottom: 9px;
+      color: var(--dauer-charcoal-400);
+    }
+
+    .meta strong,
+    .stat-line strong {
+      color: var(--dauer-orange-500);
+      font-weight: 800;
+    }
+
+    .doc-card,
+    .asset-card,
+    .card[data-link] {
+      position: relative;
+      overflow: hidden;
+      color: inherit;
+      text-decoration: none;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+
+    .doc-card:hover,
+    .asset-card:hover,
+    .card[data-link]:hover {
+      transform: translateY(-2px);
+      border-color: rgba(43, 43, 43, .28);
+      box-shadow: var(--shadow-lift);
+    }
+
+    .thumb {
+      aspect-ratio: 16 / 10;
+      background: var(--dauer-paper-50);
+      border-bottom: 1px solid var(--dauer-paper-100);
+      overflow: hidden;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumb.contain img {
+      object-fit: contain;
+      padding: 18px;
+    }
+
+    .doc-card__body,
+    .asset-card__body {
+      padding: 20px;
+    }
+
+    .asset-card .thumb {
+      aspect-ratio: 1 / 1;
+    }
+
+    .animation-thumb {
+      display: grid;
+      place-items: center;
+      background: #141414;
+    }
+
+    .animation-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #141414;
+    }
+
+    .animation-thumb .animation-apex {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      z-index: 3;
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      transform: translateX(-50%);
+      filter: drop-shadow(0 0 10px rgba(247, 148, 29, .85));
+    }
+
+    .animation-reveal {
+      position: absolute;
+      inset: 20px 0 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 24px;
+      background: linear-gradient(rgba(247, 148, 29, .20), rgba(247, 148, 29, .02));
+      clip-path: polygon(50% 0%, 46% 100%, 54% 100%);
+      animation: kle-reveal 4.4s ease-in-out infinite;
+    }
+
+    .animation-kle {
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: .05em;
+      line-height: 1;
+      text-align: center;
+      text-shadow: 0 0 20px rgba(247, 148, 29, .38);
+    }
+
+    .animation-tag {
+      margin-top: 10px;
+      color: var(--dauer-orange-500);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .24em;
+      line-height: 1.2;
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @keyframes kle-reveal {
+
+      0%,
+      16% {
+        clip-path: polygon(50% 0%, 46% 100%, 54% 100%);
+      }
+
+      50%,
+      66% {
+        clip-path: polygon(50% 0%, -8% 100%, 108% 100%);
+      }
+
+      100% {
+        clip-path: polygon(50% 0%, 46% 100%, 54% 100%);
+      }
+    }
+
+    .asset-card h3 {
+      font-size: 13px;
+    }
+
+    .why {
+      margin: -3px 0 16px;
+      color: var(--dauer-charcoal-500);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .open-link {
+      color: var(--dauer-orange-500);
+      text-decoration: none;
+    }
+
+    .callout {
+      margin-top: 26px;
+      padding: 20px 22px;
+      background: rgba(255, 255, 255, .72);
+      border-left: 5px solid var(--dauer-orange-500);
+    }
+
+    .callout p {
+      margin: 0;
+      color: var(--dauer-charcoal-500);
+    }
+
+    .callout strong {
+      color: var(--dauer-charcoal-900);
+    }
+
+    .stat-line {
+      margin: 24px 0;
+      color: var(--dauer-charcoal-500);
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 800;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 20px;
+      background: var(--dauer-orange-500);
+      border: 1px solid var(--dauer-orange-500);
+      border-radius: 6px;
+      color: #fff;
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .button:hover {
+      background: var(--dauer-orange-600);
+      border-color: var(--dauer-orange-600);
+      transform: translateY(-1px);
+    }
+
+    .list-card ul {
+      margin: 16px 0 0;
+      padding-left: 18px;
+      color: var(--dauer-charcoal-500);
+    }
+
+    .list-card li+li {
+      margin-top: 10px;
+    }
+
+    .decision-card .num {
+      color: var(--dauer-orange-500);
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .recommend {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--dauer-paper-100);
+      color: var(--dauer-charcoal-900);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    a.is-pending {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    a.is-pending::after {
+      content: "URL PENDING";
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      color: var(--dauer-orange-500);
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .presenter-notes {
+      display: none;
+      min-height: 100vh;
+      padding: 42px 24px 72px;
+      background: var(--dauer-paper-50);
+    }
+
+    body.presenter .presenter-notes {
+      display: block;
+    }
+
+    .notes-wrap {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 34px;
+      background: #fff;
+      border: 1px solid var(--dauer-paper-100);
+      border-radius: 8px;
+      box-shadow: var(--shadow-sheet);
+    }
+
+    .run-list {
+      display: grid;
+      gap: 12px;
+      margin: 24px 0 30px;
+    }
+
+    .run-item {
+      display: grid;
+      grid-template-columns: 120px 170px 1fr;
+      gap: 16px;
+      padding: 14px;
+      border: 1px solid var(--dauer-paper-100);
+      border-radius: 6px;
+    }
+
+    .run-item strong {
+      color: var(--dauer-charcoal-900);
+    }
+
+    .site-footer {
+      padding: 30px 28px;
+      background: var(--dauer-charcoal-900);
+      color: var(--dauer-charcoal-300);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+
+      .reveal-on-scroll {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+
+      .hero-grid,
+      .asset-grid,
+      .decision-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .site-nav {
+        padding: 0 18px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .section {
+        padding: 58px 18px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 48px;
+      }
+
+      .hero-grid,
+      .tile-grid,
+      .docs-grid,
+      .columns,
+      .asset-grid,
+      .decision-grid,
+      .access-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .qr-frame {
+        min-height: 280px;
+      }
+
+      #hero-qr {
+        width: 280px;
+        height: 280px;
+      }
+
+      .run-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      .site-nav,
+      .site-footer,
+      .video-wrap,
+      .presenter-notes {
+        display: none !important;
+      }
+
+      .section {
+        padding: .35in 0;
+        page-break-inside: avoid;
+      }
+
+      .wrap {
+        width: 100%;
+      }
+
+      .card,
+      .asset-card,
+      .doc-card,
+      .decision-card,
+      .access-row,
+      .callout,
+      .qr-card {
+        box-shadow: none !important;
+        page-break-inside: avoid;
+      }
+
+      a[href]::after {
+        content: " (" attr(href) ")";
+        color: #000;
+        font-family: var(--font-body);
+        font-size: 9px;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      #hero-qr {
+        width: 1.4in !important;
+        height: 1.4in !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="site-nav" aria-label="Launch hub">
+    <div class="brand">Morpheus / Launch Toolkit</div>
+    <div class="nav-links" aria-label="Sections">
+      <a href="#film">Film</a>
+      <a href="#documents">Documents</a>
+      <a href="#qr-system">QR System</a>
+      <a href="#assets">Assets</a>
+      <a href="#decisions">Decisions</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="reveal-on-scroll">
+          <p class="eyebrow">Morpheus · Launch Toolkit · August 2026</p>
+          <h1>Everything we built for Morpheus.</h1>
+          <p class="lead">An interactive product system built to be read on a phone, desktop or print and can be
+            updated the day a spec changes. A tracking system built to support marketing and sales.</p>
+        </div>
+        <aside class="qr-card reveal-on-scroll" aria-label="Launch hub QR code">
+          <div class="qr-frame">
+            <div id="hero-qr" aria-label="QR code for this launch hub"></div>
+          </div>
+          <p class="qr-caption">Scan this now.<span>It will come up on your phone. We will come back to what just
+              happened in about fifteen minutes.</span></p>
+          <p class="short-url" id="hero-url">Preparing QR destination...</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="film">
+      <div class="wrap">
+        <p class="eyebrow"><span class="section-number">01</span> · The Film</p>
+        <h2>Morpheus Main Promo Video.</h2>
+        <p class="lead">The master version that can be sliced for shorter promo's. With and without voiceover.</p>
+        <div class="media-shell reveal-on-scroll">
+          <div class="video-wrap">
+            <video id="film-video" controls playsinline poster="morpheus/assets/img/manual/cover-hero.webp">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <div class="tile-grid">
+          <a class="card reveal-on-scroll" data-link="cutThirty">
+            <div class="meta">:30 · Trade ad landing</div>
+            <h3>Hero cut-down</h3>
+            <p>Short form version for scan destinations and paid media.</p>
+          </a>
+          <a class="card reveal-on-scroll" data-link="cutFifteen">
+            <div class="meta">:15 · Social</div>
+            <h3>Feature cut</h3>
+            <p>Compact placement for social feeds and distributor posts.</p>
+          </a>
+          <a class="card reveal-on-scroll" data-link="cutSix">
+            <div class="meta">:06 · Bumper</div>
+            <h3>Logo sting</h3>
+            <p>Fast recall asset for retargeting and presentation bumpers.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="documents">
+      <div class="wrap">
+        <p class="eyebrow"><span class="section-number">02</span> · The Documents</p>
+        <h2>Live documents, not static leave-behinds.</h2>
+        <p class="lead">Morpheus is not a fixed-optic downlight, and it could not be described by a fixed sheet of
+          paper. These are live documents. Same content in print and on screen, updatable the day a spec changes, with
+          codes that jump straight to the video of the feature being described.</p>
+
+        <div class="docs-grid">
+          <a class="doc-card reveal-on-scroll" data-link="index">
+            <div class="thumb contain"><img src="morpheus/assets/img/logo-dauer-clear.png" alt=""></div>
+            <div class="doc-card__body">
+              <div class="meta">Portal</div>
+              <h3>Index page</h3>
+              <p class="why">The launch point for the manual and both fixture sheets.</p>
+              <p class="why">Built as the permanent public front door to the documentation set.</p>
+              <span class="open-link">Open -></span>
+            </div>
+          </a>
+          <a class="doc-card reveal-on-scroll" data-link="manual">
+            <div class="thumb"><img src="morpheus/assets/img/manual/cover-hero2.png" alt=""></div>
+            <div class="doc-card__body">
+              <div class="meta">Manual</div>
+              <h3>Interactive user manual</h3>
+              <p class="why">Pairing, programming, sharing, timers, presets, KLE, and network diagnosis.</p>
+              <p class="why">Structured for phone use, desktop review, and letter-size printing.</p>
+              <span class="open-link">Open -></span>
+            </div>
+          </a>
+          <a class="doc-card reveal-on-scroll" data-link="specUplight">
+            <div class="thumb contain"><img src="morpheus/assets/img/manual/uplight-fixture-hero-2.png" alt=""></div>
+            <div class="doc-card__body">
+              <div class="meta">Spec sheet</div>
+              <h3>Uplight spec sheet</h3>
+              <p class="why">Ordering data, beam output, riser options, accessories, and dimensions.</p>
+              <p class="why">Made editable where sales and specifiers need project-specific fields.</p>
+              <span class="open-link">Open -></span>
+            </div>
+          </a>
+          <a class="doc-card reveal-on-scroll" data-link="specDownlight">
+            <div class="thumb contain"><img src="morpheus/assets/img/manual/downlight-fixture-hero2.png" alt=""></div>
+            <div class="doc-card__body">
+              <div class="meta">Spec sheet</div>
+              <h3>Downlight spec sheet</h3>
+              <p class="why">Tree-hugger kit layouts, mounting details, ordering data, and output tables.</p>
+              <p class="why">Built from the same system, with fixture-specific diagrams and assets.</p>
+              <span class="open-link">Open -></span>
+            </div>
+          </a>
+        </div>
+
+        <div class="callout reveal-on-scroll">
+          <p><strong>It still prints.</strong> Every document has a print layout, and a printed code works exactly like
+            an on-screen one: it is the same code, pointing at the same place.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="qr-system">
+      <div class="wrap">
+        <p class="eyebrow"><span class="section-number">03</span> · The QR System</p>
+        <h2>The part print could never do.</h2>
+        <p class="lead">Same ad. Two magazines. A different code on each, both pointing at the same video. Sixty days
+          later you know which magazine to renew: not because someone thinks it worked, because you can see it.</p>
+
+        <div class="tile-grid">
+          <div class="card reveal-on-scroll">
+            <div class="meta">Routing</div>
+            <h3>The destination is editable after it is printed.</h3>
+            <p>A code in a catalog from last spring can point somewhere new tomorrow. Print stops being a one-way door.
+            </p>
+          </div>
+          <div class="card reveal-on-scroll">
+            <div class="meta">Reporting</div>
+            <h3>Analytics by day, by code.</h3>
+            <p>Not one aggregate number. Every code reports separately, so placements can be compared against each
+              other.</p>
+          </div>
+          <div class="card reveal-on-scroll">
+            <div class="meta">Campaigns</div>
+            <h3>Codes group into campaigns.</h3>
+            <p>A trade show, a magazine flight, a distributor mailing. Roll them up or break them out.</p>
+          </div>
+        </div>
+
+        <p class="stat-line"><strong>30 codes live today</strong>, all routed through our own redirect. No third-party
+          service, no per-scan fee, and the data stays with Dauer.</p>
+
+        <div class="callout reveal-on-scroll">
+          <p><strong>The scans from the top of this page are already in the dashboard.</strong></p>
+          <div class="button-row">
+            <a class="button" data-link="dashboard">Open the dashboard -></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="assets">
+      <div class="wrap">
+        <p class="eyebrow"><span class="section-number">04</span> · Brand Assets</p>
+        <h2>Finished, on-brand, ready to use.</h2>
+        <p class="lead">Everything below is staged as a launch asset. Known local assets open now; production download
+          packages can be wired in as soon as final URLs exist.</p>
+
+        <div class="asset-grid">
+          <a class="asset-card reveal-on-scroll" data-link="assetStylizedQr">
+            <div class="thumb contain"><img src="morpheus/assets/img/launch-hub/dauer-stylized-qr.png" alt=""></div>
+            <div class="asset-card__body">
+              <div class="meta">PNG / 2400 x 2400</div>
+              <h3>Stylized Dauer QR</h3>
+              <span class="open-link">Download -></span>
+            </div>
+          </a>
+          <a class="asset-card reveal-on-scroll" data-link="assetLockup">
+            <div class="thumb contain"><img src="morpheus/assets/img/launch-hub/dauer-logo-qr-lockup.png" alt=""></div>
+            <div class="asset-card__body">
+              <div class="meta">PNG / 5683 x 1366</div>
+              <h3>Logo + QR lockup</h3>
+              <span class="open-link">Download -></span>
+            </div>
+          </a>
+          <a class="asset-card reveal-on-scroll" data-link="assetSticker">
+            <div class="thumb contain"><img src="morpheus/assets/img/launch-hub/box-sticker-thumb.png" alt=""></div>
+            <div class="asset-card__body">
+              <div class="meta">PDF / Letter</div>
+              <h3>Box sticker</h3>
+              <span class="open-link">Download -></span>
+            </div>
+          </a>
+          <a class="asset-card reveal-on-scroll" data-link="assetAnimation">
+            <div class="thumb animation-thumb">
+              <div class="animation-stage" aria-hidden="true">
+                <img class="animation-apex" src="morpheus/assets/img/apex.png" alt="">
+                <div class="animation-reveal">
+                  <div>
+                    <div class="animation-kle">KLE</div>
+                    <div class="animation-tag">Kinetic Lighting Effect</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="asset-card__body">
+              <div class="meta">HTML / Motion</div>
+              <h3>Animated logo</h3>
+              <span class="open-link">Open -></span>
+            </div>
+          </a>
+          <a class="asset-card reveal-on-scroll" data-link="assetPhotos">
+            <div class="thumb contain"><img src="morpheus/assets/img/uplight-fixture-hero.webp" alt=""></div>
+            <div class="asset-card__body">
+              <div class="meta">Photography</div>
+              <h3>Product photography</h3>
+              <span class="open-link">Download -></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="unlocks">
+      <div class="wrap">
+        <p class="eyebrow"><span class="section-number">05</span> · What This Unlocks</p>
+        <h2>Two teams, equal value.</h2>
+        <div class="columns">
+          <div class="list-card reveal-on-scroll">
+            <p class="eyebrow">For Marketing</p>
+            <ul>
+              <li>Update a spec the day it changes. No reprint cycle, no stale PDFs circulating in the channel.</li>
+              <li>See which channel actually produced scans, by day.</li>
+              <li>Run two placements against the same destination and compare them directly.</li>
+              <li>Every asset here is downloadable, reusable, and already on-brand.</li>
+              <li>The documents are live, so a correction is a five-minute fix rather than a print run.</li>
+            </ul>
+          </div>
+          <div class="list-card reveal-on-scroll">
+            <p class="eyebrow">For Sales</p>
+            <ul>
+              <li>A rep at a distributor counter answers a spec question in fifteen seconds, with no printed sheet in
+                the truck.</li>
+              <li>Codes per rep or per territory show which regions are actually putting material in front of people.
+              </li>
+              <li>The installer becomes a channel: scan the box sticker, watch the install video, one less support call.
+              </li>
+              <li>What a rep hands out is never out of date, because it is not a copy. It is a link to the live
+                document.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="decisions">
+      <div class="wrap">
+        <p class="eyebrow"><span class="section-number">06</span> · Yours To Decide</p>
+        <h2>The next phase needs ownership.</h2>
+        <p class="lead">This is not a generic next-steps list. These are the decisions that turn the work from a launch
+          kit into a durable marketing and sales system.</p>
+        <div class="decision-grid">
+          <div class="decision-card reveal-on-scroll">
+            <div class="num">01</div>
+            <h3>Campaign naming convention</h3>
+            <p>How codes get named so a report is readable in a year.</p>
+            <div class="recommend"><strong>Recommendation:</strong> channel, placement, date, and owner.</div>
+          </div>
+          <div class="decision-card reveal-on-scroll">
+            <div class="num">02</div>
+            <h3>Which channels get dedicated codes</h3>
+            <p>Trade ads, counter cards, box stickers, trade show, email, rep leave-behinds.</p>
+            <div class="recommend"><strong>Recommendation:</strong> start broad where spend or territory attribution
+              matters.</div>
+          </div>
+          <div class="decision-card reveal-on-scroll">
+            <div class="num">03</div>
+            <h3>Launch sequencing</h3>
+            <p>What goes out first, who gets it, and when the channel starts seeing it.</p>
+            <div class="recommend"><strong>Recommendation:</strong> film, documents, QR dashboard, then channel-specific
+              assets.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="access">
+      <div class="wrap">
+        <p class="eyebrow"><span class="section-number">07</span> · Access & Ownership</p>
+        <h2>Dauer owns the system.</h2>
+        <p class="lead">The point is not to make the company dependent on one person. The point is to leave Dauer with
+          live documents, owned redirect data, and a system that can be handed off cleanly.</p>
+        <div class="access-grid">
+          <div class="access-row reveal-on-scroll">
+            <div class="meta">Where it is hosted</div>
+            <p>Static site on Vercel, with the documents and redirect API in this project.</p>
+          </div>
+          <div class="access-row reveal-on-scroll">
+            <div class="meta">Who has logins</div>
+            <p>To be confirmed before handoff. This page leaves the slot explicit.</p>
+          </div>
+          <div class="access-row reveal-on-scroll">
+            <div class="meta">Data export</div>
+            <p>CSV export can be produced any time from the QR registry and scan data.</p>
+          </div>
+          <div class="access-row reveal-on-scroll">
+            <div class="meta">If the site changes</div>
+            <p>The codes keep working. The redirect layer is independent of the final destination.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="presenter-notes" aria-label="Presenter notes">
+    <div class="notes-wrap">
+      <p class="eyebrow">Presenter View</p>
+      <h1>60-minute run of show</h1>
+      <div class="run-list">
+        <div class="run-item">
+          <div class="meta">0:00-0:03</div>
+          <strong>Owner opens</strong>
+          <p>He speaks, not you. "I directed Danny to take this direction because this product is different, and now I
+            want Marketing to own it."</p>
+        </div>
+        <div class="run-item">
+          <div class="meta">0:03-0:08</div>
+          <strong>The film</strong>
+          <p>Cold, no setup. Full screen. Strongest emotional asset while attention is at 100%.</p>
+        </div>
+        <div class="run-item">
+          <div class="meta">0:08-0:15</div>
+          <strong>Everyone scans</strong>
+          <p>Hero section on screen. Wait in silence until people confirm. Do not narrate over it.</p>
+        </div>
+        <div class="run-item">
+          <div class="meta">0:15-0:30</div>
+          <strong>Documents</strong>
+          <p>Phone view first, then desktop. Answer the format question in 20 seconds and move on.</p>
+        </div>
+        <div class="run-item">
+          <div class="meta">0:30-0:42</div>
+          <strong>QR system</strong>
+          <p>Scenario first, dashboard second. The callback that these are their scans is the peak of the meeting.</p>
+        </div>
+        <div class="run-item">
+          <div class="meta">0:42-0:52</div>
+          <strong>Her floor</strong>
+          <p>Stop screen sharing. Section 06 is the prompt.</p>
+        </div>
+        <div class="run-item">
+          <div class="meta">0:52-1:00</div>
+          <strong>Access and ownership</strong>
+          <p>Short. End early if you can.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <p><strong>Pre-flight:</strong> campaign created, all LINKS filled, rehearsal scan done over the real video
+          platform, dashboard logged in, film audio tested, and this notes tab open on the second screen only.</p>
+      </div>
+    </div>
+  </aside>
+
+  <footer class="site-footer">
+    Prepared for Dauer Manufacturing · Last updated August 19, 2026
+  </footer>
+
+  <script>
+    const LINKS = {
+      hub: "",
+      index: "index.html",
+      manual: "morpheus/manual.html",
+      specUplight: "morpheus/uplight.html",
+      specDownlight: "morpheus/downlight.html",
+      film: "https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4",
+      cutThirty: "morpheus/assets/videos/Morpheus%20Shorts%20-%20Down%20Lighting.mp4",
+      cutFifteen: "morpheus/assets/videos/Morpheus%20Short%20-%20Beam%20Presets.mp4",
+      cutSix: "morpheus/assets/videos/KLE-preset.mp4",
+      dashboard: "",
+      campaignHero: "",
+      assetStylizedQr: "morpheus/assets/img/launch-hub/dauer-stylized-qr.png",
+      assetLockup: "morpheus/assets/img/launch-hub/dauer-logo-qr-lockup.png",
+      assetSticker: "morpheus/assets/img/launch-hub/box-sticker.pdf",
+      assetAnimation: "morpheus/assets/animations/KLE%20Reveal%20Dark%20Standalone.html",
+      assetPhotos: ""
+    };
+
+    const DOWNLOAD_LINKS = new Set([
+      "assetStylizedQr",
+      "assetLockup",
+      "assetSticker",
+      "assetPhotos"
+    ]);
+
+    const cleanCurrentUrl = () => {
+      const url = new URL(window.location.href);
+      url.search = "";
+      url.hash = "";
+      return url.href;
+    };
+
+    const resolveUrl = (value) => {
+      if (!value) return "";
+      try {
+        return new URL(value, window.location.href).href;
+      } catch {
+        return value;
+      }
+    };
+
+    if (new URLSearchParams(location.search).has("present")) {
+      document.body.classList.add("presenter");
+    }
+
+    document.querySelectorAll("[data-link]").forEach((el) => {
+      const url = LINKS[el.dataset.link];
+      if (url) {
+        el.href = url;
+        if (DOWNLOAD_LINKS.has(el.dataset.link)) {
+          const filename = decodeURIComponent(url.split("/").pop() || "");
+          el.setAttribute("download", filename);
+          el.removeAttribute("target");
+          el.removeAttribute("rel");
+        } else {
+          el.target = "_blank";
+          el.rel = "noopener";
+          el.removeAttribute("download");
+        }
+      } else {
+        el.classList.add("is-pending");
+        el.removeAttribute("href");
+        el.removeAttribute("download");
+        el.setAttribute("aria-disabled", "true");
+      }
+    });
+
+    const video = document.getElementById("film-video");
+    if (video && LINKS.film) {
+      const source = document.createElement("source");
+      source.src = LINKS.film;
+      source.type = "video/mp4";
+      video.appendChild(source);
+    }
+
+    const qrTarget = LINKS.campaignHero || LINKS.hub || cleanCurrentUrl();
+    const qrTargetResolved = resolveUrl(qrTarget);
+    document.getElementById("hero-url").textContent = qrTargetResolved;
+
+    window.addEventListener("load", () => {
+      const qrEl = document.getElementById("hero-qr");
+      if (qrEl && window.QRCode) {
+        qrEl.innerHTML = "";
+        new QRCode(qrEl, {
+          text: qrTargetResolved,
+          width: 320,
+          height: 320,
+          colorDark: "#0f0f0f",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+    });
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealItems = document.querySelectorAll(".reveal-on-scroll");
+
+    if (reducedMotion) {
+      revealItems.forEach((el) => el.classList.add("is-visible"));
+    } else {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .16 });
+
+      revealItems.forEach((el, index) => {
+        el.style.transitionDelay = `${Math.min(index % 5, 4) * 60}ms`;
+        revealObserver.observe(el);
+      });
+    }
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        document.querySelectorAll(".nav-links a").forEach((link) => {
+          link.classList.toggle("is-active", link.getAttribute("href") === `#${entry.target.id}`);
+        });
+      });
+    }, { rootMargin: "-35% 0px -55% 0px", threshold: 0 });
+
+    document.querySelectorAll("main .section[id]").forEach((section) => {
+      sectionObserver.observe(section);
+    });
+  </script>
+</body>
+
+</html>
