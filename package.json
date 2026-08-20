@@ -2,18 +2,12 @@
   "name": "misc-file-staging",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "node --test tests/qr-platform.test.js",
-    "check:qr": "node --check qr/app.js && node --check lib/qr/store.js && node --check api/track/[id].js"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@vercel/blob": "^2.8.0",
-    "lucide": "^0.468.0",
-    "papaparse": "^5.6.0",
-    "qrcode": "^1.5.4"
+    "@vercel/blob": "^2.8.0"
   }
 }
