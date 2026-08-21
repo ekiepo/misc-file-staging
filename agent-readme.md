@@ -109,6 +109,10 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 > * **Before repairing anything that looks broken, establish that it is still supposed to exist.** Check whether anything actually calls it — `grep` for the routes across HTML and client JS. Zero callers is a strong signal you are looking at a corpse, not a patient.
 > * **When you do remove a feature, sweep the whole footprint in one pass** — routes, libs, tests, docs, `vercel.json`, and `package.json` deps and scripts. A partial removal leaves exactly the ambiguous wreckage described above.
 
+> [!CAUTION]
+> **The four `morpheus-short(s)-*` clips are already web-encoded — do not "upgrade" them.**
+> They shipped at ~18 Mbps 1080p (camera-master bitrate) and were re-encoded to x264 CRF 21 + `faststart`, landing at 1.1–1.9 Mbps for a 91% size cut (273 MB → 24 MB). Measured SSIM 0.9935–0.9962 against the originals, and side-by-side frames of the hardest content (dark gradients, light pools) show no visible difference. The content is locked-off camera with almost no motion, which is why it compresses this hard. Originals are recoverable from git history if ever needed.
+
 > [!TIP]
 > **Spec sheets are near-duplicates.** Any change to a shared section of `uplight.html` almost always belongs in `downlight.html` too. Their feature-card blocks sit at identical line numbers. Diff them after editing either.
 
@@ -134,9 +138,8 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 
 ## 6. Open items
 
-* **Video payload:** `morpheus/assets/videos/` is **529 MB across 18 files, 17 of them referenced.** Superseded legacy cuts were pruned; `morpheus-shorts-device-information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
+* **Video payload:** `morpheus/assets/videos/` is **237 MB across 17 files, 16 of them referenced.** Superseded legacy cuts were pruned; `morpheus-shorts-device-information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
 * **`manual.html:126`** (Chapter 1 lead card) still points at the `main-promo-voice.mp4` placeholder on Vercel Blob rather than a local chapter clip — the last survivor of the placeholder sweep described in §5.
-* **`MORPHEUS_06-small.mov`** is 45 MB of QuickTime and is the downlight page-1 hero demo. Chrome and Firefox cannot decode it — re-encode to MP4.
 * **Uplight hero and card 02 both point at `morpheus-shorts-down-lighting.mp4`** — same clip twice on one page, and it's a downlight clip. Restored as-found; may want a distinct hero.
 
 ### Retired concerns
