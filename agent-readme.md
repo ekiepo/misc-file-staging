@@ -8,6 +8,10 @@ A QR scan-tracking platform used to live here too. **That functionality has been
 
 ## 1. Current state — read before you touch anything
 
+> [!CAUTION]
+> **Never run `git commit` or `git push` unless the owner explicitly asks in that turn.**
+> Make the edits, verify them, and report what changed — then stop and leave the work in the working tree. "Go ahead", "yes", or approval of a *plan* is not approval to commit; the owner asks for commits separately and by name. Staging changes the owner did not ask you to stage is the same problem, so leave `git add` alone too. This holds even when the change is small, obviously correct, or already verified.
+
 This repo is documentation only. There is no build step and no test suite.
 
 The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoint used by the dev-only `upload.html`. Everything else is static HTML, CSS, and assets.
