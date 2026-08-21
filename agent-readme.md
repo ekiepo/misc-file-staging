@@ -143,7 +143,11 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 ## 6. Open items
 
 * **Video payload:** `morpheus/assets/videos/` is **237 MB across 17 files, 16 of them referenced.** Superseded legacy cuts were pruned; `morpheus-shorts-device-information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
-* **Page-1 demo QR on both spec sheets and `manual.html:126` all open the same Vercel Blob clip** (`main-promo-voice.mp4`) via `data-video`. This is deliberate, not a leftover placeholder. Both sheets also share one `qr-demo.png` vector whose printed scan destination is baked into the art and has not been regenerated, so the printed code and the on-screen click are independent — verify the print target by scanning, never by reading the markup.
+* **Two different QR vectors are in play on the spec sheets — verified by decoding, not by reading markup.**
+  * `assets/img/qr-mor-038.png` (page 1 of `uplight.html`/`downlight.html` and the `manual.html` cover) scans to `https://dauer-mt.vercel.app/MOR-QR-038`, the tracked destination. Same art as the launch hub hero.
+  * `assets/img/qr-demo.png` (the five feature cards on each spec sheet, 10 uses) still scans to `https://dauermanufacturing.com/landing/morpheus`, which is **untracked**. Swap these when tracked codes exist for them.
+  * Decode before trusting either: `zbarimg --quiet --raw <file>` (`brew install zbar`). The scan target is baked into the art and is independent of the `data-video` click target on the same element.
+  * All three page-1 QRs share one vector, so a scan cannot tell an uplight sheet from a downlight sheet from a manual. Split them if per-surface reporting matters.
 
 ### Retired concerns
 
