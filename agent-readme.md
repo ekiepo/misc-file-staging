@@ -139,8 +139,7 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 ## 6. Open items
 
 * **Video payload:** `morpheus/assets/videos/` is **237 MB across 17 files, 16 of them referenced.** Superseded legacy cuts were pruned; `morpheus-shorts-device-information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
-* **`manual.html:126`** (Chapter 1 lead card) still points at the `main-promo-voice.mp4` placeholder on Vercel Blob rather than a local chapter clip — the last survivor of the placeholder sweep described in §5.
-* **Page-1 QR codes on both spec sheets are placeholders.** `uplight.html:154` and `downlight.html:154` both link to `https://dauer-mt.vercel.app/MOR-QR-038`, which is also the launch hub hero code — three surfaces reporting as one ID, so the dashboard cannot tell them apart. Both sheets also share one `qr-demo.png` vector, and the printed art has not been regenerated yet, so scanning a printed sheet still goes wherever the old vector pointed. Split these into distinct codes when the real QR art is produced, and update the `href` on both sheets to match. The `.compliance-cluster__note` copy still reads "Scan QR to watch demo video" and will need revising if the destination stays the Hub.
+* **Page-1 demo QR on both spec sheets and `manual.html:126` all open the same Vercel Blob clip** (`main-promo-voice.mp4`) via `data-video`. This is deliberate, not a leftover placeholder. Both sheets also share one `qr-demo.png` vector whose printed scan destination is baked into the art and has not been regenerated, so the printed code and the on-screen click are independent — verify the print target by scanning, never by reading the markup.
 
 ### Retired concerns
 

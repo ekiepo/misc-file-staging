@@ -682,12 +682,6 @@ a {
   object-fit: contain;
 }
 
-/* QR links to its tracked destination; keep it a clean flex item */
-.compliance-cluster__marks a {
-  display: flex;
-  align-items: center;
-}
-
 /* ---------- Page 2: lumen output + ordering tables ---------- */
 
 .section-intro {
