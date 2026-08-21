@@ -20,7 +20,8 @@ The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoi
 
 | Path | What it is |
 |---|---|
-| `index.html` | Public landing portal; links the spec sheets and manual. Embeds the optimized KLE Reveal animation. |
+| `index.html` | Public landing portal; links the spec sheets and manual. The hero sits first, followed immediately by the main Vercel Blob promo video, then the optimized KLE Reveal animation and document cards. The promo video is intentionally unmuted by default. |
+| `morpheus-GIE.html` | Duplicate landing-page variant for the GIE contest form work. Keep it unlinked from `index.html` until the owner asks otherwise. It currently mirrors the top-of-page hero and unmuted promo video from `index.html`. |
 | `launch-hub.html` | Morpheus Launch Toolkit. Replaced the old `qr/index.html` staging UI. Internal tool — do not link it from `index.html`. |
 | `morpheus/uplight.html`<br>`morpheus/downlight.html` | Fixture spec + ordering sheets. Near-identical structure; keep them in sync. |
 | `morpheus/manual.html` | The 11-chapter User Manual. Standard static HTML, edited directly — the old `build_manual.js` pipeline is gone. |
@@ -112,6 +113,9 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 > **Spec sheets are near-duplicates.** Any change to a shared section of `uplight.html` almost always belongs in `downlight.html` too. Their feature-card blocks sit at identical line numbers. Diff them after editing either.
 
 > [!TIP]
+> **Landing pages are now near-duplicates too.** `morpheus-GIE.html` started as a copy of `index.html` for an upcoming "enter contest" form. Until that form diverges intentionally, changes to shared landing sections should be made on both pages. The top order is hero, promo video, KLE animation, then document cards; the promo video should remain unmuted by default unless the owner asks to restore muted playback.
+
+> [!TIP]
 > **Table mapping.** When syncing values across sheets, don't assume identical column indices — check header mappings (`Delivered Lumens @ 50%` vs `Output ~32%`).
 
 > [!TIP]
@@ -130,7 +134,7 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 
 ## 6. Open items
 
-* **Video payload:** `morpheus/assets/videos/` is **529 MB across 18 files, 17 of them referenced.** Superseded legacy cuts were pruned; `Morpheus Shorts - Device Information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
+* **Video payload:** `morpheus/assets/videos/` is **529 MB across 18 files, 17 of them referenced.** Superseded legacy cuts were pruned; `morpheus-shorts-device-information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
 * **`manual.html:126`** (Chapter 1 lead card) still points at the `main-promo-voice.mp4` placeholder on Vercel Blob rather than a local chapter clip — the last survivor of the placeholder sweep described in §5.
 * **`MORPHEUS_06-small.mov`** is 45 MB of QuickTime and is the downlight page-1 hero demo. Chrome and Firefox cannot decode it — re-encode to MP4.
 * **Uplight hero and card 02 both point at `morpheus-shorts-down-lighting.mp4`** — same clip twice on one page, and it's a downlight clip. Restored as-found; may want a distinct hero.
