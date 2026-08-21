@@ -110,6 +110,10 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 > * **When you do remove a feature, sweep the whole footprint in one pass** — routes, libs, tests, docs, `vercel.json`, and `package.json` deps and scripts. A partial removal leaves exactly the ambiguous wreckage described above.
 
 > [!CAUTION]
+> **The Vercel Blob promo clip is web-encoded; the master lives beside it.**
+> `main-promo-voice.mp4` (the URL all six pages reference) was replaced in place on 2026-08-21: 359 MB / 18.4 Mbps became 32.5 MB / 1.55 Mbps at x264 CRF 21 + `faststart`, SSIM 0.9946, same 1080p and duration. The URL was deliberately preserved so no HTML needed editing. The untouched 359 MB original is kept at `main-promo-voice-original.mp4` and is offered from the launch hub via `?download=1`, which sets `content-disposition: attachment` so the download works cross-origin. **Do not re-upload the master over the live path** — that is what the backup path is for.
+
+> [!CAUTION]
 > **The four `morpheus-short(s)-*` clips are already web-encoded — do not "upgrade" them.**
 > They shipped at ~18 Mbps 1080p (camera-master bitrate) and were re-encoded to x264 CRF 21 + `faststart`, landing at 1.1–1.9 Mbps for a 91% size cut (273 MB → 24 MB). Measured SSIM 0.9935–0.9962 against the originals, and side-by-side frames of the hardest content (dark gradients, light pools) show no visible difference. The content is locked-off camera with almost no motion, which is why it compresses this hard. Originals are recoverable from git history if ever needed.
 

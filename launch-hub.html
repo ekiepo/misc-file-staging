@@ -1157,6 +1157,9 @@
             </video>
           </div>
         </div>
+        <div class="button-row">
+          <a class="open-link" data-link="filmOriginal">Download original master &middot; 359 MB -&gt;</a>
+        </div>
         <div class="video-download-grid" aria-label="Smart Features QR video downloads">
           <article class="video-card reveal-on-scroll">
             <button class="thumb" type="button" data-video-preview="featureBeam"
@@ -1544,6 +1547,7 @@
       specUplight: "morpheus/uplight.html",
       specDownlight: "morpheus/downlight.html",
       film: "https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice.mp4",
+      filmOriginal: "https://i9eh31j7wyyp83k8.public.blob.vercel-storage.com/main-promo-voice-original.mp4?download=1",
       featureBeam: "morpheus/assets/videos/morpheus-short-beam-presets.mp4",
       featureMoonlighting: "morpheus/assets/videos/morpheus-shorts-down-lighting.mp4",
       featureDimming: "morpheus/assets/videos/morpheus-shorts-manual-xy.mp4",
@@ -1561,6 +1565,7 @@
     };
 
     const DOWNLOAD_LINKS = new Set([
+      "filmOriginal",
       "featureBeam",
       "featureMoonlighting",
       "featureDimming",
@@ -1590,7 +1595,7 @@
       if (url) {
         el.href = url;
         if (DOWNLOAD_LINKS.has(el.dataset.link)) {
-          const filename = decodeURIComponent(url.split("/").pop() || "");
+          const filename = decodeURIComponent(url.split("?")[0].split("/").pop() || "");
           el.setAttribute("download", filename);
           el.removeAttribute("target");
           el.removeAttribute("rel");
