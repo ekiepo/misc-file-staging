@@ -1,4 +1,4 @@
-# Agent Onboarding — Morpheus Docs & QR Platform
+# Agent Onboarding — Morpheus Docs Platform
 
 Start here. This repo is **static, print-ready product documentation** for the Dauer Manufacturing Morpheus Smart Accent Fixtures — the Uplight and Downlight spec sheets, and an 11-chapter User Manual. Plain HTML you edit directly; there is no build step.
 
@@ -32,6 +32,7 @@ The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoi
 | `morpheus/assets/spec-sheet.css` | Reset, header, grid, print rules shared by both spec sheets. |
 | `morpheus/assets/manual.css` | Manual-only overrides: pagination, print grids, spacing. |
 | `morpheus/assets/spec-sheet.js` | Delegated click handlers — video modal (`data-video`) and image zoom. |
+| `morpheus/assets/svg/` | Current tracked QR SVG exports for spec sheets and manual chapter cards. Filenames include the MOR-QR id, destination slug, and human label. |
 | `api/upload.js` | Blob upload-token endpoint, used by `upload.html`. The only serverless route. |
 | `vercel.json` | Intentionally empty (`{}`). Its only rules served the removed QR platform. |
 | `package.json` | One dependency (`@vercel/blob`). No scripts — there is no test suite. |
@@ -42,11 +43,23 @@ The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoi
 ## 3. Running and verifying
 
 ```bash
-npx vercel dev        # localhost:3000 — serve the docs the way the user does
+npx -y vercel@latest dev --listen 127.0.0.1:3000
 ```
 
 > [!IMPORTANT]
 > **Test on `vercel dev`, not a plain static server.** `python3 -m http.server` and the production CDN are both more permissive about URL encoding than `vercel dev` is. A bug can be invisible on one and fatal on another — this exact gap cost a full debugging cycle (see §5).
+
+If `3000` is busy, identify the listener first:
+
+```bash
+lsof -nP -iTCP:3000 -sTCP:LISTEN
+```
+
+Use another port when the listener is unrelated to this repo:
+
+```bash
+npx -y vercel@latest dev --listen 127.0.0.1:3001
+```
 
 ---
 
@@ -63,6 +76,17 @@ npx vercel dev        # localhost:3000 — serve the docs the way the user does
 > [!CAUTION]
 > **Asset filenames do not track chapter numbers.**
 > After the Chapter 7 → Chapter 3 reorder, `slot-cX-fY` and `qr-cX` filenames no longer match the chapter that displays them — Chapter 6 renders `slot-c7-*.webp`, Chapter 4 renders `qr-c12.svg`. **Never infer a chapter from a filename, and never rename these assets to "fix" the mismatch** — renaming is what causes silent binary overwrites. Locate figures by their `Fig n.n` label or by reading surrounding markup.
+
+> [!IMPORTANT]
+> **QR SVG filenames track scan destinations, not layout positions.**
+> Current printed/tracked QR art lives in `morpheus/assets/svg/` and uses exported filenames like `MOR-QR-021__scheduler-mp4__scheduling.svg`. The MOR-QR id and slug describe the scan destination baked into the art; the click target remains the separate `data-video` attribute. Keep those two concepts separate.
+>
+> Last applied mapping, 2026-08-31:
+> * Spec sheet page-1 demo QR in both `uplight.html` and `downlight.html`: `MOR-QR-007__main-promo-voice-mp4__watch-demo-video.svg`
+> * Spec sheet existing feature-card QRs: `008` Beam, `009` Moonlighting, `010` Smooth Dimming, `012` Fixture Grouping, `014` Kinetic Lighting Loop
+> * Manual cover demo QR: `MOR-QR-031__main-promo-voice-mp4__watch-demo-video.svg`
+> * Manual chapter lead cards: Ch1 `016`, Ch2 `017`, Ch3 `022`, Ch4 `018`, Ch5 `019`, Ch6 `020`, Ch7 `021`, Ch8 `023`, Ch9 `024`, Ch10 `025`, Ch11 `029`
+> * Extra exported QR SVGs are not instructions to add new visible QR blocks. Do not add sections/cards just because matching QR files exist.
 
 > [!IMPORTANT]
 > **No spaces in asset filenames.** All video assets are now hyphenated and lowercase. Keep it that way — see §5 for why this is non-negotiable.
@@ -96,6 +120,13 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 > * **Diagnostic lesson:** when something "works" in your check but the user still sees breakage, confirm you are testing the same host they are. Verifying against the wrong server produced a confident all-clear on a genuinely broken page.
 
 > [!CAUTION]
+> **A silent `npx vercel dev` can be a CLI/port problem, not an app problem.**
+> On 2026-08-31, `npx vercel dev --listen 3000` appeared to hang with no output. Two separate issues were in play:
+> * `vercel` was not installed locally or globally, so plain `npx vercel ...` had to resolve the CLI and could stall without a visible prompt. `npx -y vercel@latest ...` made the resolution explicit and started Vercel CLI 59.10.0.
+> * Port `3000` was already held by an unrelated long-running Node process (`.hermes/hermes-agent/scripts/whatsapp-bridge/bridge.js`). Use `lsof -nP -iTCP:3000 -sTCP:LISTEN` before assuming the repo server failed, and either kill the unrelated process when asked or run Vercel on `127.0.0.1:3001`.
+> * If sandboxed `curl` reports connection refused while `lsof` shows Vercel listening, retry the HTTP check from the same elevated context used to launch the server.
+
+> [!CAUTION]
 > **Bulk "update the video sources" edits have flattened distinct links before.**
 > Commit `b571c34` replaced five individually-chosen `data-video` URLs in both spec sheets with a single placeholder (`main-promo-voice.mp4`), so every feature card opened the same clip. It went unnoticed for many commits.
 > * Recover prior values by walking history rather than guessing:
@@ -105,6 +136,10 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 >   done
 >   ```
 > * After any link edit, assert every target actually resolves — on `vercel dev`, not on disk alone.
+
+> [!CAUTION]
+> **Bulk "update the QR graphics" edits can be just as dangerous as video-source edits.**
+> In 2026-08-31 QR replacements, the correct operation was to update only existing `<img src>` QR graphics, not to add QR blocks for every exported SVG. The export contained extra destination codes for features that do not currently have QR placements on the sheets. Before editing, build a map from visible card/chapter labels plus `data-video`, then ask about ambiguities instead of guessing.
 
 > [!CAUTION]
 > **A failing endpoint is not automatically a bug. Confirm the feature is still wanted before repairing it.**
@@ -147,11 +182,8 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 ## 6. Open items
 
 * **Video payload:** `morpheus/assets/videos/` is **237 MB across 17 files, 16 of them referenced.** Superseded legacy cuts were pruned; `morpheus-shorts-device-information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
-* **Two different QR vectors are in play on the spec sheets — verified by decoding, not by reading markup.**
-  * `assets/img/qr-mor-038.png` (page 1 of `uplight.html`/`downlight.html` and the `manual.html` cover) scans to `https://dauer-mt.vercel.app/MOR-QR-038`, the tracked destination. Same art as the launch hub hero.
-  * `assets/img/qr-demo.png` (the five feature cards on each spec sheet, 10 uses) still scans to `https://dauermanufacturing.com/landing/morpheus`, which is **untracked**. Swap these when tracked codes exist for them.
-  * Decode before trusting either: `zbarimg --quiet --raw <file>` (`brew install zbar`). The scan target is baked into the art and is independent of the `data-video` click target on the same element.
-  * All three page-1 QRs share one vector, so a scan cannot tell an uplight sheet from a downlight sheet from a manual. Split them if per-surface reporting matters.
+* **QR cleanup:** Printed spec/manual QR graphics now reference `morpheus/assets/svg/MOR-QR-*.svg`. The old `assets/img/qr-mor-038.png`, `assets/img/qr-demo.png`, and `assets/img/manual/qr-c*.svg` assets may be unreferenced legacy art. Do not delete them casually; prune only after a reference sweep and owner confirmation.
+* **Unused exported QR SVGs:** The 2026-08-31 export included extra codes such as scene creation, schedules/astro, and app download variants that were intentionally not placed because the current sheets/manual do not have matching visible QR blocks. Keep them as source artifacts unless the owner asks to add placements.
 
 ### Retired concerns
 

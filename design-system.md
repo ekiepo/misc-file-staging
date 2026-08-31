@@ -256,6 +256,7 @@ After any chapter reorder, figure insertion, or content change to the how-to pag
 *   [ ] **Anchor Integrity**: Each `id="chapter-N"` matches its own `CHAPTER N` eyebrow, and each TOC row's `href`, label number, and printed page number all agree with where the card physically sits.
 *   [ ] **Cross-References**: Grep the captions for phrases like "see chapter N" — prose references do not renumber themselves and will silently point at the wrong chapter.
 *   [ ] **Media Links**: Confirm every `data-video` path resolves on disk, and scan-test the printed QR codes separately (see §7 — the vector and the click target are independent).
+*   [ ] **QR Placement Map**: For QR-only updates, list each visible QR placement by page/card/chapter label and `data-video` before changing `src`. Do not add new QR blocks just because an export includes extra destination files.
 
 ---
 
@@ -264,6 +265,7 @@ After any chapter reorder, figure insertion, or content change to the how-to pag
 To maintain a clean and reliable asset library, adhere to these guidelines for all images, screenshots, and diagrams added to documentation pages:
 
 *   **Format & Compression**: Store all raster graphics (like app screenshot figures) in **WebP format** (`-q 95` quality threshold) to keep the project lightweight while preserving text readability. Use SVG vectors for diagrams, logos, and QR codes.
+*   **Tracked QR Location**: Store generated/tracked QR SVGs in `morpheus/assets/svg/`. Preserve exported filenames such as `MOR-QR-021__scheduler-mp4__scheduling.svg`; the MOR-QR id and slug are part of the audit trail.
 *   **Unique Chapter Prefixes**: Always prefix figures with their exact chapter or topic identifier to avoid overwrite collisions (e.g. use `slot-c4-fX.webp` for Chapter 4 Astronomical Timer screens, and `slot-c11-fY.webp` for Chapter 11 Network Diagnosis screens). Never reuse names or placeholder ranges across files.
 *   **Decoupling Shared Assets**: When updating spec sheets or manual files, check if an asset (such as `dimension-drawing.png`) is referenced by multiple distinct document types (like both `downlight.html` and `uplight.html`). If the visual change is specific to only one fixture, decouple it by creating a new unique asset (e.g. `downlight-dimension-drawing.webp`) and updating the HTML file rather than overwriting the shared path.
 *   **Git Asset Recovery**: If a binary asset is accidentally overwritten, retrieve the previous version from git history by referencing the parent commit:
@@ -283,4 +285,7 @@ A card that offers a how-to video carries **two independent links**, and a reord
 
 *   Verify `data-video` by resolving the path on disk. Verify the QR **only** by scanning the rendered code — no amount of source inspection will catch a stale vector.
 *   Never reuse one QR vector across two chapters. Sharing a file guarantees the scan is wrong for at least one of them, and produces duplicate `id` attributes (invalid HTML) as a side effect.
+*   Existing QR blocks are intentional layout elements. Replacing a QR graphic means updating the existing `<img src>`, not adding a new card, section, or grid cell unless the owner explicitly asks for new visible content.
+*   When an export contains multiple plausible QR files for the same underlying video, ask for placement confirmation. The 2026-08-31 export, for example, used `MOR-QR-007` for the spec-sheet page-1 promo QR and `MOR-QR-031` for the manual cover promo QR even though both point at `main-promo-voice.mp4`.
+*   The manual's visual chapter labels are the placement authority. Do not infer placement from old `qr-cX.svg` filenames; after chapter reorders those names may no longer describe the rendered chapter.
 *   Avoid literal spaces in media filenames. Browsers tolerate them in a local `src`, but some CDNs and static hosts reject the unencoded URL — prefer hyphens or percent-encoding.
