@@ -12,6 +12,14 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300..900;1,300..900&family=Archivo+Expanded:wght@600;700;800&display=swap"
     rel="stylesheet">
+  <script>
+    (function () {
+      const AUTH_HASH = "8bdc7c90e0edbbae2c26facb514d954eeafad8d8f72293beacc858ecb046ad75";
+      if (sessionStorage.getItem("morpheus_hub_token") === AUTH_HASH) {
+        document.documentElement.classList.add("is-authenticated");
+      }
+    })();
+  </script>
   <style>
     :root {
       --dauer-orange-500: #f7941d;
@@ -1111,17 +1119,251 @@
         height: 1.4in !important;
       }
     }
+
+    /* Authentication Gate */
+    html:not(.is-authenticated) body {
+      background: var(--dauer-charcoal-950) !important;
+      overflow: hidden !important;
+    }
+
+    html:not(.is-authenticated) main,
+    html:not(.is-authenticated) .site-nav,
+    html:not(.is-authenticated) .site-footer,
+    html:not(.is-authenticated) aside#dashboard,
+    html:not(.is-authenticated) dialog {
+      display: none !important;
+    }
+
+    .auth-gate {
+      display: none;
+    }
+
+    html:not(.is-authenticated) .auth-gate {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: var(--dauer-charcoal-950);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 380px;
+      background: #232220;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 14px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      padding: 38px 32px;
+      color: #f1efea;
+      animation: authFadeIn 0.3s ease-out;
+    }
+
+    @keyframes authFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-brand {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .auth-logo-mark {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 14px;
+      background: #181716;
+      border: 1px solid rgba(247, 148, 29, 0.28);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(247, 148, 29, 0.14);
+    }
+
+    .auth-logo-mark::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      background: var(--dauer-orange-500);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--dauer-orange-500);
+    }
+
+    .auth-product {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+    }
+
+    .auth-sub {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dauer-charcoal-400);
+      margin-top: 5px;
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .auth-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .auth-field label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #d8d6cf;
+    }
+
+    .auth-field input {
+      height: 44px;
+      padding: 0 14px;
+      background: #181716;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .auth-field input:focus {
+      border-color: var(--dauer-orange-500);
+      box-shadow: 0 0 0 3px rgba(247, 148, 29, 0.22);
+    }
+
+    .auth-error {
+      font-size: 12px;
+      color: #ff7878;
+      background: rgba(255, 120, 120, 0.08);
+      border: 1px solid rgba(255, 120, 120, 0.25);
+      border-radius: 6px;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    .auth-btn {
+      height: 44px;
+      margin-top: 6px;
+      background: var(--dauer-orange-500);
+      color: #1c1b1a;
+      border: none;
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.16s ease, transform 0.1s ease;
+    }
+
+    .auth-btn:hover {
+      background: var(--dauer-orange-600);
+    }
+
+    .auth-btn:active {
+      transform: scale(0.99);
+    }
+
+    .auth-footer-note {
+      font-size: 10px;
+      color: var(--dauer-charcoal-500);
+      text-align: center;
+      margin-top: 22px;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-logout-btn {
+      background: transparent;
+      border: 1px solid rgba(43, 43, 43, 0.2);
+      border-radius: 4px;
+      color: var(--dauer-charcoal-500);
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 9px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .nav-logout-btn:hover {
+      background: var(--dauer-charcoal-900);
+      color: #ffffff;
+      border-color: var(--dauer-charcoal-900);
+    }
   </style>
 </head>
 
 <body>
+  <div id="auth-gate" class="auth-gate" role="dialog" aria-modal="true" aria-label="Internal Access Authorization">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-logo-mark"></div>
+        <div class="auth-product">MORPHEUS</div>
+        <div class="auth-sub">Launch Toolkit · Internal Access</div>
+      </div>
+      <form id="auth-form" class="auth-form" autocomplete="on">
+        <div class="auth-field">
+          <label for="auth-username">Username</label>
+          <input type="text" id="auth-username" name="username" required autocomplete="username" autofocus spellcheck="false" placeholder="Enter username">
+        </div>
+        <div class="auth-field">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" name="password" required autocomplete="current-password" placeholder="Enter password">
+        </div>
+        <div id="auth-error" class="auth-error" role="alert" style="display: none;">
+          Incorrect username or password.
+        </div>
+        <button type="submit" id="auth-submit" class="auth-btn">
+          <span>Access Toolkit</span>
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+      </form>
+      <div class="auth-footer-note">Authorized Dauer Manufacturing personnel only</div>
+    </div>
+  </div>
+
   <nav class="site-nav" aria-label="Launch hub">
     <div class="brand">Morpheus / Launch Toolkit</div>
-    <div class="nav-links" aria-label="Sections">
-      <a href="#film">Film</a>
-      <a href="#documents">Documents</a>
-      <a href="#assets">Assets</a>
-      <a href="#qr-system">QR Links</a>
+    <div class="nav-actions">
+      <div class="nav-links" aria-label="Sections">
+        <a href="#film">Film</a>
+        <a href="#documents">Documents</a>
+        <a href="#assets">Assets</a>
+        <a href="#qr-system">QR Links</a>
+      </div>
+      <button type="button" class="nav-logout-btn js-auth-logout" title="Sign out of Launch Toolkit">Sign Out</button>
     </div>
   </nav>
 
@@ -1149,7 +1391,7 @@
       <div class="wrap">
         <p class="eyebrow"><span class="section-number">01</span> · The Film</p>
         <h2>Morpheus Video Assets</h2>
-        <p class="lead">The master version that can be sliced for shorter promo's. With and without voiceover.</p>
+        <p class="lead">The master version that can be sliced for shorter promos. With and without voiceover.</p>
         <div class="media-shell reveal-on-scroll">
           <div class="video-wrap">
             <video id="film-video" controls playsinline poster="morpheus/assets/img/manual/cover-hero.webp">
@@ -1748,6 +1990,61 @@
 
     document.querySelectorAll("main .section[id]").forEach((section) => {
       sectionObserver.observe(section);
+    });
+
+    // Client-side authentication logic
+    const AUTH_HASH = "8bdc7c90e0edbbae2c26facb514d954eeafad8d8f72293beacc858ecb046ad75";
+
+    async function hashString(str) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(str);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    const authForm = document.getElementById("auth-form");
+    const authError = document.getElementById("auth-error");
+    const authUser = document.getElementById("auth-username");
+    const authPass = document.getElementById("auth-password");
+
+    if (authForm) {
+      authForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (authError) authError.style.display = "none";
+        const u = (authUser ? authUser.value : "").trim();
+        const p = authPass ? authPass.value : "";
+        const combined = `${u}:${p}`;
+
+        try {
+          const hash = await hashString(combined);
+          if (hash === AUTH_HASH) {
+            sessionStorage.setItem("morpheus_hub_token", AUTH_HASH);
+            document.documentElement.classList.add("is-authenticated");
+          } else {
+            if (authError) authError.style.display = "block";
+            if (authPass) {
+              authPass.value = "";
+              authPass.focus();
+            }
+          }
+        } catch (err) {
+          console.error("Auth error:", err);
+          if (authError) {
+            authError.textContent = "Authentication error. Please try again.";
+            authError.style.display = "block";
+          }
+        }
+      });
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem("morpheus_hub_token");
+      location.reload();
+    }
+
+    document.querySelectorAll(".js-auth-logout").forEach((btn) => {
+      btn.addEventListener("click", handleLogout);
     });
   </script>
 </body>
