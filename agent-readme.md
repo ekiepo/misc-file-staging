@@ -26,9 +26,9 @@ The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoi
 |---|---|
 | `index.html` | Public landing portal; links the spec sheets and manual. The hero sits first, followed immediately by the main Vercel Blob promo video, then the optimized KLE Reveal animation and document cards. The promo video is intentionally unmuted by default. |
 | `morpheus-GIE.html` | Duplicate landing-page variant for the GIE contest form work. Keep it unlinked from `index.html` until the owner asks otherwise. It currently mirrors the top-of-page hero and unmuted promo video from `index.html`. |
-| `launch-hub.html` | Morpheus Launch Toolkit. Replaced the old `qr/index.html` staging UI. Internal tool — do not link it from `index.html`. |
-| `morpheus/uplight.html`<br>`morpheus/downlight.html` | Fixture spec + ordering sheets. Near-identical structure; keep them in sync. |
-| `morpheus/manual.html` | The 11-chapter User Manual. Standard static HTML, edited directly — the old `build_manual.js` pipeline is gone. |
+| `launch-hub.html` | Morpheus Launch Toolkit. Replaced the old `qr/index.html` staging UI. Internal tool — do not link it from `index.html`. Gated with a client-side SHA-256 auth screen (`dauer-team` / `morpheus2026`). |
+| `morpheus/uplight.html`<br>`morpheus/downlight.html` | Fixture spec + ordering sheets. Near-identical structure; keep them in sync. Subtitles standardized to *"One Fixture. 10,000+ Possibilities"*. |
+| `morpheus/manual.html` | The 11-chapter User Manual. Standard static HTML, edited directly — the old `build_manual.js` pipeline is gone. Cover subtitle matches spec sheets (*"One Fixture. 10,000+ Possibilities"*). |
 | `morpheus/assets/spec-sheet.css` | Reset, header, grid, print rules shared by both spec sheets. |
 | `morpheus/assets/manual.css` | Manual-only overrides: pagination, print grids, spacing. |
 | `morpheus/assets/spec-sheet.js` | Delegated click handlers — video modal (`data-video`) and image zoom. |
@@ -87,6 +87,14 @@ npx -y vercel@latest dev --listen 127.0.0.1:3001
 > * Manual cover demo QR: `MOR-QR-031__main-promo-voice-mp4__watch-demo-video.svg`
 > * Manual chapter lead cards: Ch1 `016`, Ch2 `017`, Ch3 `022`, Ch4 `018`, Ch5 `019`, Ch6 `020`, Ch7 `021`, Ch8 `023`, Ch9 `024`, Ch10 `025`, Ch11 `029`
 > * Extra exported QR SVGs are not instructions to add new visible QR blocks. Do not add sections/cards just because matching QR files exist.
+
+> [!IMPORTANT]
+> **Standardized copy & versatility phrasing across the 3 main docs.**
+> When referencing fixture possibilities or liquid crystal beam combinations across `uplight.html`, `downlight.html`, and `manual.html`, adhere strictly to these standardized forms:
+> * **Headlines & Subtitles:** `One Fixture. 10,000+ Possibilities` (Title blocks on Page 1 / cover, hero sections, and Page 4 Smart Features `<h2>`).
+> * **Section Eyebrows:** `10,000+ Possibilities` (Page 3 Beam Control).
+> * **Editorial / Body Copy:** `more than 10,000 possible combinations` (Never "over 10,000 beam combinations" or "more than 10,000 adjustments").
+> Changes to any of these sections must be mirrored across `uplight.html` and `downlight.html` (and `manual.html` for shared cover/intro branding).
 
 > [!IMPORTANT]
 > **No spaces in asset filenames.** All video assets are now hyphenated and lowercase. Keep it that way — see §5 for why this is non-negotiable.
@@ -176,6 +184,18 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 > ```bash
 > git show <hash>^:morpheus/assets/img/manual/slot-name.webp > morpheus/assets/img/manual/slot-new.webp
 > ```
+
+> [!TIP]
+> **Zero-flicker client-side page gating (`launch-hub.html`).**
+> When protecting internal static toolkit pages without a serverless auth backend:
+> * Apply `html:not(.is-authenticated) body { overflow: hidden; }` and hide `main`, `.site-nav`, `.site-footer` by default.
+> * Run a synchronous `<script>` in `<head>` checking `sessionStorage.getItem('morpheus_hub_token') === AUTH_HASH`. If valid, it adds `.is-authenticated` before the DOM renders, preventing auth screen flash.
+> * Hash the credentials using browser-native `crypto.subtle.digest('SHA-256', ...)` rather than comparing plaintext strings.
+> * Provide an explicit Sign Out control in the sticky header (`.site-nav`) that clears the session key and reloads.
+
+> [!TIP]
+> **Scope copy refactors directly to the target files.**
+> When standardizing copy across the 3 main documents (`uplight.html`, `downlight.html`, `manual.html`), execute straightforward search-and-replace edits directly in the active files. Do not over-complicate by searching historical git logs when the working tree is current and authoritative.
 
 ---
 

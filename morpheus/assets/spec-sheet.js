@@ -146,6 +146,90 @@
     video.src = '';
   });
 
+  // --- QR Click Tracking ---
+  const QR_PING_BASE = 'https://dauer-mt.vercel.app';
+  const QR_PING_PARAM = 'mt_event=web_click';
+  const qrCooldowns = new Map();
+
+  const VIDEO_FALLBACK_QR_MAP = {
+    'main-promo-voice.mp4': 'MOR-QR-007',
+    'morpheus-short-beam-presets.mp4': 'MOR-QR-008',
+    'morpheus-shorts-down-lighting.mp4': 'MOR-QR-009',
+    'morpheus-shorts-manual-xy.mp4': 'MOR-QR-010',
+    'morpheus-shorts-synced-group-lighting.mp4': 'MOR-QR-012',
+    'kle-2.mp4': 'MOR-QR-014',
+    'morpheus-shorts-installation.mp4': 'MOR-QR-016',
+    'add-an-admin.mp4': 'MOR-QR-017',
+    'control-panel-manual.mp4': 'MOR-QR-022',
+    'share-fixture.mp4': 'MOR-QR-018',
+    'astronomical-timer-2.mp4': 'MOR-QR-019',
+    'create-group.mp4': 'MOR-QR-020',
+    'scheduler.mp4': 'MOR-QR-021',
+    'create-a-static-scene.mp4': 'MOR-QR-023',
+    'kle-presets-3.mp4': 'MOR-QR-024',
+    'geo-arriving.mp4': 'MOR-QR-025',
+    'network-diagnosis.mp4': 'MOR-QR-029'
+  };
+
+  function resolveQrId(trigger, eventTarget, videoSrc) {
+    // 1. Explicit data-qr-id on trigger or clicked element
+    const explicit = trigger?.getAttribute?.('data-qr-id') || eventTarget?.getAttribute?.('data-qr-id');
+    if (explicit) return explicit.toUpperCase();
+
+    // 2. Candidate images: target itself, inside trigger, or nearby container
+    const candidateImgs = [
+      eventTarget && eventTarget.tagName === 'IMG' ? eventTarget : null,
+      trigger && trigger.tagName === 'IMG' ? trigger : null,
+      trigger?.querySelector?.('img[src*="MOR-QR-"]'),
+      trigger?.querySelector?.('img.qr, img.feature-card__demo-qr'),
+      trigger?.closest?.('.compliance-cluster, .feature-card__demo, .chapter-lead-card')?.querySelector('img[src*="MOR-QR-"]')
+    ];
+
+    for (const img of candidateImgs) {
+      if (img && img.src) {
+        const match = img.src.match(/MOR-QR-\d+/i);
+        if (match) return match[0].toUpperCase();
+      }
+    }
+
+    // 3. Fallback to video filename mapping
+    if (videoSrc) {
+      const filename = videoSrc.split('/').pop()?.split('?')[0];
+      if (filename && VIDEO_FALLBACK_QR_MAP[filename]) {
+        return VIDEO_FALLBACK_QR_MAP[filename];
+      }
+    }
+
+    return null;
+  }
+
+  function trackQrClick(qrId) {
+    if (!qrId) return;
+
+    const now = Date.now();
+    const last = qrCooldowns.get(qrId) || 0;
+    if (now - last < 2000) {
+      return; // 2-second debounce
+    }
+    qrCooldowns.set(qrId, now);
+
+    const pingUrl = `${QR_PING_BASE}/${encodeURIComponent(qrId)}?${QR_PING_PARAM}`;
+    console.log('[QR Track]', qrId, pingUrl);
+
+    try {
+      fetch(pingUrl, {
+        method: 'GET',
+        mode: 'no-cors',
+        keepalive: true,
+        cache: 'no-store'
+      }).catch(() => {
+        // Silently ignore network or CORS errors
+      });
+    } catch (e) {
+      // Silently ignore synchronous exceptions
+    }
+  }
+
   // Global click event delegation for data-video triggers
   document.addEventListener('click', (event) => {
     const trigger = event.target.closest('[data-video]');
@@ -153,6 +237,11 @@
 
     const videoSrc = trigger.getAttribute('data-video');
     if (!videoSrc) return;
+
+    const qrId = resolveQrId(trigger, event.target, videoSrc);
+    if (qrId) {
+      trackQrClick(qrId);
+    }
 
     event.preventDefault();
     video.src = videoSrc;

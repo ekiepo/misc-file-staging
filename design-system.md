@@ -152,6 +152,41 @@ Three things must agree at all times, and none of them update automatically:
 
 > **Label parsing warning.** Some `.figure-cell__fig` values are wrapped in an inline `<span style="letter-spacing">`. Strip tags before matching figure numbers — a naive `[^<]*` capture reports those labels as empty and hides real gaps.
 
+### F. Standardized Copy & Phrasing System
+
+To maintain authoritative brand consistency across printed and digital collateral (`uplight.html`, `downlight.html`, and `manual.html`), all descriptions of fixture possibilities, beam adjustability, and optical versatility must adhere strictly to these standardized tiers:
+
+*   **Primary Headline & Subtitle**: `"One Fixture. 10,000+ Possibilities"`
+    *   Applied to the Page 1 / cover title block subtitles (`.title-block__subtitle`).
+    *   Applied to the Page 4 Smart Features headline (`<h2>`).
+    *   *Avoid legacy variants:* `"Many features. One uplight."`, `"Smart Uplight Accent Fixture"`.
+*   **Section Eyebrows**: `"10,000+ Possibilities"`
+    *   Applied to the Page 3 Beam Control intro eyebrow (`.eyebrow`).
+    *   *Avoid legacy variants:* `"more than 10,000 adjustments"`.
+*   **Editorial & Body Copy**: `"more than 10,000 possible combinations"`
+    *   Applied to descriptive paragraphs explaining the two-axis liquid crystal optics.
+    *   *Avoid legacy variants:* `"over 10,000 beam combinations"`.
+
+### G. Internal Tool Gating Pattern (Zero-Flicker Client Auth)
+
+For internal utility portals such as `launch-hub.html` that require password protection without a serverless backend or database:
+
+1.  **Instant Content Shielding**:
+    ```css
+    html:not(.is-authenticated) body {
+      background: var(--dauer-charcoal-950) !important;
+      overflow: hidden !important;
+    }
+    html:not(.is-authenticated) main,
+    html:not(.is-authenticated) .site-nav,
+    html:not(.is-authenticated) .site-footer {
+      display: none !important;
+    }
+    ```
+2.  **Synchronous Head Check**: A tiny script runs in `<head>` before body parsing begins. It verifies `sessionStorage.getItem("morpheus_hub_token") === AUTH_HASH`. If matching, it adds `.is-authenticated` to `<html>` with zero visual flash.
+3.  **Hashed Validation**: Passwords are never compared in plaintext in script source. Use `crypto.subtle.digest("SHA-256", ...)` against a precomputed hex hash.
+4.  **Session Clearing**: Provide a persistent `"Sign Out"` control in `.site-nav` that invokes `sessionStorage.removeItem(...)` and reloads.
+
 ---
 
 ## 5. Step-by-Step Legacy Conversion Guide
@@ -257,6 +292,8 @@ After any chapter reorder, figure insertion, or content change to the how-to pag
 *   [ ] **Cross-References**: Grep the captions for phrases like "see chapter N" — prose references do not renumber themselves and will silently point at the wrong chapter.
 *   [ ] **Media Links**: Confirm every `data-video` path resolves on disk, and scan-test the printed QR codes separately (see §7 — the vector and the click target are independent).
 *   [ ] **QR Placement Map**: For QR-only updates, list each visible QR placement by page/card/chapter label and `data-video` before changing `src`. Do not add new QR blocks just because an export includes extra destination files.
+*   [ ] **Copy Synchronization**: Confirm all fixture versatility phrases follow the standardized hierarchy ("One Fixture. 10,000+ Possibilities" for headlines/subtitles, "10,000+ Possibilities" for eyebrows, "more than 10,000 possible combinations" for body copy) across `uplight.html`, `downlight.html`, and `manual.html`.
+*   [ ] **Internal Tool Auth**: For gated internal pages like `launch-hub.html`, confirm unauthorized visits are shielded behind the branded `#auth-gate` overlay, invalid credentials trigger inline errors, and valid logins persist cleanly in `sessionStorage` without page flash.
 
 ---
 
