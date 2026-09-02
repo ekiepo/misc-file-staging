@@ -232,6 +232,172 @@
       transform: translateX(4px);
     }
 
+    /* Lead Capture */
+    .lead-capture {
+      grid-column: 1 / -1;
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .lead-capture__inner {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .lead-capture__eyebrow {
+      color: var(--color-brand-orange);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+    }
+
+    .lead-capture__title {
+      color: var(--color-text-main);
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .lead-capture__copy {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      max-width: 28rem;
+    }
+
+    .lead-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .lead-form__field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .lead-form__field--wide {
+      grid-column: 1 / -1;
+    }
+
+    .lead-form__label {
+      color: var(--color-text-main);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lead-form__input,
+    .lead-form__select {
+      appearance: none;
+      background: #fbfaf8;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      color: var(--color-text-main);
+      font: inherit;
+      min-height: 46px;
+      outline: none;
+      padding: 0.75rem 0.85rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      width: 100%;
+    }
+
+    .lead-form__select {
+      background-image: linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%),
+        linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+      background-repeat: no-repeat;
+      background-size: 5px 5px, 5px 5px;
+      padding-right: 2.5rem;
+    }
+
+    .lead-form__input:focus,
+    .lead-form__select:focus {
+      background: #ffffff;
+      border-color: var(--color-brand-orange);
+      box-shadow: 0 0 0 3px rgba(247, 148, 29, 0.16);
+    }
+
+    .lead-form__input[aria-invalid="true"],
+    .lead-form__select[aria-invalid="true"] {
+      border-color: #b42318;
+      box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
+    }
+
+    .lead-form__error {
+      color: #b42318;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      min-height: 1.05rem;
+    }
+
+    .lead-form__actions {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      grid-column: 1 / -1;
+      margin-top: 0.25rem;
+    }
+
+    .lead-form__submit {
+      align-items: center;
+      background: var(--color-brand-orange);
+      border: 0;
+      border-radius: 6px;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 800;
+      gap: 0.5rem;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.75rem 1.35rem;
+      transition: var(--transition-premium);
+    }
+
+    .lead-form__submit:hover,
+    .lead-form__submit:focus-visible {
+      background: var(--color-brand-orange-hover);
+      box-shadow: 0 8px 22px rgba(247, 148, 29, 0.22);
+      outline: none;
+    }
+
+    .lead-form__submit:disabled {
+      cursor: wait;
+      opacity: 0.65;
+      transform: none;
+    }
+
+    .lead-form__status {
+      color: var(--color-text-muted);
+      font-size: 0.86rem;
+      line-height: 1.4;
+    }
+
+    .lead-form__trap {
+      height: 0;
+      left: -9999px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      top: auto;
+      width: 0;
+    }
+
     /* Portal Footer */
     .portal-footer {
       margin-top: auto;
@@ -273,6 +439,16 @@
       .grid-container {
         padding: 1rem 1.5rem 3rem;
         gap: 1.5rem;
+      }
+
+      .lead-capture__inner {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+      }
+
+      .lead-form {
+        grid-template-columns: 1fr;
       }
 
       .portal-header {
@@ -526,6 +702,109 @@
           </div>
         </div>
       </a>
+
+      <section class="lead-capture" aria-labelledby="lead-capture-title">
+        <div class="lead-capture__inner">
+          <div>
+            <div class="lead-capture__eyebrow">GIE Interest Form</div>
+            <h3 class="lead-capture__title" id="lead-capture-title">Connect With Dauer</h3>
+            <p class="lead-capture__copy">Share your contact details and a Dauer representative will follow up about
+              Morpheus smart accent fixtures.</p>
+          </div>
+
+          <form class="lead-form" id="gie-lead-form" novalidate>
+            <div class="lead-form__trap" aria-hidden="true">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="first-name">First Name</label>
+              <input class="lead-form__input" id="first-name" name="first_name" type="text" autocomplete="given-name"
+                minlength="2" maxlength="60" required aria-describedby="first-name-error">
+              <div class="lead-form__error" id="first-name-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="last-name">Last Name</label>
+              <input class="lead-form__input" id="last-name" name="last_name" type="text" autocomplete="family-name"
+                minlength="2" maxlength="60" required aria-describedby="last-name-error">
+              <div class="lead-form__error" id="last-name-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="company-name">Company Name</label>
+              <input class="lead-form__input" id="company-name" name="company_name" type="text"
+                autocomplete="organization" maxlength="120" required aria-describedby="company-name-error">
+              <div class="lead-form__error" id="company-name-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="title">Title</label>
+              <input class="lead-form__input" id="title" name="title" type="text" autocomplete="organization-title"
+                maxlength="100" required aria-describedby="title-error">
+              <div class="lead-form__error" id="title-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="phone">Phone Number</label>
+              <input class="lead-form__input" id="phone" name="phone" type="tel" autocomplete="tel"
+                inputmode="tel" maxlength="24" required aria-describedby="phone-error">
+              <div class="lead-form__error" id="phone-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="street-address">Street Address</label>
+              <input class="lead-form__input" id="street-address" name="street_address" type="text"
+                autocomplete="street-address" maxlength="160" required aria-describedby="street-address-error">
+              <div class="lead-form__error" id="street-address-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="email">E-mail Address</label>
+              <input class="lead-form__input" id="email" name="email" type="email" autocomplete="email"
+                maxlength="254" required aria-describedby="email-error">
+              <div class="lead-form__error" id="email-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="reporting-distributor">Reporting Distributor</label>
+              <input class="lead-form__input" id="reporting-distributor" name="reporting_distributor" type="text"
+                autocomplete="organization" maxlength="120" aria-describedby="reporting-distributor-error">
+              <div class="lead-form__error" id="reporting-distributor-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__field">
+              <label class="lead-form__label" for="heard-about">How did you hear about us?</label>
+              <select class="lead-form__select" id="heard-about" name="heard_about" required
+                aria-describedby="heard-about-error">
+                <option value="">Select one</option>
+                <option value="gie-expo">GIE Expo</option>
+                <option value="dauer-representative">Dauer Representative</option>
+                <option value="distributor">Distributor</option>
+                <option value="contractor-designer">Contractor or Designer</option>
+                <option value="web-search">Web Search</option>
+                <option value="social-media">Social Media</option>
+                <option value="referral">Referral</option>
+                <option value="other">Other</option>
+              </select>
+              <div class="lead-form__error" id="heard-about-error" aria-live="polite"></div>
+            </div>
+
+            <div class="lead-form__actions">
+              <button class="lead-form__submit" type="button">
+                <span>Submit Interest Form</span>
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3">
+                  </path>
+                </svg>
+              </button>
+              <div class="lead-form__status" id="lead-form-status" role="status" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+      </section>
     </div>
 
   </main>
@@ -538,6 +817,212 @@
       <a href="morpheus/manual.html">User Manual</a>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('gie-lead-form');
+      var status = document.getElementById('lead-form-status');
+      var textPattern = /^[\p{L}\p{M}0-9][\p{L}\p{M}0-9'.,&()/# -]{1,159}$/u;
+      var namePattern = /^[\p{L}\p{M}][\p{L}\p{M}' .-]{1,59}$/u;
+      var phonePattern = /^[0-9+().\s-]{7,24}$/;
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+      if (!form) {
+        return;
+      }
+
+      var submitButton = form.querySelector('.lead-form__submit');
+      var defaultSubmitText = submitButton ? submitButton.querySelector('span').textContent : '';
+
+      function setError(field, message) {
+        var error = document.getElementById(field.id + '-error');
+        field.setAttribute('aria-invalid', message ? 'true' : 'false');
+
+        if (error) {
+          error.textContent = message;
+        }
+      }
+
+      function trimmedValue(field) {
+        return field.value.replace(/\s+/g, ' ').trim();
+      }
+
+      function validateTextField(field, pattern, emptyMessage, invalidMessage) {
+        var value = trimmedValue(field);
+
+        if (field.required && !value) {
+          setError(field, emptyMessage);
+          return false;
+        }
+
+        if (value && !pattern.test(value)) {
+          setError(field, invalidMessage);
+          return false;
+        }
+
+        field.value = value;
+        setError(field, '');
+        return true;
+      }
+
+      function validateSelect(field) {
+        if (!field.value) {
+          setError(field, 'Choose one option.');
+          return false;
+        }
+
+        setError(field, '');
+        return true;
+      }
+
+      function validateForm() {
+        var isValid = true;
+        var fields = {
+          firstName: form.elements.first_name,
+          lastName: form.elements.last_name,
+          companyName: form.elements.company_name,
+          title: form.elements.title,
+          phone: form.elements.phone,
+          email: form.elements.email,
+          streetAddress: form.elements.street_address,
+          reportingDistributor: form.elements.reporting_distributor,
+          heardAbout: form.elements.heard_about
+        };
+
+        isValid = validateTextField(fields.firstName, namePattern, 'Enter a first name.', 'Use letters, spaces, apostrophes, periods, or hyphens.') && isValid;
+        isValid = validateTextField(fields.lastName, namePattern, 'Enter a last name.', 'Use letters, spaces, apostrophes, periods, or hyphens.') && isValid;
+        isValid = validateTextField(fields.companyName, textPattern, 'Enter a company name.', 'Use standard company name characters only.') && isValid;
+        isValid = validateTextField(fields.title, textPattern, 'Enter a title.', 'Use standard title characters only.') && isValid;
+        isValid = validateTextField(fields.phone, phonePattern, 'Enter a phone number.', 'Use 7-24 digits and phone punctuation only.') && isValid;
+        isValid = validateTextField(fields.email, emailPattern, 'Enter an e-mail address.', 'Enter a valid e-mail address.') && isValid;
+        isValid = validateTextField(fields.streetAddress, textPattern, 'Enter a street address.', 'Use standard address characters only.') && isValid;
+        isValid = validateTextField(fields.reportingDistributor, textPattern, '', 'Use standard company name characters only.') && isValid;
+        isValid = validateSelect(fields.heardAbout) && isValid;
+
+        return isValid;
+      }
+
+      function fieldPayload() {
+        return {
+          first_name: trimmedValue(form.elements.first_name),
+          last_name: trimmedValue(form.elements.last_name),
+          company_name: trimmedValue(form.elements.company_name),
+          title: trimmedValue(form.elements.title),
+          phone: trimmedValue(form.elements.phone),
+          email: trimmedValue(form.elements.email),
+          street_address: trimmedValue(form.elements.street_address),
+          reporting_distributor: trimmedValue(form.elements.reporting_distributor),
+          heard_about: form.elements.heard_about.value,
+          website: trimmedValue(form.elements.website),
+          source_page: window.location.pathname
+        };
+      }
+
+      function setPending(isPending) {
+        if (!submitButton) {
+          return;
+        }
+
+        submitButton.disabled = isPending;
+        form.setAttribute('aria-busy', isPending ? 'true' : 'false');
+        submitButton.querySelector('span').textContent = isPending ? 'Submitting...' : defaultSubmitText;
+      }
+
+      function applyServerErrors(errors) {
+        Object.keys(errors || {}).forEach(function (name) {
+          if (form.elements[name]) {
+            setError(form.elements[name], errors[name]);
+          }
+        });
+      }
+
+      async function handleSubmitAttempt() {
+        if (submitButton && submitButton.disabled) {
+          return;
+        }
+
+        status.textContent = '';
+
+        if (form.elements.website.value) {
+          status.textContent = 'Thanks. Your form has been received.';
+          form.reset();
+          return;
+        }
+
+        if (!validateForm()) {
+          var firstInvalid = form.querySelector('[aria-invalid="true"]');
+          status.textContent = 'Please correct the highlighted fields.';
+
+          if (firstInvalid) {
+            firstInvalid.focus();
+          }
+
+          return;
+        }
+
+        setPending(true);
+        status.textContent = 'Submitting...';
+
+        try {
+          var response = await fetch('/api/gie-leads', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(fieldPayload())
+          });
+          var result = await response.json().catch(function () {
+            return {};
+          });
+
+          if (response.ok && result.ok) {
+            form.reset();
+            status.textContent = 'Thanks. Your form has been received.';
+            return;
+          }
+
+          if (response.status === 400 && result.errors) {
+            applyServerErrors(result.errors);
+            var firstServerInvalid = form.querySelector('[aria-invalid="true"]');
+            status.textContent = 'Please correct the highlighted fields.';
+
+            if (firstServerInvalid) {
+              firstServerInvalid.focus();
+            }
+
+            return;
+          }
+
+          if (response.status === 503) {
+            status.textContent = 'Submission storage is not configured yet.';
+            return;
+          }
+
+          status.textContent = result.error || 'Submission is unavailable right now. Please try again later.';
+        } catch (error) {
+          status.textContent = 'Submission is unavailable right now. Please try again later.';
+        } finally {
+          setPending(false);
+        }
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        handleSubmitAttempt();
+      });
+
+      if (submitButton) {
+        submitButton.addEventListener('click', handleSubmitAttempt);
+      }
+
+      form.addEventListener('input', function (event) {
+        if (event.target.matches('.lead-form__input, .lead-form__select')) {
+          setError(event.target, '');
+          status.textContent = '';
+        }
+      });
+    }());
+  </script>
 
 </body>
 
