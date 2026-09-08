@@ -12,9 +12,12 @@ A QR scan-tracking platform used to live here too. **That functionality has been
 > **Never run `git commit` or `git push` unless the owner explicitly asks in that turn.**
 > Make the edits, verify them, and report what changed — then stop and leave the work in the working tree. "Go ahead", "yes", or approval of a *plan* is not approval to commit; the owner asks for commits separately and by name. Staging changes the owner did not ask you to stage is the same problem, so leave `git add` alone too. This holds even when the change is small, obviously correct, or already verified.
 
-This repo is documentation only. There is no build step and no test suite.
+This repo is documentation-first. There is no build step and no test suite.
 
-The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoint used by the dev-only `upload.html`. Everything else is static HTML, CSS, and assets.
+Server-side code is limited to Vercel Functions:
+* `api/upload.js` is a Blob upload-token endpoint used by the dev-only `upload.html`.
+* `api/gie-leads.js` stores GIE lead form submissions as private Vercel Blob JSON objects.
+* `api/gie-leads-export.js` exports those lead JSON blobs as CSV behind an export token.
 
 > [!NOTE]
 > **The QR scan-tracking platform used to live here and has been fully removed.** If you find references to it in old commits, issues, or stale notes, they are historical — the feature was migrated off this site and is not coming back. Do not reconstruct it.
@@ -25,7 +28,7 @@ The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoi
 | Path | What it is |
 |---|---|
 | `index.html` | Public landing portal; links the spec sheets and manual. The hero sits first, followed immediately by the main Vercel Blob promo video, then the optimized KLE Reveal animation and document cards. The promo video is intentionally unmuted by default. |
-| `morpheus-GIE.html` | Duplicate landing-page variant for the GIE contest form work. Keep it unlinked from `index.html` until the owner asks otherwise. It currently mirrors the top-of-page hero and unmuted promo video from `index.html`. |
+| `morpheus-GIE.html` | GIE landing-page variant. Keep it unlinked from `index.html` until the owner asks otherwise. It mirrors the top-of-page hero and unmuted promo video from `index.html`, then shows the three document cards, then a lead capture form. |
 | `launch-hub.html` | Morpheus Launch Toolkit. Replaced the old `qr/index.html` staging UI. Internal tool — do not link it from `index.html`. Gated with a client-side SHA-256 auth screen (`dauer-team` / `morpheus2026`). |
 | `morpheus/uplight.html`<br>`morpheus/downlight.html` | Fixture spec + ordering sheets. Near-identical structure; keep them in sync. Subtitles standardized to *"One Fixture. 10,000+ Possibilities"*. |
 | `morpheus/manual.html` | The 11-chapter User Manual. Standard static HTML, edited directly — the old `build_manual.js` pipeline is gone. Cover subtitle matches spec sheets (*"One Fixture. 10,000+ Possibilities"*). |
@@ -33,7 +36,10 @@ The one piece of server-side code is `api/upload.js`, a Blob upload-token endpoi
 | `morpheus/assets/manual.css` | Manual-only overrides: pagination, print grids, spacing. |
 | `morpheus/assets/spec-sheet.js` | Delegated click handlers — video modal (`data-video`) and image zoom. |
 | `morpheus/assets/svg/` | Current tracked QR SVG exports for spec sheets and manual chapter cards. Filenames include the MOR-QR id, destination slug, and human label. |
-| `api/upload.js` | Blob upload-token endpoint, used by `upload.html`. The only serverless route. |
+| `api/gie-leads.js` | Lead capture POST endpoint for `morpheus-GIE.html`. Validates server-side, ignores honeypot spam, and stores one private JSON blob per submission under `gie-leads/YYYY-MM/`. |
+| `api/gie-leads-export.js` | Token-protected CSV export endpoint for GIE leads. Reads private Blob JSON objects and returns `text/csv`. |
+| `lib/gie-leads.js` | Shared GIE lead validation, Blob auth selection, CSV formatting, request parsing, and origin/export-token checks. |
+| `api/upload.js` | Blob upload-token endpoint, used by `upload.html`. |
 | `vercel.json` | Intentionally empty (`{}`). Its only rules served the removed QR platform. |
 | `package.json` | One dependency (`@vercel/blob`). No scripts — there is no test suite. |
 | `upload.html` | Dev-only Blob upload utility. Keep unlinked from public pages. |
@@ -61,9 +67,52 @@ Use another port when the listener is unrelated to this repo:
 npx -y vercel@latest dev --listen 127.0.0.1:3001
 ```
 
+### GIE lead capture configuration
+
+`morpheus-GIE.html` posts to `/api/gie-leads`, so it only works through `vercel dev` or a Vercel deployment. Opening the file directly with `file://` will render the form but cannot submit to the API route.
+
+Production Blob auth should use Vercel OIDC, not a static read-write token:
+
+```env
+BLOB_STORE_ID=...
+LEADS_EXPORT_TOKEN=...
+```
+
+`BLOB_STORE_ID` is added by Vercel when the private Blob store is connected with OIDC enabled. `LEADS_EXPORT_TOKEN` is a long random secret chosen by the owner and used only for CSV export access.
+
+Optional / fallback env vars:
+
+```env
+LEADS_BLOB_STORE_ID=...
+LEADS_BLOB_READ_WRITE_TOKEN=...
+LEADS_ALLOWED_ORIGINS=https://example.com,https://www.example.com
+```
+
+Use `LEADS_BLOB_STORE_ID` only when the lead store should be different from the default `BLOB_STORE_ID`. Use `LEADS_BLOB_READ_WRITE_TOKEN` only as a local/manual fallback; do not prefer it in production once OIDC is working. `LEADS_ALLOWED_ORIGINS` is optional because same-host origins are accepted automatically.
+
+For local testing after Vercel env changes:
+
+```bash
+vercel env pull .env.local
+npx -y vercel@latest dev --listen 127.0.0.1:3001
+```
+
+Export CSV with:
+
+```bash
+curl -H "Authorization: Bearer $LEADS_EXPORT_TOKEN" \
+  http://127.0.0.1:3001/api/gie-leads-export \
+  -o gie-leads.csv
+```
+
+For production, replace the local origin with the deployed site URL. Never commit `.env.local` or export tokens.
+
 ---
 
 ## 4. Rules that constrain edits
+
+> [!IMPORTANT]
+> **Use official Dauer typography for all Dauer pages and materials.** The manual and spec sheets are the reference: `morpheus/assets/tokens/typography.css`. Use its `--font-display` and `--font-body` tokens, both standard-width `'Helvetica Neue', Helvetica, 'Archivo', Arial, -apple-system, sans-serif`. Import the shared typography stylesheet on new pages. Do not substitute Archivo Expanded or other display fonts. This applies to media kits, launch pages, and future work as well as documentation.
 
 > [!IMPORTANT]
 > **The 16-slot page grid (manual how-to pages 5–10).**
@@ -98,6 +147,18 @@ npx -y vercel@latest dev --listen 127.0.0.1:3001
 
 > [!IMPORTANT]
 > **No spaces in asset filenames.** All video assets are now hyphenated and lowercase. Keep it that way — see §5 for why this is non-negotiable.
+
+> [!IMPORTANT]
+> **GIE leads are private Blob JSON, not an append-only CSV.**
+> Each accepted form submission is stored as its own private JSON blob under `gie-leads/YYYY-MM/`. Do not rewrite this into a single CSV blob unless you also solve concurrent-write safety. The CSV is generated on demand by `api/gie-leads-export.js`.
+
+> [!IMPORTANT]
+> **Prefer Vercel OIDC for lead Blob auth.**
+> `lib/gie-leads.js` intentionally prefers OIDC (`x-vercel-oidc-token` + `BLOB_STORE_ID` or `LEADS_BLOB_STORE_ID`) and only falls back to `LEADS_BLOB_READ_WRITE_TOKEN` when present. Static read-write tokens are sensitive, long-lived credentials; keep them out of production once OIDC has been verified.
+
+> [!CAUTION]
+> **The GIE form has client-side validation, but the API is the source of truth.**
+> Any field, option, length, allowed-character, honeypot, or CSV column change must be mirrored in `lib/gie-leads.js`. The browser script in `morpheus-GIE.html` is UX only and cannot be trusted for security.
 
 ### Verifying a manual reorder
 
@@ -168,7 +229,7 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 > **Spec sheets are near-duplicates.** Any change to a shared section of `uplight.html` almost always belongs in `downlight.html` too. Their feature-card blocks sit at identical line numbers. Diff them after editing either.
 
 > [!TIP]
-> **Landing pages are now near-duplicates too.** `morpheus-GIE.html` started as a copy of `index.html` for an upcoming "enter contest" form. Until that form diverges intentionally, changes to shared landing sections should be made on both pages. The top order is hero, promo video, KLE animation, then document cards; the promo video should remain unmuted by default unless the owner asks to restore muted playback.
+> **Landing pages are related, but intentionally diverged.** `morpheus-GIE.html` started as a copy of `index.html` for the GIE lead form. Shared top sections should still be kept in sync when appropriate, but the GIE page intentionally adds the lead capture form after the three document cards. The top order is hero, promo video, KLE animation, document cards, then the form; the promo video should remain unmuted by default unless the owner asks to restore muted playback.
 
 > [!TIP]
 > **Table mapping.** When syncing values across sheets, don't assume identical column indices — check header mappings (`Delivered Lumens @ 50%` vs `Output ~32%`).
@@ -202,6 +263,7 @@ Also confirm every TOC `href="#chapter-N"` matches the `Chapter N:` label in its
 ## 6. Open items
 
 * **Video payload:** `morpheus/assets/videos/` is **237 MB across 17 files, 16 of them referenced.** Superseded legacy cuts were pruned; `morpheus-shorts-device-information.mp4` is the one deliberate holdover (no current chapter uses it). Note the deleted blobs remain in git history — the working tree shrank, `.git` did not. Moving the remaining clips to Blob storage is the next lever if deploy size becomes a problem.
+* **GIE lead capture:** Confirm a real production submission after Vercel OIDC is enabled and the project is redeployed. Once confirmed, revoke any old static lead Blob read-write token that Vercel kept active during the OIDC upgrade. Do not revoke `MEDIA_BLOB_READ_WRITE_TOKEN` or any token still required by the dev-only `upload.html` flow unless that uploader is also migrated.
 * **QR cleanup:** Printed spec/manual QR graphics now reference `morpheus/assets/svg/MOR-QR-*.svg`. The old `assets/img/qr-mor-038.png`, `assets/img/qr-demo.png`, and `assets/img/manual/qr-c*.svg` assets may be unreferenced legacy art. Do not delete them casually; prune only after a reference sweep and owner confirmation.
 * **Unused exported QR SVGs:** The 2026-08-31 export included extra codes such as scene creation, schedules/astro, and app download variants that were intentionally not placed because the current sheets/manual do not have matching visible QR blocks. Keep them as source artifacts unless the owner asks to add placements.
 
