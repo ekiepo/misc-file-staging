@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Morpheus Smart Accent Fixture — Documentation Portal</title>
+  <title>Morpheus Smart Accent Fixture</title>
   <meta name="description"
     content="Access specification sheets, ordering guidelines, mounting diagrams, and user manuals for the Dauer Manufacturing Morpheus Smart Accent Fixture.">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap"
@@ -37,6 +37,46 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+    }
+
+    .promo-banner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.35rem 1.5rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--color-brand-orange);
+      color: var(--color-text-main);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0;
+    }
+
+    .promo-banner__action {
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      white-space: nowrap;
+    }
+
+    .promo-banner:hover {
+      background: var(--color-brand-orange-hover);
+    }
+
+    .promo-banner:focus-visible {
+      outline: 3px solid var(--color-text-main);
+      outline-offset: -5px;
+    }
+
+    #entry-form {
+      scroll-margin-top: 1.5rem;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
 
     /* Header Branding */
@@ -618,6 +658,11 @@
 
 <body>
 
+  <a class="promo-banner" href="#entry-form">
+    <span>Equip Expo attendees: Enter to win one of two MORPHEUS fixtures!</span>
+    <span class="promo-banner__action">Enter now <span aria-hidden="true">&#8595;</span></span>
+  </a>
+
   <header class="portal-header">
     <div class="portal-header__brand">
       <img class="portal-header__logo-mark" src="morpheus/assets/img/logo-mark.png" alt="Dauer Logo Mark">
@@ -737,12 +782,13 @@ and evolve.</p>
         </div>
       </a>
 
-      <section class="lead-capture" aria-labelledby="lead-capture-title">
+      <section class="lead-capture" id="entry-form" tabindex="-1" aria-labelledby="lead-capture-title">
         <div class="lead-capture__inner">
           <div>
-            <div class="lead-capture__eyebrow">GIE Interest Form</div>
-            <h3 class="lead-capture__title" id="lead-capture-title">Connect With Dauer</h3>
-            <p class="lead-capture__copy">WAITING FOR FINAL COPY</p>
+            <div class="lead-capture__eyebrow">Ragistration Form</div>
+            <h3 class="lead-capture__title" id="lead-capture-title">Equip Expo Attendees!</h3>
+            <p class="lead-capture__copy">Register to win one of two MORPHEUS fixtures today! Winners will be drawn and
+announced…. (I need to get details if Tom wants winners present or not).</p>
           </div>
 
           <form class="lead-form" id="gie-lead-form" novalidate>
@@ -826,7 +872,7 @@ and evolve.</p>
 
             <div class="lead-form__actions">
               <button class="lead-form__submit" type="button">
-                <span>Submit Interest Form</span>
+                <span>Submit</span>
                 <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="16" height="16">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3">
